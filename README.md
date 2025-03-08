@@ -28,12 +28,15 @@ Pre lepšie pochopenie prípadov použitia si môžete pozrieť súbor Use-cases
 ## Slovník pojmov
 | **Pojem**                 | **Anglický názov**     | **Definícia**  |
 |---------------------------|------------------------|----------------|
-| **Rola**                  | **Role**               | Definuje úroveň prístupu používateľa. Možné roly: `USER`, `ADMIN`, `MODERATOR`, `GOD`. |
-| **Žáner**                 | **Genre**              | Kategória filmu, napríklad `ACTION`, `DRAMA`, `COMEDY`, `THRILLER`, `DOCUMENTARY`, `HORROR`. |
-| **Používateľ**            | **User**               | Osoba zaregistrovaná v systéme, ktorá má konkrétnu rolu a môže interagovať s platformou. |
-| **Film**                  | **Film**               | Audiovizuálny obsah dostupný na sledovanie pre používateľov. |
-| **Predplatné**            | **Subscription**       | Reprezentuje stav predplatného používateľa, vrátane dátumu začiatku a konca. |
-| **Prehrávač**             | **Player**             | Spravuje prehrávanie filmov (spustenie, pauza, zastavenie, nastavenie hlasitosti, zmena kvality). |
-| **Komentár**              | **Comment**            | Textová recenzia, ktorú používateľ zanechal pod filmom. |
-| **Hlásenie**              | **Report**             | Sťažnosť na komentár, ktorá obsahuje dôvod a stav preskúmania. |
-| **Platba**                | **Payment**            | Finančná transakcia spojená s predplatným na platforme. |
+| **Používateľ**              | **User**               | Registrovaný a prihlásený používateľ, ktorý môže sledovať filmy a pridávať komentáre. |
+| **Moderátor**               | **Moderator**          | Používateľ s oprávneniami na správu komentárov. Môže mazať komentáre, blokovať a odblokovať používateľov. |
+| **Administrátor**           | **Admin**              | Používateľ s oprávneniami na správu obsahu platformy. Môže pridávať a upravovať filmy. |
+| **Boh**                     | **God**                | Najvyššia úroveň oprávnení. Môže spravovať používateľov (pridávať moderátorov a administrátorov) a vykonávať všetky akcie moderátorov a administrátorov. |
+| **Rola**                   | **Role**               | Definuje úroveň prístupu používateľa (`USER`, `MODERATOR`, `ADMIN`, `GOD`). |
+| **Žáner**                  | **Genre**              | Kategória filmu, napríklad `ACTION`, `DRAMA`, `COMEDY`, `THRILLER`, `DOCUMENTARY`, `HORROR`. |
+| **Film**                    | **Film**               | Audiovizuálny obsah dostupný na sledovanie pre používateľov. |
+| **Predplatné**              | **Subscription**       | Reprezentuje stav predplatného používateľa, vrátane dátumu začiatku a konca. |
+| **Prehrávač**               | **Player**             | Softvérová súčasť systému, ktorá umožňuje prehrávanie filmov. |
+| **Komentár**                | **Comment**            | Textová recenzia, ktorú používateľ zanechal pod filmom. |
+| **Hlásenie**                | **Report**             | Sťažnosť na komentár, ktorá obsahuje dôvod a stav preskúmania. |
+| **Platba**                  | **Payment**            | Finančná transakcia spojená s predplatným na platforme. |
