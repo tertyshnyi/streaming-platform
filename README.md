@@ -1,4 +1,4 @@
-## Názov témy
+# Názov témy
 Streamingová platforma
 
 ## Stručný popis témy
@@ -23,4 +23,17 @@ Táto služba poskytuje používateľom možnosť vyhľadávať filmy a televíz
 - **RQ15**  Systém umožní hodnotenie filmu. (The system allows rating a film.)
 - **RQ16**  Systém umožní nahlásenie problému s prehrávačom podpore. (The system allows reporting a player issue to support.)
 
-Pre lepšie pochopenie prípadov použitia si môžete pozrieť súbor Use cases.pdf. (Verzia v angličtine.)
+Pre lepšie pochopenie prípadov použitia si môžete pozrieť súbor Use-cases.pdf. (Verzia v angličtine.)
+
+## Slovník pojmov
+| **Pojem**                 | **Anglický názov**     | **Definícia**  |
+|---------------------------|------------------------|----------------|
+| **Rola**                  | **Role**               | Definuje úroveň prístupu používateľa. Možné roly: `USER`, `ADMIN`, `MODERATOR`, `GOD`. |
+| **Žáner**                 | **Genre**              | Kategória filmu, napríklad `ACTION`, `DRAMA`, `COMEDY`, `THRILLER`, `DOCUMENTARY`, `HORROR`. |
+| **Používateľ**            | **User**               | Osoba zaregistrovaná v systéme, ktorá má konkrétnu rolu a môže interagovať s platformou. |
+| **Film**                  | **Film**               | Audiovizuálny obsah dostupný na sledovanie pre používateľov. |
+| **Predplatné**            | **Subscription**       | Reprezentuje stav predplatného používateľa, vrátane dátumu začiatku a konca. |
+| **Prehrávač**             | **Player**             | Spravuje prehrávanie filmov (spustenie, pauza, zastavenie, nastavenie hlasitosti, zmena kvality). |
+| **Komentár**              | **Comment**            | Textová recenzia, ktorú používateľ zanechal pod filmom. |
+| **Hlásenie**              | **Report**             | Sťažnosť na komentár, ktorá obsahuje dôvod a stav preskúmania. |
+| **Platba**                | **Payment**            | Finančná transakcia spojená s predplatným na platforme. |
