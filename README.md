@@ -25,17 +25,18 @@ Táto služba poskytuje používateľom možnosť vyhľadávať filmy a televíz
 Pre lepšie pochopenie prípadov použitia si môžete pozrieť súbor Use-cases.pdf. (Verzia v angličtine.)
 
 ## Slovník pojmov
-| **Pojem**                 | **Anglický názov**     | **Definícia**  |
-|---------------------------|------------------------|----------------|
-| **Používateľ**              | **User**               | Registrovaný a prihlásený používateľ, ktorý môže sledovať filmy a pridávať komentáre. |
-| **Moderátor**               | **Moderator**          | Používateľ s oprávneniami na správu komentárov. Môže mazať komentáre, blokovať a odblokovať používateľov. |
-| **Administrátor**           | **Admin**              | Používateľ s oprávneniami na správu obsahu platformy. Môže pridávať a upravovať filmy. |
-| **Boh**                     | **God**                | Najvyššia úroveň oprávnení. Môže spravovať používateľov (pridávať moderátorov a administrátorov) a vykonávať všetky akcie moderátorov a administrátorov. |
-| **Rola**                   | **Role**               | Definuje úroveň prístupu používateľa (`USER`, `MODERATOR`, `ADMIN`, `GOD`). |
-| **Žáner**                  | **Genre**              | Kategória filmu, napríklad `ACTION`, `DRAMA`, `COMEDY`, `THRILLER`, `DOCUMENTARY`, `HORROR`. |
-| **Film**                    | **Film**               | Audiovizuálny obsah dostupný na sledovanie pre používateľov. |
-| **Prehrávač**               | **Player**             | Softvérová súčasť systému, ktorá umožňuje prehrávanie filmov. |
-| **Komentár**                | **Comment**            | Textová recenzia, ktorú používateľ zanechal pod filmom. |
-| **Hlásenie**                | **Report**             | Sťažnosť na komentár, ktorá obsahuje dôvod a stav preskúmania. |
-| **ReportStatus**            | **ReportStatus**       | Stav hlásenia, ktorý určuje aktuálny stav spracovania hlásenia. Môže byť PENDING, REJECTED, alebo APPROVED. |
-| **ReportType**            | **ReportType**       | Typ hlásenia, ktorý určuje dôvod podania sťažnosti na komentár. Môže byť OFFENSIVE LANGUAGE, HATE SPEECH, alebo SPAM. |
+| **Pojem**                 | **Anglický názov**  | **Definícia**  |
+|---------------------------|---------------------|----------------|
+| **Používateľ**              | **User**            | Registrovaný a prihlásený používateľ, ktorý môže sledovať filmy a pridávať komentáre. |
+| **Moderátor**               | **Moderator**       | Používateľ s oprávneniami na správu komentárov. Môže mazať komentáre, blokovať a odblokovať používateľov. |
+| **Administrátor**           | **Admin**           | Používateľ s oprávneniami na správu obsahu platformy. Môže pridávať a upravovať filmy. |
+| **Boh**                     | **God**             | Najvyššia úroveň oprávnení. Môže spravovať používateľov (pridávať moderátorov a administrátorov) a vykonávať všetky akcie moderátorov a administrátorov. |
+| **Rola**                   | **Role**            | Definuje úroveň prístupu používateľa (`USER`, `MODERATOR`, `ADMIN`, `GOD`). |
+| **Žáner**                  | **Genre**           | Kategória filmu, napríklad `ACTION`, `DRAMA`, `COMEDY`, `THRILLER`, `DOCUMENTARY`, `HORROR`. |
+| **Film**                    | **Film**            | Audiovizuálny obsah dostupný na sledovanie pre používateľov. |
+| **Prehrávač**               | **Player**          | Softvérová súčasť systému, ktorá umožňuje prehrávanie filmov. |
+| **Komentár**                | **Comment**         | Textová recenzia, ktorú používateľ zanechal pod filmom. |
+| **Hlásenie**                | **Report**          | Sťažnosť na komentár, ktorá obsahuje dôvod a stav preskúmania. |
+| **ReportStatus**            | **ReportStatus**    | Stav hlásenia, ktorý určuje aktuálny stav spracovania hlásenia. Môže byť PENDING, REJECTED, alebo APPROVED. |
+| **ReportType**            | **ReportType**      | Typ hlásenia, ktorý určuje dôvod podania sťažnosti na komentár. Môže byť OFFENSIVE LANGUAGE, HATE SPEECH, alebo SPAM. |
+| **História sledovania**    | **WatchHistory**    | Záznam o filmoch, ktoré používateľ sledoval. Obsahuje informácie o filme, dátume a čase sledovania. |
