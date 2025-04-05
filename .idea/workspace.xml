@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="c743ad5d-8795-4232-8b97-3ae41ff7a9a6" name="Changes" comment="Updated diagram classes.">
+      <change afterPath="$PROJECT_DIR$/backend/Dockerfile" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/api-spec/src/main/resources/openapi/streaming.yml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/domain/README.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/inbound-controller-ws/README.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/inbound-controller-ws/src/main/java/sk/posam/fsa/streaming/mapper/InboundControllerWsApplication.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/inbound-controller-ws/src/main/java/sk/posam/fsa/streaming/security/InboundControllerWsApplication.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/outbound-repository-jpa/README.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/springboot/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="KubernetesApiProvider">{
+  &quot;isMigrated&quot;: true
+}</component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 8
+}</component>
+  <component name="ProjectId" id="2u0EICfZLgQ10LVJiYvpwn2amvi" />
+  <component name="ProjectViewState">
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RequestMappingsPanelOrder0&quot;: &quot;0&quot;,
+    &quot;RequestMappingsPanelOrder1&quot;: &quot;1&quot;,
+    &quot;RequestMappingsPanelWidth0&quot;: &quot;75&quot;,
+    &quot;RequestMappingsPanelWidth1&quot;: &quot;75&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;Spring Boot.StreamingApplication.executor&quot;: &quot;Run&quot;,
+    &quot;jdk.selected.JAVA_MODULE&quot;: &quot;temurin-21&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/USER/IdeaProjects/streaming-platform/backend/inbound-controller-ws/src/main/java/sk/posam/fsa/streaming/security&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Project&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
+    &quot;run.configurations.included.in.services&quot;: &quot;true&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  }
+}</component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\USER\IdeaProjects\streaming-platform\backend\inbound-controller-ws\src\main\java\sk\posam\fsa\streaming\security" />
+      <recent name="C:\Users\USER\IdeaProjects\streaming-platform\backend\inbound-controller-ws\src\main\java\sk\posam\fsa\streaming\mapper" />
+      <recent name="C:\Users\USER\IdeaProjects\streaming-platform\backend\api-spec" />
+      <recent name="C:\Users\USER\IdeaProjects\streaming-platform\backend\domain" />
+      <recent name="C:\Users\USER\IdeaProjects\streaming-platform\backend" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\USER\IdeaProjects\streaming-platform\backend\inbound-controller-ws\src\main\java\sk\posam\fsa\streaming\controller" />
+      <recent name="C:\Users\USER\IdeaProjects\streaming-platform\backend\outbound-repository-jpa\src\main\resources\persistence" />
+      <recent name="C:\Users\USER\IdeaProjects\streaming-platform\backend" />
+      <recent name="C:\Users\USER\IdeaProjects\streaming-platform" />
+    </key>
+  </component>
+  <component name="RunDashboard">
+    <option name="configurationTypes">
+      <set>
+        <option value="MicronautRunConfigurationType" />
+        <option value="QuarkusRunConfigurationType" />
+        <option value="SpringBootApplicationConfigurationType" />
+      </set>
+    </option>
+  </component>
+  <component name="RunManager">
+    <configuration name="StreamingApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+      <module name="springboot" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="sk.posam.fsa.streaming.StreamingApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="jdk-17.0.9-corretto-17.0.9-f644763e9732-ebaef533" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="c743ad5d-8795-4232-8b97-3ae41ff7a9a6" name="Changes" comment="" />
+      <created>1741377010061</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1741377010061</updated>
+      <workItem from="1741377011253" duration="821000" />
+      <workItem from="1741426066853" duration="1366000" />
+      <workItem from="1741902247200" duration="1597000" />
+      <workItem from="1741952570919" duration="557000" />
+      <workItem from="1741990643043" duration="88000" />
+      <workItem from="1742034565170" duration="32000" />
+      <workItem from="1742225854037" duration="528000" />
+      <workItem from="1742309524694" duration="615000" />
+      <workItem from="1742801231923" duration="648000" />
+      <workItem from="1743240447879" duration="195000" />
+      <workItem from="1743251749739" duration="39000" />
+      <workItem from="1743538818807" duration="836000" />
+      <workItem from="1743598416418" duration="15000" />
+      <workItem from="1743599035475" duration="602000" />
+      <workItem from="1743764417426" duration="656000" />
+      <workItem from="1743791345639" duration="17000" />
+      <workItem from="1743849990853" duration="6089000" />
+      <workItem from="1743863829249" duration="805000" />
+    </task>
+    <task id="LOCAL-00001" summary="Added approximate use cases, with their list.">
+      <option name="closed" value="true" />
+      <created>1741377813723</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1741377813723</updated>
+    </task>
+    <task id="LOCAL-00002" summary="Added Glossary of Terms">
+      <option name="closed" value="true" />
+      <created>1741426864011</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1741426864011</updated>
+    </task>
+    <task id="LOCAL-00003" summary="Updated Glossary of Terms">
+      <option name="closed" value="true" />
+      <created>1741427209846</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1741427209846</updated>
+    </task>
+    <task id="LOCAL-00004" summary="Updated Glossary of Terms">
+      <option name="closed" value="true" />
+      <created>1741902641623</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1741902641623</updated>
+    </task>
+    <task id="LOCAL-00005" summary="Created class diagram and updated glossary term.">
+      <option name="closed" value="true" />
+      <created>1741952924032</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1741952924032</updated>
+    </task>
+    <task id="LOCAL-00006" summary="Updated diagram classes.">
+      <option name="closed" value="true" />
+      <created>1741990700022</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1741990700022</updated>
+    </task>
+    <task id="LOCAL-00007" summary="Updated diagram classes.">
+      <option name="closed" value="true" />
+      <created>1742226200723</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1742226200723</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Added approximate use cases, with their list." />
+    <MESSAGE value="Added Glossary of Terms" />
+    <MESSAGE value="Updated Glossary of Terms" />
+    <MESSAGE value="Created class diagram and updated glossary term." />
+    <MESSAGE value="Updated diagram classes." />
+    <option name="LAST_COMMIT_MESSAGE" value="Updated diagram classes." />
+  </component>
+</project>
