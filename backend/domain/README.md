@@ -1,28 +1,25 @@
 # Dokumentácia Doménovej Vrstvy
 
-## Prehľad
+### Architektúra: Porty a adaptéry (Hexagonálna architektúra)
 
-Doménová vrstva v našej architektúre nasleduje princípy hexagonálnej architektúry (tiež známej ako architektúra portov a adaptérov). To znamená, že doménová vrstva zostáva nezávislá od akejkoľvek konkrétnej technológie alebo frameworku, čo zabezpečuje čisté a ľahko udržateľné jadro s minimálnymi závislosťami.
+Projekt využíva prístup **hexagonálnej architektúry (Ports and Adapters)**, ktorý zabezpečuje oddelenie doménovej logiky od implementačných detailov ako databáza, API alebo iné technológie.
 
-## Hexagonálna Architektúra v Doméne
+#### Porty (rozhrania)
 
-Doména neobsahuje žiadne závislosti na technologických stackoch alebo frameworkoch. Jej hlavnou úlohou je definovať biznis logiku v čo najčistejšej forme.
+Porty sú **rozhrania definované v doméne**, ako napríklad:
 
-Doména poskytuje porty, ktoré sú v našom prípade definované ako rozhrania (interfaces). Tieto rozhrania predstavujú vonkajšie hranice domény a umožňujú interakciu s okolitými systémami a službami.
+- `MovieRepository` – rozhranie pre prácu s filmami a seriálmi
+- `UserRepository` – správa používateľov
+- `StreamingHistoryService` – história sledovania
+- `RecommendationPort` – generovanie odporúčaní
 
-## Porty v Našom Systéme
+Tieto rozhrania špecifikujú **čo doména potrebuje**, bez toho, aby určovali **ako** sa to má vykonať. Napr. doména vyžaduje načítať film podľa ID – ale implementácia môže byť pomocou SQL, NoSQL, REST API a pod.
 
-Porty sú definované ako rozhrania ako napríklad `DiscussionMessageRepository` alebo `UserRepository`. Tieto rozhrania určujú, ako sa doména spája s okolitým svetom bez špecifikácie implementačných detailov.
+#### Adaptéry (implementácie)
 
-Definovaním týchto rozhraní doména určuje, aké operácie očakáva (napr. nájdenie používateľa alebo uloženie diskusného príspevku), bez toho, aby vedela, ako budú tieto operácie vykonané.
+Adaptéry sú **konkrétne implementácie portov**, ktoré pripájajú doménu k vonkajšiemu svetu:
 
-Táto abstrakcia poskytuje flexibilitu rôzne technológie môžu byť použité na implementáciu týchto rozhraní (napr. použitie relačnej databázy, NoSQL alebo dokonca externých služieb).
-
-
-## Čistý Kód Domény
-
-Okrem portov pre repozitáre zostáva doména čistá a technologicky agnostická. Nie sú povolené žiadne frameworky alebo knižnice okrem SLF4J pre logovanie, čím sa zabezpečuje, že biznis logika je nezávislá od infraštruktúry a technologických obmedzení.
-
-Logovanie pomocou SLF4J je v doménovej vrstve povolené, aby bolo možné sledovať dôležité udalosti a zabezpečiť transparentnosť bez ohrozenia nezávislosti domény.
-
-
+- relačné databázy (napr. cez JDBC, JPA)
+- externé služby (napr. odporúčacie systémy)
+- cache alebo iné zdroje dát
+- 
