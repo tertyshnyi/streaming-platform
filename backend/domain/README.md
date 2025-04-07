@@ -10,8 +10,7 @@ Porty sú **rozhrania definované v doméne**, ako napríklad:
 
 - `MovieRepository` – rozhranie pre prácu s filmami a seriálmi
 - `UserRepository` – správa používateľov
-- `StreamingHistoryService` – história sledovania
-- `RecommendationPort` – generovanie odporúčaní
+- `WatchHistoryService` – história sledovania
 
 Tieto rozhrania špecifikujú **čo doména potrebuje**, bez toho, aby určovali **ako** sa to má vykonať. Napr. doména vyžaduje načítať film podľa ID – ale implementácia môže byť pomocou SQL, NoSQL, REST API a pod.
 
