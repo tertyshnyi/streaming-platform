@@ -1,16 +1,40 @@
 # Dokumentácia: Modul inbound-controller-ws
 
-Modul **inbound-controller-ws** slúži na vystavenie RESTful endpointov nad aplikáciou a predstavuje technologickú vrstvu, ktorá umožňuje prístup do doménového modulu prostredníctvom určeného frameworku.
+Modul `inbound-controller-ws` slúži na **vystavenie RESTful endpointov** nad aplikačnou logikou a predstavuje **technologickú vrstvu** (tzv. inbound adaptér), ktorá umožňuje vonkajším systémom a používateľom komunikovať s doménou cez HTTP protokol.
 
-Modul **inbound-controller-ws** obsahuje vlastný model, ktorý je definovaný prostredníctvom OpenAPI špecifikácie.
+#### Popis
 
-## Závislosti modulu
+Tento modul sprostredkúva prístup do jadra aplikácie pomocou REST API a zabezpečuje transformáciu dát medzi:
 
-Tento modul má závislosti na:
-- **domain**: zabezpečuje vstup do doménovej logiky.
-- **api-spec**: obsahuje špecifikáciu REST modelov, definovanú prostredníctvom OpenAPI.
+- externým svetom (napr. webové alebo mobilné rozhrania),
+- a internou doménovou vrstvou aplikácie.
 
-## Implementácia
+REST modely, ktoré tento modul využíva, sú **definované prostredníctvom OpenAPI špecifikácie**. To umožňuje jasne a zrozumiteľne dokumentovať dostupné endpointy a generovať klientov pre rôzne platformy.
 
-Pre implementáciu REST servera používame **Spring Web**, ktorý poskytuje základné nástroje na vytváranie REST endpointov spolu s ďalšími časťami na podporu HTTP komunikácie. Ak je potrebné zabezpečenie, konfigurujeme modul pomocou **Spring Security** pre správu autentifikácie a autorizácie, čo nám umožňuje kontrolovať prístup k jednotlivým endpointom podľa potrieb aplikácie.
+#### Závislosti modulu
 
+Modul závisí od nasledujúcich komponentov:
+
+- `domain` – poskytuje vstupné porty (rozhrania) pre volanie doménovej logiky.
+- `api-spec` – obsahuje dátové štruktúry (DTO) a OpenAPI definície používané v REST API.
+
+#### Implementácia
+
+Na implementáciu REST servera používame **Spring Web**, ktorý poskytuje všetky potrebné nástroje na:
+
+- tvorbu REST controllerov,
+- spracovanie HTTP požiadaviek a odpovedí,
+- prácu s dátovými modelmi.
+
+V prípade potreby zabezpečenia endpointov modul integruje **Spring Security**, ktorý umožňuje:
+
+- konfiguráciu autentifikácie a autorizácie,
+- ochranu jednotlivých častí API na základe rolí alebo oprávnení používateľa,
+- využitie JWT tokenov alebo iných mechanizmov na správu prístupu.
+
+#### Výhody
+
+- Jasne oddelená zodpovednosť REST vrstvy.
+- Flexibilná implementácia na základe OpenAPI.
+- Možnosť generovania dokumentácie a klientov automaticky.
+- Bezpečný prístup k doméne cez štandardné HTTP mechanizmy.
