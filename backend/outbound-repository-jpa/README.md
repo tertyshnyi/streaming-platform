@@ -1,12 +1,38 @@
 # Dokumentácia: Modul outbound-repository-jpa
 
-Modul **outbound-repository-jpa** slúži na technickú adaptáciu repozitárov z doménovej vrstvy, čím zabezpečuje, že samotná doména nepozná technologické detaily perzistencie. Doména poskytuje len porty v podobe rozhraní, ako napríklad `DiscussionMessageRepository` alebo `UserRepository`. Tento modul zabezpečuje implementáciu perzistencie, pričom využíva Spring Boot Data na realizáciu perzistentných operácií.
+Modul `outbound-repository-jpa` slúži na **technickú adaptáciu repozitárov z doménovej vrstvy**, a tým **zabezpečuje premostenie medzi doménou a perzistenčnou technológiou**. Tento modul implementuje tzv. outbound adaptér, ktorý zapúzdruje detaily databázového prístupu pomocou **Spring Data JPA**.
 
+#### Zámerná ochrana domény
 
-## Zámerná ochrana domény
+Jedným z hlavných cieľov tohto modulu je zachovanie **čistej a nezávislej doménovej logiky**, ktorá **neobsahuje žiadne technologické závislosti**. Doména definuje len **porty (rozhrania)**, ktoré špecifikujú, aké operácie perzistencie očakáva – napríklad:
 
-Hlavnou úlohou modulu **outbound-repository-jpa** je zabezpečiť, aby doménová vrstva bola odtienená od technologických detailov, akými sú konkrétne perzistenčné nástroje a implementácie. Tento prístup zabezpečuje, že  operácie, ktoré systém potrebuje, sú definované a riadené doménovou logikou a nie technologickým frameworkom.
+- `UserRepository` – pre správu používateľov,
+- `MovieRepository` – pre správu filmov,
+- `WatchHistoryRepository` – pre históriu sledovania používateľov.
 
-Pre ešte väčšiu izoláciu má rozhranie `PersonSpringDataRepository` nastavenú viditeľnosť na úrovni balíka (package visibility), čím sa minimalizuje jeho prístupnosť a vplyv na zvyšok systému.
+Modul `outbound-repository-jpa` následne tieto porty implementuje pomocou Spring Data JPA, čo umožňuje efektívnu a deklaratívnu prácu s databázou.
 
-![outbound JPA](outbound.png)
+#### Izolácia cez balíkovú viditeľnosť
+
+Pre ešte **vyššiu izoláciu a bezpečnosť domény** sú technické rozhrania ako napríklad `UserSpringDataRepository` alebo `MovieSpringDataRepository` **viditeľné len v rámci balíka** (`package-private`). Týmto spôsobom zabezpečujeme, že tieto implementácie **nemôžu byť priamo použité mimo modulu**, a tým sa zachováva čistota doménového API.
+
+#### Implementácia
+
+Modul využíva:
+
+- **Spring Boot Data JPA** na automatickú implementáciu repozitárov na základe rozhraní,
+- **Entity triedy**, ktoré reprezentujú perzistentné dáta (napr. `UserEntity`, `MovieEntity`, `WatchEntryEntity`),
+- **Mapovanie medzi doménovým a databázovým modelom**, najčastejšie pomocou `Mapper` tried.
+
+Týmto spôsobom sa zabezpečuje, že:
+
+- databázové operácie (CRUD) sú efektívne a robustne realizované,
+- doména zostáva nezávislá od technológií ako JPA, Hibernate, či samotná databáza,
+- architektúra systému je rozšíriteľná – napr. v budúcnosti môžeme JPA vymeniť za iný perzistenčný mechanizmus bez zásahu do doménovej vrstvy.
+
+#### Výhody
+
+- Čisté oddelenie technológie od biznis logiky.
+- Možnosť jednoducho meniť perzistentnú technológiu (napr. z JPA na MongoDB).
+- Jednoduchšia testovateľnosť domény bez potreby databázy.
+- Deklaratívne repozitáre cez Spring Data (bez písania SQL).
