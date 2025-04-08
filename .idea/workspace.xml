@@ -4,24 +4,34 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c743ad5d-8795-4232-8b97-3ae41ff7a9a6" name="Changes" comment="Updated diagram classes.">
-      <change afterPath="$PROJECT_DIR$/backend/Dockerfile" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/api-spec/src/main/resources/openapi/streaming.yml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/domain/README.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/inbound-controller-ws/README.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/inbound-controller-ws/src/main/java/sk/posam/fsa/streaming/mapper/InboundControllerWsApplication.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/inbound-controller-ws/src/main/java/sk/posam/fsa/streaming/security/InboundControllerWsApplication.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/outbound-repository-jpa/README.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/springboot/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+    <list default="true" id="c743ad5d-8795-4232-8b97-3ae41ff7a9a6" name="Changes" comment="Updated hexagonal architecture.">
+      <change afterPath="$PROJECT_DIR$/backend/domain/src/main/java/sk/posam/fsa/streaming/domain/models/entities/User.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/domain/src/main/java/sk/posam/fsa/streaming/domain/models/enums/Authority.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/domain/src/main/java/sk/posam/fsa/streaming/domain/repositories/UserRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/domain/src/main/java/sk/posam/fsa/streaming/domain/services/UserFacade.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/domain/src/main/java/sk/posam/fsa/streaming/domain/services/UserService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/domain/src/main/java/sk/posam/fsa/streaming/domain/DomainApplication.java" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Enum" />
+        <option value="Class" />
+        <option value="Interface" />
+      </list>
+    </option>
+  </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="file://$PROJECT_DIR$/backend/pom.xml" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="KubernetesApiProvider">{
   &quot;isMigrated&quot;: true
@@ -125,7 +135,11 @@
       <workItem from="1743764417426" duration="656000" />
       <workItem from="1743791345639" duration="17000" />
       <workItem from="1743849990853" duration="6089000" />
-      <workItem from="1743863829249" duration="805000" />
+      <workItem from="1743863829249" duration="1261000" />
+      <workItem from="1743952459608" duration="174000" />
+      <workItem from="1744047296041" duration="629000" />
+      <workItem from="1744105430319" duration="4086000" />
+      <workItem from="1744124425535" duration="2043000" />
     </task>
     <task id="LOCAL-00001" summary="Added approximate use cases, with their list.">
       <option name="closed" value="true" />
@@ -183,7 +197,23 @@
       <option name="project" value="LOCAL" />
       <updated>1742226200723</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="Created hexagonal architecture.">
+      <option name="closed" value="true" />
+      <created>1743867665206</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1743867665206</updated>
+    </task>
+    <task id="LOCAL-00009" summary="Updated hexagonal architecture.">
+      <option name="closed" value="true" />
+      <created>1743867702005</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1743867702005</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -195,6 +225,8 @@
     <MESSAGE value="Updated Glossary of Terms" />
     <MESSAGE value="Created class diagram and updated glossary term." />
     <MESSAGE value="Updated diagram classes." />
-    <option name="LAST_COMMIT_MESSAGE" value="Updated diagram classes." />
+    <MESSAGE value="Created hexagonal architecture." />
+    <MESSAGE value="Updated hexagonal architecture." />
+    <option name="LAST_COMMIT_MESSAGE" value="Updated hexagonal architecture." />
   </component>
 </project>
