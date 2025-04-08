@@ -13,9 +13,9 @@ public class UserService implements UserFacade {
     }
 
     @Override
-    public Optional<User> findById(Long id) {
+    public Optional<User> get(Long id) {
         try {
-            return userRepository.findById(id);
+            return userRepository.get(id);
         } catch (Exception e) {
             throw new RuntimeException("Error finding user by id: " + e.getMessage(), e);
         }
@@ -33,7 +33,7 @@ public class UserService implements UserFacade {
     @Override
     public User update(User user){
         try {
-            if (user.getId() == null || userRepository.findById(user.getId()).isEmpty()) {
+            if (user.getId() == null || userRepository.get(user.getId()).isEmpty()) {
                 throw new RuntimeException("User not found with id: " + user.getId());
             }
             return userRepository.update(user);
@@ -44,7 +44,7 @@ public class UserService implements UserFacade {
 
     @Override
     public void delete(Long id){
-        if (userRepository.findById(id).isPresent()) {
+        if (userRepository.get(id).isPresent()) {
             throw new RuntimeException("User not find by id: " + id);
         }
         try {

@@ -69,12 +69,12 @@
                                 <bannedDependencies>
                                     <excludes>
                                         <!-- Activate whitelisting of allowed submodules -->
-                                        <exclude>sk.posam.fsa.discussion:*</exclude>
+                                        <exclude>sk.posam.fsa.streaming:*</exclude>
                                     </excludes>
                                     <includes>
                                         <!-- Domain is obviously required -->
-                                        <include>sk.posam.fsa.discussion:domain</include>
-                                        <include>sk.posam.fsa.discussion:api-spec</include>
+                                        <include>sk.posam.fsa.streaming:domain</include>
+                                        <include>sk.posam.fsa.streaming:api-spec</include>
                                     </includes>
                                 </bannedDependencies>
                             </rules>
@@ -100,7 +100,7 @@
                             <showWarnings>true</showWarnings>
                             <compilerArgs>
                                 <arg>
-                                    -Amapstruct.defaultInjectionStrategy=constructor
+                                    -MapStruct.defaultInjectionStrategy=constructor
                                 </arg>
                             </compilerArgs>
                         </configuration>

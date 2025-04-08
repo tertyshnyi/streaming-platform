@@ -13,7 +13,7 @@
     <artifactId>parent</artifactId>
     <version>0.0.1-SNAPSHOT</version>
 
-    <name>Streaming platform</name>
+    <name>streaming</name>
     <description>Streaming platform</description>
     <packaging>pom</packaging>
 
