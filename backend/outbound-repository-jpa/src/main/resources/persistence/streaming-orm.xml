@@ -1,1 +1,43 @@
-spring.application.name=outbound-repository-jpa
+<?xml version="1.0" encoding="UTF-8"?>
+<entity-mappings
+        xmlns="https://jakarta.ee/xml/ns/persistence/orm"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="
+        https://jakarta.ee/xml/ns/persistence/orm
+        https://jakarta.ee/xml/ns/persistence/orm/orm_3_0.xsd"
+        version="3.0">
+
+    <!-- User Entity -->
+    <entity class="sk.posam.fsa.streaming.domain.models.entities.User" access="PROPERTY">
+        <table name="users"/>
+        <attributes>
+            <id name="id">
+                <generated-value strategy="IDENTITY"/>
+            </id>
+            <basic name="name">
+                <column name="name" nullable="false"/>
+            </basic>
+            <basic name="password">
+                <column name="password" nullable="false"/>
+            </basic>
+            <basic name="phoneNumber">
+                <column name="phoneNumber" nullable="false"/>
+            </basic>
+            <basic name="email">
+                <column name="email" nullable="false"/>
+            </basic>
+            <basic name="profileImg">
+                <column name="profileImg"/>
+            </basic>
+            <basic name="createdAt">
+                <column name="createdAt"/>
+            </basic>
+
+            <basic name="authorities">
+                <column name="authorities"/>
+                <convert converter="sk.posam.fsa.streaming.jpa."/>
+            </basic>
+        </attributes>
+    </entity>
+
+</entity-mappings>

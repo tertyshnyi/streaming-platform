@@ -1,0 +1,27 @@
+version: '3.1'
+
+services:
+    db:
+        image: postgres
+        restart: always
+        ports:
+            - "5432:5432"
+        environment:
+            POSTGRES_USER: admin
+            POSTGRES_PASSWORD: admin
+            POSTGRES_DB: fsa
+        volumes:
+            - fsa_db_disk:/var/lib/postgresql/data
+
+    keycloak:
+        build:
+            context: .
+        environment:
+            KEYCLOAK_ADMIN: admin
+            KEYCLOAK_ADMIN_PASSWORD: admin
+        ports:
+            - "8081:8080"
+
+volumes:
+    fsa_db_disk:
+        driver: local

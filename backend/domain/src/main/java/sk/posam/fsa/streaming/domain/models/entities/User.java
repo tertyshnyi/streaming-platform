@@ -11,9 +11,9 @@ public class User {
     private String password;
     private String phoneNumber;
     private String email;
-    private Set<Authority> authorities;
     private String profileImg;
     private LocalDateTime createdAt;
+    private Set<Authority> authorities;
 
     public User(){}
 
