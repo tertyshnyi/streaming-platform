@@ -4,5 +4,10 @@ public enum Authority {
     USER,
     RELEASER,
     MODERATOR,
-    ADMIN
+    ADMIN;
+
+    @Override
+    public String toString() {
+        return name();
+    }
 }

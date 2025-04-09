@@ -55,11 +55,11 @@
                             <goal>generate</goal>
                         </goals>
                         <configuration>
-                            <inputSpec>${project.basedir}/src/main/resources/openapi/discussion.yaml</inputSpec>
+                            <inputSpec>${project.basedir}/src/main/resources/openapi/streaming.yaml</inputSpec>
                             <generatorName>spring</generatorName>
                             <library>spring-boot</library>
-                            <apiPackage>sk.posam.fsa.discussion.rest.api</apiPackage>
-                            <modelPackage>sk.posam.fsa.discussion.rest.dto</modelPackage>
+                            <apiPackage>sk.posam.fsa.streaming.rest.api</apiPackage>
+                            <modelPackage>sk.posam.fsa.streaming.rest.dto</modelPackage>
                             <modelNameSuffix>Dto</modelNameSuffix>
                             <generateSupportingFiles>false</generateSupportingFiles>
                             <configOptions>

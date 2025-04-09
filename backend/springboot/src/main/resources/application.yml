@@ -1,10 +1,10 @@
-http://localhost:8081/realms/FSA/protocol/openid-connect/authspring:
+spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/fsa
-    username: admin
-    password: admin
-    driver-class-name: org.postgresql.Driver
-    name: fsa-db
+    url: jdbc:mysql://localhost:3306/streaming_main
+    username: root
+    password: MySQL
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    name: streaming_main
   jpa:
     show-sql: false
     hibernate:
@@ -14,7 +14,7 @@ http://localhost:8081/realms/FSA/protocol/openid-connect/authspring:
         format_sql: false
     mapping-resources:
       - persistence/streaming-orm.xml
-# Kubernetes probes (readiness & liveness) and monitoring
+
 management:
   endpoint:
     health:
@@ -25,3 +25,6 @@ management:
     web:
       exposure:
         include: "*"
+
+server:
+  port: 8080
