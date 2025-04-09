@@ -3,6 +3,7 @@ package sk.posam.fsa.streaming.domain.models.entities;
 import sk.posam.fsa.streaming.domain.models.enums.Authority;
 
 import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.Set;
 
 public class User {
@@ -13,7 +14,7 @@ public class User {
     private String email;
     private String profileImg;
     private LocalDateTime createdAt;
-    private Set<Authority> authorities;
+    private Set<Authority> authorities = new HashSet<>();;
 
     public User(){}
 

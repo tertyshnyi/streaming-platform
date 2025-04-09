@@ -8,7 +8,7 @@
         version="3.0">
 
     <!-- User Entity -->
-    <entity class="sk.posam.fsa.streaming.domain.models.entities.User" access="PROPERTY">
+    <entity class="sk.posam.fsa.streaming.domain.models.entities.User" access="FIELD">
         <table name="users"/>
         <attributes>
             <id name="id">
@@ -27,7 +27,7 @@
                 <column name="email" nullable="false"/>
             </basic>
             <basic name="profileImg">
-                <column name="profileImg"/>
+                <column name="profileImg" nullable="true"/>
             </basic>
             <basic name="createdAt">
                 <column name="createdAt"/>
@@ -35,7 +35,7 @@
 
             <basic name="authorities">
                 <column name="authorities"/>
-                <convert converter="sk.posam.fsa.streaming.jpa."/>
+                <convert converter="sk.posam.fsa.streaming.jpa.AuthorityConverter"/>
             </basic>
         </attributes>
     </entity>

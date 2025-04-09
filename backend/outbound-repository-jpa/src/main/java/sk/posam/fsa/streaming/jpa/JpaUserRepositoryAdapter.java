@@ -27,11 +27,6 @@ public class JpaUserRepositoryAdapter implements UserRepository {
     }
 
     @Override
-    public User update(User user) {
-        return userSpringDataRepository.save(user);
-    }
-
-    @Override
     public void delete(Long id) {
         userSpringDataRepository.deleteById(id);
     }
