@@ -8,4 +8,5 @@ public interface UserRepository {
     Optional<User> get(Long id);
     User create(User user);
     void delete(Long id);
+    Optional<User> findByEmailOrPhoneNumber(String emailOrPhone);
 }

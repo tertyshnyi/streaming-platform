@@ -9,7 +9,9 @@ import sk.posam.fsa.streaming.mapper.UserMapper;
 import sk.posam.fsa.streaming.mapper.UserMapperMapstruct;
 import sk.posam.fsa.streaming.rest.api.UsersApi;
 import sk.posam.fsa.streaming.rest.dto.CreateUserDto;
+import sk.posam.fsa.streaming.rest.dto.LoginRequestDto;
 import sk.posam.fsa.streaming.rest.dto.UserDto;
+import sk.posam.fsa.streaming.security.CurrentUserDetailService;
 
 import java.util.NoSuchElementException;
 import java.util.Optional;
@@ -20,11 +22,14 @@ public class UserRestController implements UsersApi {
     private final UserFacade userFacade;
     private final UserMapper userMapper;
     private final UserMapperMapstruct userMapperMapstruct;
+    private final CurrentUserDetailService currentUserDetailService;
 
-    public UserRestController(UserFacade userFacade, UserMapper userMapper, UserMapperMapstruct userMapperMapstruct) {
+    public UserRestController(UserFacade userFacade, UserMapper userMapper, UserMapperMapstruct userMapperMapstruct,
+                              CurrentUserDetailService currentUserDetailService) {
         this.userFacade = userFacade;
         this.userMapper = userMapper;
         this.userMapperMapstruct = userMapperMapstruct;
+        this.currentUserDetailService = currentUserDetailService;
     }
 
     @Override
@@ -38,21 +43,38 @@ public class UserRestController implements UsersApi {
 
     @Override
     public ResponseEntity<UserDto> getUserById(Long id) {
-        Optional<User> user = userFacade.get(id);
-        if (user.isPresent()) {
-            return ResponseEntity.ok(userMapper.toUserDto(user.get()));
-        } else {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        UserDto currentUser = currentUserDetailService.getCurrentUser();
+
+        try {
+            Optional<User> user = userFacade.get(id, currentUser.getId());
+            return user.map(value -> ResponseEntity.ok(userMapper.toUserDto(value)))
+                    .orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).build());
+        } catch (SecurityException e) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
         }
     }
 
     @Override
     public ResponseEntity<Void> deleteUser(Long id) {
+        UserDto currentUser = currentUserDetailService.getCurrentUser();
+
         try {
-            userFacade.delete(id);
+            userFacade.delete(id, currentUser.getId());
             return ResponseEntity.noContent().build();
-        } catch (Exception e) {
-            throw new NoSuchElementException("User with id " + id + " not found.");
+        } catch (SecurityException e) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+        } catch (NoSuchElementException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+    }
+
+    @Override
+    public ResponseEntity<String> loginUser(LoginRequestDto loginRequestDto) {
+        try {
+            String jwtToken = userFacade.login(loginRequestDto.getEmailOrPhone(), loginRequestDto.getPassword());
+            return ResponseEntity.ok(jwtToken);
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid credentials");
         }
     }
 }

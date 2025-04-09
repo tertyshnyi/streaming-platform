@@ -6,5 +6,6 @@ import sk.posam.fsa.streaming.domain.models.entities.User;
 import java.util.Optional;
 
 public interface UserSpringDataRepository extends JpaRepository<User, Long> {
-
+    Optional<User> findByEmail(String email);
+    Optional<User> findByPhoneNumber(String phoneNumber);
 }
