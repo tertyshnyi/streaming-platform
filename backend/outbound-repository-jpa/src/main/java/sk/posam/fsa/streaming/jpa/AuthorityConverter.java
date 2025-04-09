@@ -3,25 +3,25 @@ package sk.posam.fsa.streaming.jpa;
 import jakarta.persistence.AttributeConverter;
 import sk.posam.fsa.streaming.domain.models.enums.Authority;
 
-public class AuthorityConverter implements AttributeConverter<Authority, String> {
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Set;
+import java.util.stream.Collectors;
+
+public class AuthorityConverter implements AttributeConverter<Set<Authority>, String> {
 
     @Override
-    public String convertToDatabaseColumn(Authority code) {
-        if (code == null) {
-            return null;
-        }
-        return code.name();
+    public String convertToDatabaseColumn(Set<Authority> attribute) {
+        if (attribute == null || attribute.isEmpty()) return null;
+        return attribute.stream().map(Enum::name).collect(Collectors.joining(","));
     }
 
     @Override
-    public Authority convertToEntityAttribute(String code) {
-        if (code == null) {
-            return null;
-        }
-        try {
-            return Authority.valueOf(code);
-        } catch (IllegalArgumentException e) {
-            throw new IllegalStateException("Invalid value for enum UserRole: " + code);
-        }
+    public Set<Authority> convertToEntityAttribute(String dbData) {
+        if (dbData == null || dbData.isEmpty()) return Collections.emptySet();
+        return Arrays.stream(dbData.split(","))
+                .map(String::trim)
+                .map(Authority::valueOf)
+                .collect(Collectors.toSet());
     }
 }

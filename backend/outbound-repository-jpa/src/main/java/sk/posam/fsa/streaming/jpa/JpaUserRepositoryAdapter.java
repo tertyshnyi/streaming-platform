@@ -30,4 +30,10 @@ public class JpaUserRepositoryAdapter implements UserRepository {
     public void delete(Long id) {
         userSpringDataRepository.deleteById(id);
     }
+
+    @Override
+    public Optional<User> findByEmailOrPhoneNumber(String emailOrPhone) {
+        return userSpringDataRepository.findByEmail(emailOrPhone)
+                .or(() -> userSpringDataRepository.findByPhoneNumber(emailOrPhone));
+    }
 }
