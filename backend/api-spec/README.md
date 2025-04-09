@@ -30,7 +30,7 @@ Tento endpoint umožňuje vytvoriť nového používateľa. Je potrebné poskytn
 - `email`: Email používateľa
 - `password`: Heslo používateľa
 - `phoneNumber`: Telefónne číslo používateľa
-- `authorities`: Zoznam rolí (môže byť `USER`, `RELEASER`, `MODERATOR`, `ADMIN` alebo `null`.)
+- `authorities`: Zoznam rolí (môže byť `USER`, `RELEASER`, `MODERATOR` alebo `ADMIN`.)
 - `profileImg`: URL obrázku profilu používateľa
 
 #### Odpoveď
