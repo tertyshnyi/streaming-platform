@@ -5,28 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="c743ad5d-8795-4232-8b97-3ae41ff7a9a6" name="Changes" comment="Created user entity + services.">
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Java_EE_6_Java_EE_6.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Java_EE_6_Java_EE_6__2_.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/.jwt-test-tokens/admin" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/.jwt-test-tokens/student" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/.jwt-test-tokens/teacher" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/.keycloak/Dockerfile" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/.keycloak/Makefile" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/.keycloak/docker-compose.yml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/.keycloak/realms/realm-fsa.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/.mvn/wrapper/maven-wrapper.jar" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/streaming-platform.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/streaming-platform.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/.mvn/wrapper/maven-wrapper.properties" beforeDir="false" afterPath="$PROJECT_DIR$/backend/.mvn/wrapper/maven-wrapper.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/domain/src/main/java/sk/posam/fsa/streaming/domain/models/entities/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/domain/src/main/java/sk/posam/fsa/streaming/domain/models/entities/User.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/domain/src/main/java/sk/posam/fsa/streaming/domain/repositories/UserRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/domain/src/main/java/sk/posam/fsa/streaming/domain/repositories/UserRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/domain/src/main/java/sk/posam/fsa/streaming/domain/services/UserFacade.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/domain/src/main/java/sk/posam/fsa/streaming/domain/services/UserFacade.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/domain/src/main/java/sk/posam/fsa/streaming/domain/services/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/domain/src/main/java/sk/posam/fsa/streaming/domain/services/UserService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/inbound-controller-ws/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/backend/inbound-controller-ws/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/outbound-repository-jpa/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/backend/outbound-repository-jpa/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/outbound-repository-jpa/src/main/java/sk/posam/fsa/streaming/jpa/OutboundRepositoryJpaApplication.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/outbound-repository-jpa/src/main/resources/persistence/streaming-orm.xml" beforeDir="false" afterPath="$PROJECT_DIR$/backend/outbound-repository-jpa/src/main/resources/persistence/streaming-orm.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/springboot/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/backend/springboot/src/main/resources/application.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ClassDiagram.png" beforeDir="false" afterPath="$PROJECT_DIR$/ClassDiagram.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Use-cases.pdf" beforeDir="false" afterPath="$PROJECT_DIR$/Use-cases.pdf" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -74,7 +56,7 @@
     "ignore.virus.scanning.warn.message": "true",
     "jdk.selected.JAVA_MODULE": "temurin-21",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "C:/Users/USER/IdeaProjects/streaming-platform/backend/.mvn/wrapper",
+    "last_opened_file_path": "C:/Users/USER/IdeaProjects/streaming-platform",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -100,10 +82,10 @@
       <recent name="C:\Users\USER\IdeaProjects\streaming-platform\backend\inbound-controller-ws\src\main\java\sk\posam\fsa\streaming\mapper" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\USER\IdeaProjects\streaming-platform" />
       <recent name="C:\Users\USER\IdeaProjects\streaming-platform\backend\inbound-controller-ws\src\main\java\sk\posam\fsa\streaming\controller" />
       <recent name="C:\Users\USER\IdeaProjects\streaming-platform\backend\outbound-repository-jpa\src\main\resources\persistence" />
       <recent name="C:\Users\USER\IdeaProjects\streaming-platform\backend" />
-      <recent name="C:\Users\USER\IdeaProjects\streaming-platform" />
     </key>
     <key name="CopyClassDialog.RECENTS_KEY">
       <recent name="sk.posam.fsa.streaming.jpa" />
@@ -169,6 +151,7 @@
       <workItem from="1744132323833" duration="80000" />
       <workItem from="1744132418621" duration="409000" />
       <workItem from="1744132835089" duration="70000" />
+      <workItem from="1744609734916" duration="2758000" />
     </task>
     <task id="LOCAL-00001" summary="Added approximate use cases, with their list.">
       <option name="closed" value="true" />
