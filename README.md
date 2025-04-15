@@ -4,7 +4,6 @@ Streamingová platforma
 ## Stručný popis témy
 Táto služba poskytuje používateľom možnosť vyhľadávať filmy a televízne seriály podľa rôznych parametrov, prezerať ich v rôznej kvalite v závislosti od predplatného a zanechávať komentáre. Zavedený je systém rolí: administrátori môžu pridávať a spravovať obsah a používatelia môžu s platformou komunikovať. K dispozícii je registrácia, autorizácia, vyhľadávanie, história prehliadania a pohodlný systém kategórií. Platforma podporuje rôzne formáty videí, čím zabezpečuje pohodlné sledovanie pre každého používateľa.
 
-
 ## Zoznam požiadaviek
 - **RQ01**  Systém umožní registráciu používateľa. (The system allows user registration.)
 - **RQ02**  Systém umožní autentifikáciu používateľa. (The system allows user authentication.)
@@ -18,24 +17,26 @@ Táto služba poskytuje používateľom možnosť vyhľadávať filmy a televíz
 - **RQ10**  Systém umožní vymazanie komentárov. (The system allows deleting comments.)
 - **RQ11**  Systém umožní zablokovanie používateľov. (The system allows banning users.)
 - **RQ12**  Systém umožní nahlásenie komentára. (The system allows reporting a comment.)
-- **RQ13**  Systém umožní hodnotenie filmu. (The system allows rating a film.)
 
-Pre lepšie pochopenie prípadov použitia si môžete pozrieť súbor Use-cases.pdf. (Verzia v angličtine.)
+Pre lepšie pochopenie prípadov použitia si môžete pozrieť súbor [Use-cases.pdf](./Use-cases.pdf). (Verzia v angličtine.)
 
 ## Slovník pojmov
 | **Pojem**              | **Anglický názov** | **Definícia**                                                                                                         |
 |------------------------|--------------------|-----------------------------------------------------------------------------------------------------------------------|
 | **Používateľ**         | **User**           | Registrovaný a prihlásený používateľ, ktorý môže sledovať filmy a pridávať komentáre.                                 |
+| **Releaser**           | **Releaser**       | Používateľ s oprávneniami na nahrávanie a publikovanie nového audiovizuálneho obsahu (filmov a seriálov).             |
 | **Moderátor**          | **Moderator**      | Používateľ s oprávneniami na správu komentárov. Môže mazať komentáre, blokovať a odblokovať používateľov.             |
 | **Administrátor**      | **Admin**          | Používateľ s oprávneniami na správu obsahu platformy. Môže pridávať a upravovať filmy.                                |
 | **Authorita**          | **Authority**      | Definuje úroveň prístupu používateľa (`USER`, `MODERATOR`, `ADMIN`, `RELEASER`).                                      |
 | **Žáner**              | **Genre**          | Kategória filmu, napríklad `ACTION`, `DRAMA`, `COMEDY`, `THRILLER`, `DOCUMENTARY`, `HORROR`.                          |
-| **Film**               | **Movie**          | Audiovizuálny obsah dostupný na sledovanie pre používateľov.                                                          |
 | **Komentár**           | **Comment**        | Textová recenzia, ktorú používateľ zanechal pod filmom.                                                               |
 | **Hlásenie**           | **Report**         | Sťažnosť na komentár, ktorá obsahuje dôvod a stav preskúmania.                                                        |
 | **ReportStatus**       | **ReportStatus**   | Stav hlásenia, ktorý určuje aktuálny stav spracovania hlásenia. Môže byť PENDING, REJECTED, alebo APPROVED.           |
 | **ReportType**         | **ReportType**     | Typ hlásenia, ktorý určuje dôvod podania sťažnosti na komentár. Môže byť OFFENSIVE LANGUAGE, HATE SPEECH, alebo SPAM. |
 | **HistóriaSledovania** | **WatchHistory**   | Záznam o filmoch, ktoré používateľ sledoval. Obsahuje informácie o filme, dátume a čase sledovania.                   |
+| **Film**               | **Movie**          | Samostatné audiovizuálne dielo určené na sledovanie.                                                                  |                                                              |
+| **Seriál**             | **Series**         | Séria epizód audiovizuálneho obsahu zvyčajne rozdelená do sezón.                                                      |
+| **Video**              | **Video**          | Všeobecný pojem pre audiovizuálny obsah, ktorý zahŕňa filmy aj seriály.                                               |
 
 ## Doménový Model - Diagram Tried
 ![ClassDiagram.png](ClassDiagram.png)
