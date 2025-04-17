@@ -1,10 +1,10 @@
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/fsa
-    username: admin
-    password: admin
-    driver-class-name: org.postgresql.Driver
-    name: fsa-db
+    url: jdbc:mysql://localhost:3306/streaming_main
+    username: root
+    password: MySQL
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    name: streaming_main
   jpa:
     show-sql: false
     hibernate:
