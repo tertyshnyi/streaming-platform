@@ -4,11 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c743ad5d-8795-4232-8b97-3ae41ff7a9a6" name="Changes" comment="Created user entity + services.">
+    <list default="true" id="c743ad5d-8795-4232-8b97-3ae41ff7a9a6" name="Changes" comment="Created architecture for frontend project">
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ClassDiagram.png" beforeDir="false" afterPath="$PROJECT_DIR$/ClassDiagram.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Use-cases.pdf" beforeDir="false" afterPath="$PROJECT_DIR$/Use-cases.pdf" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -26,6 +24,7 @@
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="ROOT_SYNC" value="DONT_SYNC" />
   </component>
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$PROJECT_DIR$/backend/pom.xml" root0="FORCE_HIGHLIGHTING" />
@@ -56,7 +55,7 @@
     "ignore.virus.scanning.warn.message": "true",
     "jdk.selected.JAVA_MODULE": "temurin-21",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "C:/Users/USER/IdeaProjects/streaming-platform",
+    "last_opened_file_path": "C:/Users/USER/IdeaProjects/frontend",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -67,6 +66,7 @@
     "project.structure.side.proportion": "0.2",
     "run.configurations.included.in.services": "true",
     "settings.editor.selected.configurable": "preferences.pluginManager",
+    "ts.external.directory.path": "C:\\Users\\USER\\IdeaProjects\\streaming-platform\\frontend\\node_modules\\typescript\\lib",
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
@@ -82,6 +82,7 @@
       <recent name="C:\Users\USER\IdeaProjects\streaming-platform\backend\inbound-controller-ws\src\main\java\sk\posam\fsa\streaming\mapper" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\USER\IdeaProjects\streaming-platform\frontend\src\app" />
       <recent name="C:\Users\USER\IdeaProjects\streaming-platform" />
       <recent name="C:\Users\USER\IdeaProjects\streaming-platform\backend\inbound-controller-ws\src\main\java\sk\posam\fsa\streaming\controller" />
       <recent name="C:\Users\USER\IdeaProjects\streaming-platform\backend\outbound-repository-jpa\src\main\resources\persistence" />
@@ -152,6 +153,8 @@
       <workItem from="1744132418621" duration="409000" />
       <workItem from="1744132835089" duration="70000" />
       <workItem from="1744609734916" duration="2758000" />
+      <workItem from="1744902358021" duration="23000" />
+      <workItem from="1744910411053" duration="4990000" />
     </task>
     <task id="LOCAL-00001" summary="Added approximate use cases, with their list.">
       <option name="closed" value="true" />
@@ -233,11 +236,38 @@
       <option name="project" value="LOCAL" />
       <updated>1744126690632</updated>
     </task>
-    <option name="localTasksCounter" value="11" />
+    <task id="LOCAL-00011" summary="Created architecture for frontend project">
+      <option name="closed" value="true" />
+      <created>1744901191737</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1744901191737</updated>
+    </task>
+    <task id="LOCAL-00012" summary="Created architecture for frontend project">
+      <option name="closed" value="true" />
+      <created>1744901245069</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1744901245069</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Added approximate use cases, with their list." />
@@ -248,7 +278,8 @@
     <MESSAGE value="Created hexagonal architecture." />
     <MESSAGE value="Updated hexagonal architecture." />
     <MESSAGE value="Created user entity + services." />
-    <option name="LAST_COMMIT_MESSAGE" value="Created user entity + services." />
+    <MESSAGE value="Created architecture for frontend project" />
+    <option name="LAST_COMMIT_MESSAGE" value="Created architecture for frontend project" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
