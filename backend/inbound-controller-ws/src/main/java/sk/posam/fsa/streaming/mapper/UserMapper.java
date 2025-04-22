@@ -29,8 +29,13 @@ public class UserMapper {
         if (entity.getCreatedAt() != null) {
             dto.setCreatedAt(entity.getCreatedAt().atOffset(ZoneOffset.UTC));
         }
+
+        // Логирование данных перед возвращением dto
+        System.out.println("Mapped UserDto: " + dto);
+
         return dto;
     }
+
 
     public User toUserEntity(UserDto dto) {
         if (dto == null) {

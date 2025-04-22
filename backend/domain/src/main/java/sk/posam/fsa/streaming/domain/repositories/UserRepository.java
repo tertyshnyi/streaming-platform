@@ -3,10 +3,10 @@ package sk.posam.fsa.streaming.domain.repositories;
 import sk.posam.fsa.streaming.domain.models.entities.User;
 
 import java.util.Optional;
+import java.util.UUID;
 
 public interface UserRepository {
-    Optional<User> get(Long id);
+    Optional<User> get(UUID id);
     User create(User user);
-    void delete(Long id);
-    Optional<User> findByEmailOrPhoneNumber(String emailOrPhone);
+    void delete(UUID id);
 }

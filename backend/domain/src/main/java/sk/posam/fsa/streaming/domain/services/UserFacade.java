@@ -3,10 +3,10 @@ package sk.posam.fsa.streaming.domain.services;
 import sk.posam.fsa.streaming.domain.models.entities.User;
 
 import java.util.Optional;
+import java.util.UUID;
 
 public interface UserFacade {
-    Optional<User> get(Long requestedId, Long currentUserId);
+    Optional<User> get(UUID id);
     User create(User user);
-    void delete(Long requestedId, Long currentUserId);
-    String login(String emailOrPhone, String password);
+    void delete(UUID id);
 }

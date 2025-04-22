@@ -5,9 +5,10 @@ import sk.posam.fsa.streaming.domain.models.enums.Authority;
 import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.UUID;
 
 public class User {
-    private Long id;
+    private UUID id;
     private String name;
     private String password;
     private String phoneNumber;
@@ -18,7 +19,7 @@ public class User {
 
     public User(){}
 
-    public User(Long id, String name, String password, String phoneNumber, String email, Set<Authority> authorities,
+    public User(UUID id, String name, String password, String phoneNumber, String email, Set<Authority> authorities,
                 String profileImg, LocalDateTime createdAt) {
         this.id = id;
         this.name = name;
@@ -30,11 +31,11 @@ public class User {
         this.createdAt = createdAt;
     }
 
-    public Long getId() {
+    public UUID getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(UUID id) {
         this.id = id;
     }
 

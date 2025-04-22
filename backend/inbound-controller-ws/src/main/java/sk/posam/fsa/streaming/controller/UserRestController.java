@@ -9,12 +9,12 @@ import sk.posam.fsa.streaming.mapper.UserMapper;
 import sk.posam.fsa.streaming.mapper.UserMapperMapstruct;
 import sk.posam.fsa.streaming.rest.api.UsersApi;
 import sk.posam.fsa.streaming.rest.dto.CreateUserDto;
-import sk.posam.fsa.streaming.rest.dto.LoginRequestDto;
 import sk.posam.fsa.streaming.rest.dto.UserDto;
 import sk.posam.fsa.streaming.security.CurrentUserDetailService;
 
 import java.util.NoSuchElementException;
 import java.util.Optional;
+import java.util.UUID;
 
 @RestController
 public class UserRestController implements UsersApi {
@@ -42,39 +42,38 @@ public class UserRestController implements UsersApi {
     }
 
     @Override
-    public ResponseEntity<UserDto> getUserById(Long id) {
-        UserDto currentUser = currentUserDetailService.getCurrentUser();
-
+    public ResponseEntity<UserDto> getCurrentUser() {
         try {
-            Optional<User> user = userFacade.get(id, currentUser.getId());
-            return user.map(value -> ResponseEntity.ok(userMapper.toUserDto(value)))
-                    .orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).build());
-        } catch (SecurityException e) {
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+            // Извлечение пользователя из JWT
+            UserDto userFromToken = currentUserDetailService.getCurrentUser(); // Предполагаем, что ты уже возвращаешь UserDto
+
+            if (userFromToken != null && userFromToken.getId() != null) {
+                System.out.println("Returning UserDto from token: " + userFromToken);
+                return ResponseEntity.ok(userFromToken);
+            } else {
+                System.out.println("User in token is null or missing ID");
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new UserDto());
+            }
+
+        } catch (Exception e) {
+            System.out.println("Error occurred: " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(new UserDto());
         }
     }
 
+
     @Override
-    public ResponseEntity<Void> deleteUser(Long id) {
+    public ResponseEntity<Void> deleteUser(UUID id) {
         UserDto currentUser = currentUserDetailService.getCurrentUser();
 
         try {
-            userFacade.delete(id, currentUser.getId());
+            userFacade.delete(currentUser.getId());
             return ResponseEntity.noContent().build();
         } catch (SecurityException e) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
         } catch (NoSuchElementException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-        }
-    }
-
-    @Override
-    public ResponseEntity<String> loginUser(LoginRequestDto loginRequestDto) {
-        try {
-            String jwtToken = userFacade.login(loginRequestDto.getEmailOrPhone(), loginRequestDto.getPassword());
-            return ResponseEntity.ok(jwtToken);
-        } catch (IllegalArgumentException e) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid credentials");
         }
     }
 }
