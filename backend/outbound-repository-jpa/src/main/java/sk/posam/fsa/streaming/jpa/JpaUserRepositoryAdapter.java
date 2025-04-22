@@ -5,6 +5,7 @@ import sk.posam.fsa.streaming.domain.models.entities.User;
 import sk.posam.fsa.streaming.domain.repositories.UserRepository;
 
 import java.util.Optional;
+import java.util.UUID;
 
 @Repository
 public class JpaUserRepositoryAdapter implements UserRepository {
@@ -16,7 +17,7 @@ public class JpaUserRepositoryAdapter implements UserRepository {
     }
 
     @Override
-    public Optional<User> get(Long id) {
+    public Optional<User> get(UUID id) {
         Optional<User> user = userSpringDataRepository.findById(id);
         return user;
     }
@@ -27,13 +28,7 @@ public class JpaUserRepositoryAdapter implements UserRepository {
     }
 
     @Override
-    public void delete(Long id) {
+    public void delete(UUID id) {
         userSpringDataRepository.deleteById(id);
-    }
-
-    @Override
-    public Optional<User> findByEmailOrPhoneNumber(String emailOrPhone) {
-        return userSpringDataRepository.findByEmail(emailOrPhone)
-                .or(() -> userSpringDataRepository.findByPhoneNumber(emailOrPhone));
     }
 }
