@@ -4,14 +4,19 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c743ad5d-8795-4232-8b97-3ae41ff7a9a6" name="Changes" comment="Created architecture for frontend project">
+    <list default="true" id="c743ad5d-8795-4232-8b97-3ae41ff7a9a6" name="Changes" comment="Fixed convert data from Jwt.">
       <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+    </list>
+    <list id="19608bc1-d592-446d-86fc-b8d4ee6a6871" name="Dont touch" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="EditorConfigPreviewManager">
+    <editorConfig file="$PROJECT_DIR$/frontend/.editorconfig" previewFile="$PROJECT_DIR$/frontend/src/app/app.component.html" />
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -39,6 +44,7 @@
   &quot;associatedIndex&quot;: 8
 }</component>
   <component name="ProjectId" id="2u0EICfZLgQ10LVJiYvpwn2amvi" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
     <option name="showLibraryContents" value="true" />
   </component>
@@ -55,7 +61,7 @@
     "ignore.virus.scanning.warn.message": "true",
     "jdk.selected.JAVA_MODULE": "temurin-21",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "C:/Users/USER/IdeaProjects/frontend",
+    "last_opened_file_path": "C:/Users/USER/IdeaProjects/streaming-platform",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -65,7 +71,7 @@
     "project.structure.proportion": "0.0",
     "project.structure.side.proportion": "0.2",
     "run.configurations.included.in.services": "true",
-    "settings.editor.selected.configurable": "preferences.pluginManager",
+    "settings.editor.selected.configurable": "project.propVCSSupport.DirectoryMappings",
     "ts.external.directory.path": "C:\\Users\\USER\\IdeaProjects\\streaming-platform\\frontend\\node_modules\\typescript\\lib",
     "vue.rearranger.settings.migration": "true"
   }
@@ -114,6 +120,7 @@
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
       <changelist id="c743ad5d-8795-4232-8b97-3ae41ff7a9a6" name="Changes" comment="" />
+      <changelist id="19608bc1-d592-446d-86fc-b8d4ee6a6871" name="Dont touch" comment="" />
       <created>1741377010061</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
@@ -155,6 +162,9 @@
       <workItem from="1744609734916" duration="2758000" />
       <workItem from="1744902358021" duration="23000" />
       <workItem from="1744910411053" duration="4990000" />
+      <workItem from="1745237814725" duration="735000" />
+      <workItem from="1745326672213" duration="115000" />
+      <workItem from="1745326863471" duration="67000" />
     </task>
     <task id="LOCAL-00001" summary="Added approximate use cases, with their list.">
       <option name="closed" value="true" />
@@ -252,7 +262,15 @@
       <option name="project" value="LOCAL" />
       <updated>1744901245069</updated>
     </task>
-    <option name="localTasksCounter" value="13" />
+    <task id="LOCAL-00013" summary="Fixed convert data from Jwt.">
+      <option name="closed" value="true" />
+      <created>1745326760132</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1745326760132</updated>
+    </task>
+    <option name="localTasksCounter" value="14" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -279,7 +297,8 @@
     <MESSAGE value="Updated hexagonal architecture." />
     <MESSAGE value="Created user entity + services." />
     <MESSAGE value="Created architecture for frontend project" />
-    <option name="LAST_COMMIT_MESSAGE" value="Created architecture for frontend project" />
+    <MESSAGE value="Fixed convert data from Jwt." />
+    <option name="LAST_COMMIT_MESSAGE" value="Fixed convert data from Jwt." />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

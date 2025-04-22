@@ -1,14 +1,31 @@
-// app.component.ts
-import { Component } from '@angular/core';
-import { RouterModule } from '@angular/router';
+import {Component, inject} from '@angular/core';
+import {RouterLink, RouterLinkActive, RouterOutlet} from '@angular/router';
+import {UserService} from './core/services/user.service';
+import {NgbDropdown, NgbDropdownMenu, NgbDropdownToggle} from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-root',
-  standalone: true,
-  imports: [RouterModule],
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+  imports: [
+    RouterOutlet,
+    RouterLink,
+    RouterLinkActive,
+    NgbDropdown,
+    NgbDropdownToggle,
+    NgbDropdownMenu
+  ],
+  templateUrl: './app.component.html'
 })
 export class AppComponent {
-  title = 'Standalone App';
+
+  userService = inject(UserService);
+
+  user = this.userService.getUserSignal();
+
+  logout() {
+    this.userService.logout();
+  }
+
+  login() {
+    this.userService.login();
+  }
 }
