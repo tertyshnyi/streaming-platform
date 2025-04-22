@@ -44,8 +44,7 @@ public class UserRestController implements UsersApi {
     @Override
     public ResponseEntity<UserDto> getCurrentUser() {
         try {
-            // Извлечение пользователя из JWT
-            UserDto userFromToken = currentUserDetailService.getCurrentUser(); // Предполагаем, что ты уже возвращаешь UserDto
+            UserDto userFromToken = currentUserDetailService.getCurrentUser();
 
             if (userFromToken != null && userFromToken.getId() != null) {
                 System.out.println("Returning UserDto from token: " + userFromToken);
@@ -66,7 +65,6 @@ public class UserRestController implements UsersApi {
     @Override
     public ResponseEntity<Void> deleteUser(UUID id) {
         UserDto currentUser = currentUserDetailService.getCurrentUser();
-
         try {
             userFacade.delete(currentUser.getId());
             return ResponseEntity.noContent().build();

@@ -26,22 +26,18 @@ public class JwtConverter extends AbstractAuthenticationToken {
     public Object getPrincipal() {
         UserDto userDto = new UserDto();
 
-        // Извлекаем данные из JWT
-        userDto.setId(UUID.fromString(source.getClaimAsString("sub")));  // Используем "sub" вместо "id"
+        userDto.setId(UUID.fromString(source.getClaimAsString("sub")));
         userDto.setPhoneNumber(source.getClaimAsString("phoneNumber"));
         userDto.setProfileImg(source.getClaimAsString("profileImg"));
         userDto.setEmail(source.getClaimAsString("email"));
         userDto.setName(source.getClaimAsString("name"));
 
-        // Логирование для отладки
         System.out.println("Extracted User Data from JWT: " + userDto);
 
-        // Проверим, что обязательные данные присутствуют
         if (userDto.getPhoneNumber() == null || userDto.getEmail() == null || userDto.getName() == null || userDto.getId() == null) {
             throw new IllegalStateException("Missing expected claims in JWT.");
         }
 
-        // Преобразуем список ролей
         userDto.setAuthorities(extractAuthorities());
 
         return userDto;

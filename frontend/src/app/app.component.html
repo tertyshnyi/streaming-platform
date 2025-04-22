@@ -1,4 +1,50 @@
-<!-- app.component.html -->
-<div class="app-container">
-  <router-outlet></router-outlet>
-</div>
+<nav class="navbar navbar-expand-lg bg-white">
+  <div class="container-fluid">
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarToggler"
+            aria-controls="navbarToggler" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <a class="navbar-brand" routerLink="/">
+      <img src="/images/logo.svg" alt="Logo" width="48" height="48">
+    </a>
+
+    <div class="collapse navbar-collapse" id="navbarToggler">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a class="nav-link"
+             routerLink="home" routerLinkActive="active"
+          ><i class="zmdi zmdi-home"></i> Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link"
+             routerLink="user-settings" routerLinkActive="active"
+          ><i class="zmdi zmdi-n-1-square"></i> Settings</a>
+        </li>
+      </ul>
+    </div>
+
+    @if (user(); as user) {
+      <div ngbDropdown class="mt-lg-4" [title]="user.name" display="dynamic">
+        <button class="e-user" type="button" ngbDropdownToggle>
+<!--          <img [src]="user.profileImg" alt="User avatar" class="user-avatar" />-->
+<!--          {{ user.name }}-->
+        </button>
+
+    <div ngbDropdownMenu>
+      <button type="button" class="dropdown-item disabled" aria-disabled="true">{{ user.name }}</button>
+          <button type="button" class="dropdown-item" (click)="logout()">Logout</button>
+        </div>
+
+
+      </div>
+    } @else {
+      <button class="e-user" type="button" (click)="login()">
+        Login
+      </button>
+    }
+
+  </div>
+</nav>
+
+<router-outlet></router-outlet>
