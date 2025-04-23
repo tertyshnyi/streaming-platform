@@ -16,11 +16,14 @@
              routerLink="home" routerLinkActive="active"
           ><i class="zmdi zmdi-home"></i> Home</a>
         </li>
+        @if (user()) {
         <li class="nav-item">
           <a class="nav-link"
-             routerLink="user-settings" routerLinkActive="active"
-          ><i class="zmdi zmdi-n-1-square"></i> Settings</a>
+             routerLink="user-settings" routerLinkActive="active">
+            <i class="zmdi zmdi-n-1-square"></i> Settings
+          </a>
         </li>
+        }
       </ul>
     </div>
 

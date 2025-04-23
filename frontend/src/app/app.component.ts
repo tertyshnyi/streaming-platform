@@ -13,6 +13,7 @@ import {NgbDropdown, NgbDropdownMenu, NgbDropdownToggle} from '@ng-bootstrap/ng-
     NgbDropdownToggle,
     NgbDropdownMenu
   ],
+  standalone: true,
   templateUrl: './app.component.html'
 })
 export class AppComponent {
