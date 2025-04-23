@@ -9,3 +9,4 @@ export const authCodeFlowConfig: AuthConfig = {
   showDebugInformation: true,
   requireHttps: false,
 };
+
