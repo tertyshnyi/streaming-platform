@@ -16,14 +16,6 @@
              routerLink="home" routerLinkActive="active"
           ><i class="zmdi zmdi-home"></i> Home</a>
         </li>
-        @if (user()) {
-        <li class="nav-item">
-          <a class="nav-link"
-             routerLink="user-settings" routerLinkActive="active">
-            <i class="zmdi zmdi-n-1-square"></i> Settings
-          </a>
-        </li>
-        }
       </ul>
     </div>
 
@@ -34,12 +26,13 @@
 <!--          {{ user.name }}-->
         </button>
 
-    <div ngbDropdownMenu>
-      <button type="button" class="dropdown-item disabled" aria-disabled="true">{{ user.name }}</button>
+        <div ngbDropdownMenu>
+          <button type="button" class="dropdown-item disabled" aria-disabled="true">{{ user.name }}</button>
+          <button type="button" class="dropdown-item" routerLink="user-settings" routerLinkActive="active">
+            Settings
+          </button>
           <button type="button" class="dropdown-item" (click)="logout()">Logout</button>
         </div>
-
-
       </div>
     } @else {
       <button class="e-user" type="button" (click)="login()">
