@@ -11,7 +11,7 @@ import { ActivatedRouteSnapshot, CanActivateFn, Router, RouterStateSnapshot } fr
 export class UserService {
 
   private user = signal<UserModel | undefined>(undefined);
-  private http = inject(HttpClient); // <-- добавлено
+  private http = inject(HttpClient);
 
   constructor(private oauthService: OAuthService) {
     this.oauthService.configure(authCodeFlowConfig);
@@ -59,7 +59,6 @@ export class UserService {
       });
   }
 }
-
 
 export const canActiveHome: CanActivateFn = (route: ActivatedRouteSnapshot, state: RouterStateSnapshot) => {
   const router = inject(Router);
