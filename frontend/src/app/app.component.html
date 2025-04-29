@@ -20,7 +20,7 @@
     </div>
 
     @if (user(); as user) {
-      <div ngbDropdown class="mt-lg-4" [title]="user.name" display="dynamic">
+      <div ngbDropdown class="mt-lg-4" display="dynamic">
         <button class="e-user" type="button" ngbDropdownToggle>
 <!--          <img [src]="user.profileImg" alt="User avatar" class="user-avatar" />-->
 <!--          {{ user.name }}-->
@@ -28,6 +28,9 @@
 
         <div ngbDropdownMenu>
           <button type="button" class="dropdown-item disabled" aria-disabled="true">{{ user.name }}</button>
+          <button type="button" class="dropdown-item" routerLink="history" routerLinkActive="active">
+            Watch History
+          </button>
           <button type="button" class="dropdown-item" routerLink="user-settings" routerLinkActive="active">
             Settings
           </button>
