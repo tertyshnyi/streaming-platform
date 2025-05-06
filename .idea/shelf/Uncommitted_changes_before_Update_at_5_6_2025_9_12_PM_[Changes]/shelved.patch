@@ -1,0 +1,179 @@
+Index: backend/k8s/helm/helm-values/gitlab-runner/README.md
+===================================================================
+diff --git a/backend/k8s/helm/helm-values/gitlab-runner/README.md b/backend/k8s/helm/helm-values/gitlab-runner/README.md
+deleted file mode 100644
+--- a/backend/k8s/helm/helm-values/gitlab-runner/README.md	(revision 010ba7346825b521702b317df36ef9b74c2ca29c)
++++ /dev/null	(revision 010ba7346825b521702b317df36ef9b74c2ca29c)
+@@ -1,10 +0,0 @@
+-# GITLAB-RUNNER
+-
+-## Install
+-
+-```bash
+-helm repo add gitlab https://charts.gitlab.io
+-helm repo update
+-
+-helm upgrade --install gitlab-runner -n infra -f values.yaml gitlab/gitlab-runner --version 0.66.0
+-```
+\ No newline at end of file
+Index: .gitlab-ci.yaml
+===================================================================
+diff --git a/.gitlab-ci.yaml b/.gitlab-ci.yaml
+deleted file mode 100644
+--- a/.gitlab-ci.yaml	(revision 010ba7346825b521702b317df36ef9b74c2ca29c)
++++ /dev/null	(revision 010ba7346825b521702b317df36ef9b74c2ca29c)
+@@ -1,55 +0,0 @@
+-stages:
+-  - build
+-  - deploy
+-
+-variables:
+-  CONTAINER_REGISTRY: "https://fsatertyshnyiregistry.azurecr.io"
+-  DOCKER_REPOSITORY: "fsatertyshnyiregistry.azurecr.io"
+-  DOCKER_DRIVER: overlay2
+-  DOCKER_HOST: tcp://127.0.0.1:2375
+-  DOCKER_TLS_VERIFY: ""
+-  DOCKER_TLS_CERTDIR: ""
+-
+-build_frontend:
+-  stage: build
+-  tags:
+-    - fsa-tertyshnyi
+-  image: docker:dind
+-  services:
+-    - docker:latest
+-  before_script:
+-    - until docker info &>/dev/null ; do sleep 2 && echo "Testujem pripojenie na Docker deamon (dind)" ; done
+-    - export IMAGE_VERSION="${CI_JOB_ID}-${CI_COMMIT_SHORT_SHA}"
+-  script:
+-    - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin "$CONTAINER_REGISTRY"
+-    - cd frontend
+-    - docker build -t "$DOCKER_REPOSITORY/frontend:$IMAGE_VERSION" -t "$DOCKER_REPOSITORY/frontend:latest" .
+-    - docker push "$DOCKER_REPOSITORY/frontend:$IMAGE_VERSION"
+-    - docker push "$DOCKER_REPOSITORY/frontend:latest"
+-  only:
+-    - main
+-  rules:
+-    - changes:
+-        - frontend/**/*
+-
+-build_backend:
+-  stage: build
+-  tags:
+-    - fsa-tertyshnyi
+-  image: docker:dind
+-  services:
+-    - docker:latest
+-  before_script:
+-    - until docker info &>/dev/null ; do sleep 2 && echo "Testujem pripojenie na Docker deamon (dind)" ; done
+-    - export IMAGE_VERSION="${CI_JOB_ID}-${CI_COMMIT_SHORT_SHA}"
+-  script:
+-    - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin "$CONTAINER_REGISTRY"
+-    - cd backend
+-    - docker build -t "$DOCKER_REPOSITORY/backend:$IMAGE_VERSION" -t "$DOCKER_REPOSITORY/backend:latest" .
+-    - docker push "$DOCKER_REPOSITORY/backend:$IMAGE_VERSION"
+-    - docker push "$DOCKER_REPOSITORY/backend:latest"
+-  only:
+-    - main
+-  rules:
+-    - changes:
+-        - backend/**/*
+Index: backend/.gitlab-ci.yaml
+===================================================================
+diff --git a/backend/.gitlab-ci.yaml b/backend/.gitlab-ci.yaml
+deleted file mode 100644
+--- a/backend/.gitlab-ci.yaml	(revision 010ba7346825b521702b317df36ef9b74c2ca29c)
++++ /dev/null	(revision 010ba7346825b521702b317df36ef9b74c2ca29c)
+@@ -1,27 +0,0 @@
+-stages:
+-  - build
+-variables:
+-  CONTAINER_REGISTRY: "https://fsatertyshnyiregistry.azurecr.io"
+-  DOCKER_REPOSITORY: "fsatertyshnyiregistry.azurecr.io"
+-  IMAGE_NAME: "backend"
+-  DOCKER_DRIVER: overlay2
+-  DOCKER_HOST: tcp://127.0.0.1:2375
+-  DOCKER_TLS_VERIFY: ""
+-  DOCKER_TLS_CERTDIR: ""
+-build_image:
+-  stage: build
+-  tags:
+-    - fsa-tertyshnyi
+-  image: docker:dind
+-  services:
+-    - docker:latest
+-  before_script:
+-    - until docker info &>/dev/null ; do sleep 2 && echo "Testujem pripojenie na Docker deamon (dind)" ; done
+-    - export IMAGE_VERSION="${CI_JOB_ID}-${CI_COMMIT_SHORT_SHA}"
+-  script:
+-    - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin "$CONTAINER_REGISTRY"
+-    - docker build -t "$DOCKER_REPOSITORY/$IMAGE_NAME:$IMAGE_VERSION" -t "$DOCKER_REPOSITORY/$IMAGE_NAME:latest" .
+-    - docker push "$DOCKER_REPOSITORY/$IMAGE_NAME:$IMAGE_VERSION"
+-    - docker push "$DOCKER_REPOSITORY/$IMAGE_NAME:latest"
+-  only:
+-    - main
+\ No newline at end of file
+Index: .gitlab-ci.yml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.gitlab-ci.yml b/.gitlab-ci.yml
+new file mode 100644
+--- /dev/null	(date 1746558663787)
++++ b/.gitlab-ci.yml	(date 1746558663787)
+@@ -0,0 +1,53 @@
++stages:
++  - build
++  - deploy
++
++variables:
++  CONTAINER_REGISTRY: "https://fsatertyshnyiregistry.azurecr.io"
++  DOCKER_REPOSITORY: "fsatertyshnyiregistry.azurecr.io"
++  DOCKER_DRIVER: overlay2
++  DOCKER_HOST: tcp://127.0.0.1:2375
++  DOCKER_TLS_VERIFY: ""
++  DOCKER_TLS_CERTDIR: ""
++
++build_frontend:
++  stage: build
++  tags:
++    - fsa-tertyshnyi
++  image: docker:dind
++  services:
++    - docker:latest
++  before_script:
++    - until docker info &>/dev/null ; do sleep 2 && echo "Testujem pripojenie na Docker deamon (dind)" ; done
++    - export IMAGE_VERSION="${CI_JOB_ID}-${CI_COMMIT_SHORT_SHA}"
++  script:
++    - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin "$CONTAINER_REGISTRY"
++    - cd frontend
++    - docker build -t "$DOCKER_REPOSITORY/frontend:$IMAGE_VERSION" -t "$DOCKER_REPOSITORY/frontend:latest" .
++    - docker push "$DOCKER_REPOSITORY/frontend:$IMAGE_VERSION"
++    - docker push "$DOCKER_REPOSITORY/frontend:latest"
++  rules:
++    - if: '$CI_COMMIT_BRANCH == "main"'
++      changes:
++        - frontend/**/*
++
++build_backend:
++  stage: build
++  tags:
++    - fsa-tertyshnyi
++  image: docker:dind
++  services:
++    - docker:latest
++  before_script:
++    - until docker info &>/dev/null ; do sleep 2 && echo "Testujem pripojenie na Docker deamon (dind)" ; done
++    - export IMAGE_VERSION="${CI_JOB_ID}-${CI_COMMIT_SHORT_SHA}"
++  script:
++    - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin "$CONTAINER_REGISTRY"
++    - cd backend
++    - docker build -t "$DOCKER_REPOSITORY/backend:$IMAGE_VERSION" -t "$DOCKER_REPOSITORY/backend:latest" .
++    - docker push "$DOCKER_REPOSITORY/backend:$IMAGE_VERSION"
++    - docker push "$DOCKER_REPOSITORY/backend:latest"
++  rules:
++    - if: '$CI_COMMIT_BRANCH == "main"'
++      changes:
++        - backend/**/*
+\ No newline at end of file
