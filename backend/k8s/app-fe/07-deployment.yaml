@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: frontend
+  namespace: app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: frontend
+  template:
+    metadata:
+      labels:
+        app: frontend
+    spec:
+      containers:
+        - name: frontend
+          image: fsatertyshnyiregistry.azurecr.io/frontend:latest
+          imagePullPolicy: Always
+          resources:
+            # TODO: nastavit podla metrik podu, toto su len odhadnute hodnoty
+            limits:
+              cpu: 250m
+              memory: 250Mi
+            requests:
+              cpu: 150m
+              memory: 150Mi
+          ports:
+            - name: http
+              containerPort: 4200
+          # livenessProbe:
+          #   httpGet:
+          #     # TODO: zmenit na nejaky validny endpoint
+          #     path: /
+          #     port: http
+          # readinessProbe:
+          #   httpGet:
+          #     # TODO: zmenit na nejaky validny endpoint
+          #     path: /
+          #     port: http
