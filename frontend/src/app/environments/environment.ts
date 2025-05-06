@@ -1,5 +1,5 @@
 export const environment = {
   keyCloakUrl: '/auth',
-  beUrl: '20.166.32.72/streaming-platform',
-  appUrl: '20.166.32.72',
+  beUrl: 'http://20.166.32.72',
+  appUrl: 'http://20.166.32.72',
 };

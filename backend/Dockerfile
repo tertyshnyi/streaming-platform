@@ -1,5 +1,4 @@
 FROM maven:3.9.6-eclipse-temurin-21 as builder
-LABEL Volodymyr Tertyshnyi <tertyshnyiv@gmail.com>
 
 WORKDIR /application
 
