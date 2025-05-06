@@ -3,7 +3,7 @@ stages:
 variables:
   CONTAINER_REGISTRY: "https://fsatertyshnyiregistry.azurecr.io"
   DOCKER_REPOSITORY: "fsatertyshnyiregistry.azurecr.io"
-  IMAGE_NAME: "app"
+  IMAGE_NAME: "frontend"
   DOCKER_DRIVER: overlay2
   DOCKER_HOST: tcp://127.0.0.1:2375
   DOCKER_TLS_VERIFY: ""
