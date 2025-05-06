@@ -5,6 +5,8 @@ stages:
 variables:
   CONTAINER_REGISTRY: "https://fsatertyshnyiregistry.azurecr.io"
   DOCKER_REPOSITORY: "fsatertyshnyiregistry.azurecr.io"
+  IMAGE_NAME_BACKEND: "fsa-backend"
+  IMAGE_NAME_FRONTEND: "fsa-frontend"
   DOCKER_DRIVER: overlay2
   DOCKER_HOST: tcp://127.0.0.1:2375
   DOCKER_TLS_VERIFY: ""
@@ -23,9 +25,9 @@ build_backend:
   script:
     - cd backend
     - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin "$CONTAINER_REGISTRY"
-    - docker build -t "$DOCKER_REPOSITORY/backend:$IMAGE_VERSION" -t "$DOCKER_REPOSITORY/backend:latest" .
-    - docker push "$DOCKER_REPOSITORY/backend:$IMAGE_VERSION"
-    - docker push "$DOCKER_REPOSITORY/backend:latest"
+    - docker build -t "$DOCKER_REPOSITORY/$IMAGE_NAME_BACKEND:$IMAGE_VERSION" -t "$DOCKER_REPOSITORY/$IMAGE_NAME_BACKEND:latest" .
+    - docker push "$DOCKER_REPOSITORY/$IMAGE_NAME_BACKEND:$IMAGE_VERSION"
+    - docker push "$DOCKER_REPOSITORY/$IMAGE_NAME_BACKEND:latest"
   only:
     - main
 
@@ -42,8 +44,8 @@ build_frontend:
   script:
     - cd frontend
     - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin "$CONTAINER_REGISTRY"
-    - docker build -t "$DOCKER_REPOSITORY/frontend:$IMAGE_VERSION" -t "$DOCKER_REPOSITORY/frontend:latest" .
-    - docker push "$DOCKER_REPOSITORY/frontend:$IMAGE_VERSION"
-    - docker push "$DOCKER_REPOSITORY/frontend:latest"
+    - docker build -t "$DOCKER_REPOSITORY/$IMAGE_NAME_FRONTEND:$IMAGE_VERSION" -t "$DOCKER_REPOSITORY/$IMAGE_NAME_FRONTEND:latest" .
+    - docker push "$DOCKER_REPOSITORY/$IMAGE_NAME_FRONTEND:$IMAGE_VERSION"
+    - docker push "$DOCKER_REPOSITORY/$IMAGE_NAME_FRONTEND:latest"
   only:
     - main
