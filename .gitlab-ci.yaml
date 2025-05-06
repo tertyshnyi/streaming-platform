@@ -1,0 +1,55 @@
+stages:
+  - build
+  - deploy
+
+variables:
+  CONTAINER_REGISTRY: "https://fsatertyshnyiregistry.azurecr.io"
+  DOCKER_REPOSITORY: "fsatertyshnyiregistry.azurecr.io"
+  DOCKER_DRIVER: overlay2
+  DOCKER_HOST: tcp://127.0.0.1:2375
+  DOCKER_TLS_VERIFY: ""
+  DOCKER_TLS_CERTDIR: ""
+
+build_frontend:
+  stage: build
+  tags:
+    - fsa-tertyshnyi
+  image: docker:dind
+  services:
+    - docker:latest
+  before_script:
+    - until docker info &>/dev/null ; do sleep 2 && echo "Testujem pripojenie na Docker deamon (dind)" ; done
+    - export IMAGE_VERSION="${CI_JOB_ID}-${CI_COMMIT_SHORT_SHA}"
+  script:
+    - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin "$CONTAINER_REGISTRY"
+    - cd frontend
+    - docker build -t "$DOCKER_REPOSITORY/frontend:$IMAGE_VERSION" -t "$DOCKER_REPOSITORY/frontend:latest" .
+    - docker push "$DOCKER_REPOSITORY/frontend:$IMAGE_VERSION"
+    - docker push "$DOCKER_REPOSITORY/frontend:latest"
+  only:
+    - main
+  rules:
+    - changes:
+        - frontend/**/*
+
+build_backend:
+  stage: build
+  tags:
+    - fsa-tertyshnyi
+  image: docker:dind
+  services:
+    - docker:latest
+  before_script:
+    - until docker info &>/dev/null ; do sleep 2 && echo "Testujem pripojenie na Docker deamon (dind)" ; done
+    - export IMAGE_VERSION="${CI_JOB_ID}-${CI_COMMIT_SHORT_SHA}"
+  script:
+    - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin "$CONTAINER_REGISTRY"
+    - cd backend
+    - docker build -t "$DOCKER_REPOSITORY/backend:$IMAGE_VERSION" -t "$DOCKER_REPOSITORY/backend:latest" .
+    - docker push "$DOCKER_REPOSITORY/backend:$IMAGE_VERSION"
+    - docker push "$DOCKER_REPOSITORY/backend:latest"
+  only:
+    - main
+  rules:
+    - changes:
+        - backend/**/*

@@ -7,11 +7,11 @@
 // Bootstrap
 @import 'bootstrap/bootstrap.scss';
 
-body {
-    @include media-breakpoint-up(lg) {
-        padding-left: $navbarLgWidth;
-    }
-}
+//body {
+//    @include media-breakpoint-up(lg) {
+//        padding-left: $navbarLgWidth;
+//    }
+//}
 
 .navbar {
     z-index: 1;

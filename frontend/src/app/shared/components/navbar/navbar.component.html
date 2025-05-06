@@ -1,0 +1,91 @@
+<nav class="custom-navbar">
+  <div class="top-bar">
+    <div class="navbar-logo">
+      <img src="/images/black-logo.png" alt="Logo" />
+      <h1>VION CINEMA</h1>
+    </div>
+
+    <div class="search-container">
+      <div class="search-wrapper">
+        <input
+          type="text"
+          placeholder="🔍Search..."
+          [(ngModel)]="searchQuery"
+          (focus)="isSearchFocused = true"
+          (blur)="onSearchBlur()"
+          (input)="onSearchChange()"
+        />
+
+        <span *ngIf="isSearchFocused" class="filter-icon" [routerLink]="['/filter', { query: searchQuery }]">
+          ⚙️
+        </span>
+
+        <span *ngIf="isSearchFocused" class="clear-icon" (click)="clearSearch()">
+          ❌
+        </span>
+
+        <div
+          class="search-overlay"
+          *ngIf="isSearchFocused"
+          (click)="isSearchFocused = false"
+        ></div>
+
+        <div
+          class="search-results"
+          *ngIf="isSearchFocused && searchQuery.length > 2"
+          (click)="$event.stopPropagation()"
+        >
+          <div *ngIf="searchResults.length > 0">
+            <div *ngFor="let result of searchResults" class="search-result-item">
+              <div class="search-result-image">
+                <img [src]="result.image" alt="Image for {{ result.title }}" />
+                <span class="rating">{{ result.rating }} ⭐</span>
+              </div>
+              <div class="search-result-info">
+                <h3 class="title">{{ result.title }}</h3>
+                <p class="genre">{{ result.genre }}</p>
+                <p class="description">{{ result.description }}</p>
+              </div>
+            </div>
+          </div>
+          <div *ngIf="noResultsFound && searchQuery && searchQuery.length > 2">
+            No results found
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="user-section">
+      <ng-container *ngIf="user() as user; else loginButton">
+        <div class="user-dropdown">
+          <button class="user-btn">
+            <img *ngIf="user.profileImg" [src]="user.profileImg" alt="Profile Image" class="user-profile-img" />
+            <span *ngIf="!user.profileImg">👤</span>
+            {{ user.name }}
+          </button>
+          <div class="dropdown-menu">
+            <button class="dropdown-item disabled">{{ user.name }}</button>
+            <button class="dropdown-item" routerLink="/history">History</button>
+            <button class="dropdown-item" routerLink="/user-settings">Settings</button>
+            <button class="dropdown-item" (click)="logout()">Logout</button>
+          </div>
+        </div>
+      </ng-container>
+      <ng-template #loginButton>
+        <button class="login-btn" (click)="login()">Login</button>
+      </ng-template>
+    </div>
+  </div>
+
+  <div class="bottom-bar" [ngClass]="{ hidden: !showBottomBar }">
+    <div class="navbar-links">
+      <a class="nav-link" routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Movies</a>
+      <a class="nav-link" routerLink="/series" routerLinkActive="active">Series</a>
+      <a class="nav-link" routerLink="/cartoons" routerLinkActive="active">Cartoons</a>
+      <a class="nav-link" routerLink="/multseries" routerLinkActive="active">Animated Series</a>
+      <a class="nav-link" routerLink="/anime" routerLinkActive="active">Anime</a>
+      <a class="nav-link" routerLink="/collections" routerLinkActive="active">Collections</a>
+      <a class="nav-link" routerLink="/top-imdb" routerLinkActive="active">Top 250 IMDb</a>
+    </div>
+  </div>
+</nav>

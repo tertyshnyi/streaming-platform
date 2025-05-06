@@ -4,7 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c743ad5d-8795-4232-8b97-3ae41ff7a9a6" name="Changes" comment="Created new page with data from keycloak jwt." />
+    <list default="true" id="c743ad5d-8795-4232-8b97-3ae41ff7a9a6" name="Changes" comment="Created test connect with azure (without backend or frontend)" />
     <list id="19608bc1-d592-446d-86fc-b8d4ee6a6871" name="Dont touch" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -161,6 +161,7 @@
       <workItem from="1745237814725" duration="735000" />
       <workItem from="1745326672213" duration="115000" />
       <workItem from="1745326863471" duration="67000" />
+      <workItem from="1745747427580" duration="202000" />
     </task>
     <task id="LOCAL-00001" summary="Added approximate use cases, with their list.">
       <option name="closed" value="true" />
@@ -266,7 +267,15 @@
       <option name="project" value="LOCAL" />
       <updated>1745326760132</updated>
     </task>
-    <option name="localTasksCounter" value="14" />
+    <task id="LOCAL-00014" summary="Created test connect with azure (without backend or frontend)">
+      <option name="closed" value="true" />
+      <created>1745747514437</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1745747514437</updated>
+    </task>
+    <option name="localTasksCounter" value="15" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -294,7 +303,8 @@
     <MESSAGE value="Created user entity + services." />
     <MESSAGE value="Created architecture for frontend project" />
     <MESSAGE value="Fixed convert data from Jwt." />
-    <option name="LAST_COMMIT_MESSAGE" value="Fixed convert data from Jwt." />
+    <MESSAGE value="Created test connect with azure (without backend or frontend)" />
+    <option name="LAST_COMMIT_MESSAGE" value="Created test connect with azure (without backend or frontend)" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
