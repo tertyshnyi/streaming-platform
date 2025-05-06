@@ -10,7 +10,7 @@ spec:
     app: frontend
   ports:
     - name: http
-      port: 4200
+      port: 80
       targetPort: http
   type: ClusterIP
   # loadBalancerIP: "52.138.207.76"

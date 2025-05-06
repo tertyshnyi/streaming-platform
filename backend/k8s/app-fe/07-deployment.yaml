@@ -27,7 +27,7 @@ spec:
               memory: 150Mi
           ports:
             - name: http
-              containerPort: 4200
+              containerPort: 80
           # livenessProbe:
           #   httpGet:
           #     # TODO: zmenit na nejaky validny endpoint
