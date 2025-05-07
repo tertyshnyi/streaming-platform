@@ -4,8 +4,8 @@ metadata:
   name: app-ingress
   namespace: app
   annotations:
-    nginx.client_max_body_size: 10m
-    nginx.ingress.kubernetes.io/proxy-buffer-size: "128k"
+    nginx.ingress.kubernetes.io/rewrite-target: /$2
+    nginx.ingress.kubernetes.io/use-regex: "true"
 spec:
   ingressClassName: nginx
   tls:
@@ -16,15 +16,8 @@ spec:
     - host: 20.166.32.72.nip.io
       http:
         paths:
-          - path: /
-            pathType: Prefix
-            backend:
-              service:
-                name: frontend
-                port:
-                  number: 80
-          - path: /streaming-platform
-            pathType: Prefix
+          - path: /streaming-platform(/|$)(.*)
+            pathType: ImplementationSpecific
             backend:
               service:
                 name: backend
@@ -35,5 +28,12 @@ spec:
             backend:
               service:
                 name: fsa-keycloak-http
+                port:
+                  number: 80
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: frontend
                 port:
                   number: 80
