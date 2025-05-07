@@ -4,9 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c743ad5d-8795-4232-8b97-3ae41ff7a9a6" name="Changes" comment="Created test connect with azure (without backend or frontend)">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-    </list>
+    <list default="true" id="c743ad5d-8795-4232-8b97-3ae41ff7a9a6" name="Changes" comment="Created test connect with azure (without backend or frontend)" />
     <list id="19608bc1-d592-446d-86fc-b8d4ee6a6871" name="Dont touch" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -174,7 +172,7 @@
       <workItem from="1746558962808" duration="18730000" />
       <workItem from="1746600754113" duration="1839000" />
       <workItem from="1746610249259" duration="690000" />
-      <workItem from="1746611404069" duration="2487000" />
+      <workItem from="1746611404069" duration="2864000" />
     </task>
     <task id="LOCAL-00001" summary="Added approximate use cases, with their list.">
       <option name="closed" value="true" />
