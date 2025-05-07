@@ -20,6 +20,11 @@
 #        jwt:
 #          issuer-uri: http://localhost:8081/realms/FSA
 
+server:
+  port: 8080
+  servlet:
+    context-path: /streaming-platform
+
 spring:
   datasource:
     url: jdbc:postgresql://localhost:5432/fsa
@@ -48,9 +53,6 @@ management:
     web:
       exposure:
         include: "*"
-
-server:
-  port: 8080
 
 logging:
   level:
