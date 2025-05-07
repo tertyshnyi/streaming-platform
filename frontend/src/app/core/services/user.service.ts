@@ -4,6 +4,8 @@ import { UserModel } from '../models/user-model';
 import { OAuthService } from 'angular-oauth2-oidc';
 import { authCodeFlowConfig } from '../config/authCodeFlowConfig.config';
 import { ActivatedRouteSnapshot, CanActivateFn, Router, RouterStateSnapshot } from '@angular/router';
+import { environment } from '../../environments/environment';
+
 
 @Injectable({
   providedIn: 'root'
@@ -26,7 +28,7 @@ export class UserService {
     return this.oauthService.loadDiscoveryDocumentAndTryLogin()
       .then(() => {
         console.log('Attempting to fetch user data');
-        return this.http.get<UserModel>('https://20.166.32.72.nip.io/streaming-platform/users/me').toPromise();
+        return this.http.get<UserModel>(`${environment.beUrl}/users/me`).toPromise();
       })
       .then((userModel) => {
         console.log('User data loaded from backend:', userModel);

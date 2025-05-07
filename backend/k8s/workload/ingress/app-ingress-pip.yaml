@@ -21,7 +21,7 @@ spec:
             name: frontend
             port:
               number: 4200
-      - path: /streaming-platform
+      - path: /app
         pathType: Prefix
         backend:
           service:
