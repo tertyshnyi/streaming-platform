@@ -4,7 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c743ad5d-8795-4232-8b97-3ae41ff7a9a6" name="Changes" comment="Created test connect with azure (without backend or frontend)" />
+    <list default="true" id="c743ad5d-8795-4232-8b97-3ae41ff7a9a6" name="Changes" comment="Created test connect with azure (without backend or frontend)">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/k8s/workload/ingress/app-ingress.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/backend/k8s/workload/ingress/app-ingress.yaml" afterDir="false" />
+    </list>
     <list id="19608bc1-d592-446d-86fc-b8d4ee6a6871" name="Dont touch" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -169,7 +172,7 @@
       <workItem from="1745747427580" duration="202000" />
       <workItem from="1746557589965" duration="1281000" />
       <workItem from="1746558887118" duration="9000" />
-      <workItem from="1746558962808" duration="10679000" />
+      <workItem from="1746558962808" duration="17889000" />
     </task>
     <task id="LOCAL-00001" summary="Added approximate use cases, with their list.">
       <option name="closed" value="true" />
