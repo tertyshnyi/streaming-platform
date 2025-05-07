@@ -65,7 +65,7 @@ export class WatchHistoriesComponent implements OnInit {
     this.visibleItems = [];
     this.hasMediaItems = false;
     this.isModalOpen = false;
-    console.log('Список очищен');
+    console.log('The list is clear.');
   }
 
   getProgressPercentage(currentTime: string, duration: string): number {

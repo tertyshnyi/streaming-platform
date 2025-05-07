@@ -26,7 +26,7 @@ export class UserService {
     return this.oauthService.loadDiscoveryDocumentAndTryLogin()
       .then(() => {
         console.log('Attempting to fetch user data');
-        return this.http.get<UserModel>('http://localhost:8080/users/me').toPromise();
+        return this.http.get<UserModel>('https://20.166.32.72.nip.io/streaming-platform/users/me').toPromise();
       })
       .then((userModel) => {
         console.log('User data loaded from backend:', userModel);

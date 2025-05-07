@@ -10,10 +10,10 @@ metadata:
     nginx.ingress.kubernetes.io/proxy-body-size: "100m"
 spec:
   ingressClassName: nginx
-  tls:
-    - hosts:
-        - gitlab.fullstackacademy.sk
-      secretName: gitlab-tls-cert
+#  tls:
+#    - hosts:
+#        - gitlab.fullstackacademy.sk
+#      secretName: gitlab-tls-cert
   rules:
     - host: gitlab.fullstackacademy.sk
       http:
