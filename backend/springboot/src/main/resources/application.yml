@@ -14,11 +14,6 @@
 #        format_sql: false
 #    mapping-resources:
 #      - persistence/streaming-orm.xml
-#  security:
-#    oauth2:
-#      resourceserver:
-#        jwt:
-#          issuer-uri: http://localhost:8081/realms/FSA
 
 server:
   port: 8080
@@ -41,7 +36,11 @@ spring:
         format_sql: false
     mapping-resources:
       - persistence/streaming-orm.xml
-# Kubernetes probes (readiness & liveness) and monitoring
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://localhost:8081/realms/FSA
 
 management:
   endpoint:
