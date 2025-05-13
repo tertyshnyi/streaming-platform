@@ -1,0 +1,116 @@
+$bg-dark: #1e1e1e;
+$bg-darker: #151515;
+$border-radius: 16px;
+$text-color: #ffffff;
+$text-muted: #cccccc;
+$primary: #e50914;
+$secondary: #2c2c2c;
+
+.custom-dropdown {
+  position: relative;
+  min-width: 160px;
+  max-width: 1000px;
+
+  .custom-dropdown-toggle {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: nowrap;
+    width: 100%;
+    background-color: $bg-darker;
+    color: $text-muted;
+    padding: 12px 16px;
+    border-radius: $border-radius;
+    border: none;
+    cursor: pointer;
+    text-align: left;
+    gap: 8px;
+  }
+
+  .dropdown-button-content {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    flex-wrap: wrap;
+    flex: 1;
+    overflow: hidden;
+  }
+
+  .custom-dropdown-menu {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background-color: $bg-darker;
+    border-radius: $border-radius;
+    padding: 10px;
+    margin-top: 4px;
+    width: 100%;
+    z-index: 100;
+    box-shadow: 0 0 10px rgba(0,0,0,0.3);
+    max-height: 300px;
+    overflow-y: auto;
+
+    .dropdown-item-text {
+      cursor: pointer;
+      color: #a1a1a1;
+    }
+  }
+
+  .custom-dropdown-options input[type="checkbox"] {
+    appearance: none;
+    width: 18px;
+    height: 18px;
+    border: 2px solid #ffffff;
+    border-radius: 4px;
+    margin-right: 8px;
+    position: relative;
+    cursor: pointer;
+    background-color: transparent;
+    transition: background 0.2s, border 0.2s;
+  }
+
+  .custom-dropdown-options input[type="checkbox"]:checked {
+    background-color: #ffffff;
+    border-color: #ffffff;
+  }
+
+  .custom-dropdown-options input[type="checkbox"]:checked::after {
+    content: '✓';
+    color: #c5c5c5;
+    position: absolute;
+    left: 2px;
+    top: -1px;
+    font-size: 14px;
+  }
+
+  .custom-dropdown-options label {
+    display: flex;
+    align-items: center;
+    color: #aaa;
+    font-size: 14px;
+    padding: 4px 0;
+    cursor: pointer;
+    transition: color 0.2s;
+  }
+
+  .custom-dropdown-options input[type="checkbox"]:checked + span {
+    color: #ffffff;
+  }
+
+  .custom-dropdown-label {
+    color: #666;
+  }
+
+  .custom-selected-tag {
+    background-color: #ffffff;
+    color: black;
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-size: 14px;
+  }
+
+  .custom-dropdown-arrow {
+    margin-left: 8px;
+    font-size: 12px;
+  }
+}

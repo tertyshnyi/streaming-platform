@@ -1,0 +1,15 @@
+<div class="media_card">
+  <div class="image-wrapper">
+    <img [src]="media.image" alt="{{ media.title }}" />
+    <div class="rating" [ngClass]="ratingColorClass">{{ media.rating }}</div>
+<!--    <div class="episode-info" *ngIf="media.season && media.episode">-->
+<!--      {{ media.season }} сезон {{ media.episode }} серія-->
+<!--    </div>-->
+  </div>
+  <h3>{{ media.title }}</h3>
+  <div class="meta">
+    <span class="year">{{ media.year }}</span> •
+    <span class="genres">{{ media.genres.join(', ') }}</span> •
+    <span class="countries">{{ media.countries.join(', ') }}</span>
+  </div>
+</div>

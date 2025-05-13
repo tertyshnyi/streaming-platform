@@ -1,0 +1,90 @@
+$bg-dark: #1e1e1e;
+$bg-darker: #151515;
+$border-radius: 16px;
+$text-color: #ffffff;
+$text-muted: #cccccc;
+$primary: #e50914;
+
+.media_card {
+  background-color: $bg-darker;
+  border-radius: $border-radius;
+  color: $text-color;
+  width: 240px;
+  font-family: sans-serif;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+
+  .image-wrapper {
+    position: relative;
+    margin-bottom: 8px;
+
+    img {
+      width: 100%;
+      height: 320px;
+      object-fit: cover;
+    }
+
+    .rating {
+      position: absolute;
+      top: 8px;
+      left: 0;
+      font-weight: bold;
+      padding: 4px 12px 4px 10px;
+      font-size: 12px;
+      color: #000;
+      border-radius: 0 12px 12px 0;
+      background-color: #ffd500;
+      box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.2);
+      max-width: 90%;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+
+      &.rating-red { background-color: #d00000; }
+      &.rating-orange { background-color: #ff7b00; }
+      &.rating-yellow {
+        background-color: #ffd500;
+      }
+      &.rating-green { background-color: #00b000; }
+    }
+
+    .episode-info {
+      position: absolute;
+      bottom: 8px;
+      left: 8px;
+      background-color: $primary;
+      padding: 4px 8px;
+      font-size: 13px;
+      border-radius: 6px;
+      font-weight: 500;
+    }
+  }
+
+  h3 {
+    font-size: 16px;
+    margin: 0;
+    text-align: center;
+  }
+
+  .meta {
+    font-size: 14px;
+    color: $text-muted;
+    display: block;
+    text-align: center;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    padding: 5px 20px;
+
+  .year {
+      color: white;
+    }
+
+    span {
+      font-size: 13px;
+      display: inline;
+    }
+  }
+}

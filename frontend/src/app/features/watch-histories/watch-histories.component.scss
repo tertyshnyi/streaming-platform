@@ -1,4 +1,5 @@
 .history-container {
+  position: relative;
   background-color: #000;
   min-height: 100vh;
   color: #fff;
@@ -225,42 +226,6 @@
         background-color: #a4a4a4;
         color: #000000;
       }
-    }
-  }
-
-  .sparkles {
-    position: absolute;
-    inset: 0;
-    z-index: 0;
-    pointer-events: none;
-    overflow: hidden;
-
-    .sparkle {
-      position: absolute;
-      width: 2px;
-      height: 2px;
-      background-color: white;
-      opacity: 0.6;
-      border-radius: 50%;
-      animation: twinkle 2s infinite ease-in-out;
-    }
-  }
-
-  @media (max-width: 1024px) {
-    .sparkles {
-      display: none;
-    }
-  }
-
-  @keyframes twinkle {
-    0%, 100% {
-      opacity: 0.2;
-      transform: scale(1);
-    }
-
-    50% {
-      opacity: 1;
-      transform: scale(1.4);
     }
   }
 }

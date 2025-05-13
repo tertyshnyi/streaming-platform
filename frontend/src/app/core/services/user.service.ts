@@ -4,7 +4,8 @@ import { UserModel } from '../models/user-model';
 import { OAuthService } from 'angular-oauth2-oidc';
 import { authCodeFlowConfig } from '../config/authCodeFlowConfig.config';
 import { ActivatedRouteSnapshot, CanActivateFn, Router, RouterStateSnapshot } from '@angular/router';
-import { environment } from '../../environments/environment';
+// import { environment } from '../../environments/environment';
+import { environment } from '../../environments/environment.development';
 
 
 @Injectable({

@@ -46,7 +46,10 @@ class SecurityConfiguration implements WebMvcConfigurer {
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")
-                .allowedOrigins("https://20.166.32.72.nip.io")
+                .allowedOrigins(
+                        "https://20.166.32.72.nip.io",
+                        "http://localhost:4200"
+                )
                 .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
                 .allowedHeaders("*")
                 .allowCredentials(true);

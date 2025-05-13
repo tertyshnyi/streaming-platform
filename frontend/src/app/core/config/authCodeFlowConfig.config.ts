@@ -7,6 +7,6 @@ export const authCodeFlowConfig: AuthConfig = {
   clientId: 'fsa-client',
   scope: 'openid',
   showDebugInformation: true,
-  requireHttps: true,
+  requireHttps: false,
 };
 

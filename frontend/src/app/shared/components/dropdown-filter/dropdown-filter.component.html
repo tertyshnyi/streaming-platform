@@ -1,0 +1,46 @@
+<div class="custom-dropdown">
+  <button class="custom-dropdown-toggle" (click)="toggleDropdown.emit()">
+    <div class="dropdown-button-content">
+      <ng-container *ngIf="selectedItems.length === 0">
+        <span class="custom-dropdown-label">{{ label }}</span>
+      </ng-container>
+
+      <ng-container *ngIf="selectedItems.length > 0">
+        <ng-container *ngIf="isMultiple">
+        <span *ngFor="let item of selectedItems" class="custom-selected-tag">
+          {{ item }}
+        </span>
+        </ng-container>
+
+        <ng-container *ngIf="!isMultiple">
+          <span class="custom-selected-tag">{{ selectedItems[0] }}</span>
+        </ng-container>
+      </ng-container>
+    </div>
+
+    <div class="custom-dropdown-arrow">
+      {{ isOpen ? '\u25B2' : '\u25BC' }}
+    </div>
+  </button>
+
+
+  <div class="custom-dropdown-menu" *ngIf="isOpen">
+    <div class="custom-dropdown-options">
+      <label *ngFor="let item of items">
+        <input
+          *ngIf="isMultiple"
+          type="checkbox"
+          [checked]="selectedItems.includes(item)"
+          (change)="onItemSelect(item)"
+        />
+        <div *ngIf="isMultiple">{{ item }}</div>
+
+        <ng-container *ngIf="!isMultiple">
+          <div (click)="onItemSelect(item)" class="dropdown-item-text">
+            {{ item }}
+          </div>
+        </ng-container>
+      </label>
+    </div>
+  </div>
+</div>
