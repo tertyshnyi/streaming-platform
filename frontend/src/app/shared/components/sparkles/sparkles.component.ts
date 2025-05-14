@@ -1,18 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { SparklesComponent } from '../../shared/components/sparkles/sparkles.component';
 
 @Component({
-  selector: 'app-not-found',
-  imports: [
-    CommonModule,
-    SparklesComponent
-  ],
+  selector: 'app-sparkles',
   standalone: true,
-  templateUrl: './not-found.component.html',
-  styleUrls: ['./not-found.component.scss']
+  imports: [ CommonModule ],
+  templateUrl: './sparkles.component.html',
+  styleUrls: ['./sparkles.component.scss']
 })
-export class NotFoundComponent implements OnInit {
+export class SparklesComponent implements OnInit {
+
   sparkles: { top: number; left: number; delay: number }[] = [];
 
   ngOnInit(): void {
@@ -22,5 +19,5 @@ export class NotFoundComponent implements OnInit {
       delay: Math.random() * 3
     }));
   }
-}
 
+}

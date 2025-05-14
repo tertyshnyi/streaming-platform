@@ -1,0 +1,132 @@
+$bg-dark: #1e1e1e;
+$bg-darker: #151515;
+$border-radius: 16px;
+$text-color: #ffffff;
+$text-muted: #cccccc;
+$primary: #e50914;
+$secondary: #2c2c2c;
+
+.custom-dropdown {
+  position: relative;
+  min-width: 160px;
+  max-width: 1000px;
+  border-radius: $border-radius;
+  transition: box-shadow 0.2s ease;
+  padding-bottom: 4px;
+
+  &:hover {
+    box-shadow: 0 4px 20px rgba(255, 255, 255, 0.5);
+  }
+
+  .custom-dropdown-toggle {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: nowrap;
+    width: 100%;
+    background-color: $bg-darker;
+    color: $text-muted;
+    padding: 12px 16px;
+    border-radius: $border-radius;
+    border: none;
+    cursor: pointer;
+    text-align: left;
+    gap: 8px;
+  }
+
+  .dropdown-button-content {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    flex-wrap: wrap;
+    flex: 1;
+    overflow: hidden;
+  }
+
+  .custom-dropdown-arrow {
+    margin-left: 8px;
+    font-size: 12px;
+  }
+
+  .custom-dropdown-menu {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background-color: rgba(19, 19, 19, 0.8);
+    border-radius: $border-radius;
+    padding: 10px;
+    width: 100%;
+    z-index: 100;
+    max-height: 300px;
+    overflow-y: auto;
+  }
+
+  .custom-dropdown-options {
+    .dropdown-item-text {
+      cursor: pointer;
+      color: rgba(161, 161, 161, 0.8);
+    }
+
+    input[type="checkbox"] {
+      appearance: none;
+      width: 18px;
+      height: 18px;
+      border: 2px solid #ffffff;
+      border-radius: 4px;
+      margin-right: 8px;
+      position: relative;
+      cursor: pointer;
+      background-color: transparent;
+      transition: background 0.2s, border 0.2s;
+
+      &:checked {
+        background-color: #ffffff;
+        border-color: #ffffff;
+
+        &::after {
+          content: '✓';
+          color: #000000;
+          position: absolute;
+          left: 2px;
+          top: -1px;
+          font-size: 14px;
+        }
+      }
+    }
+
+    label {
+      display: flex;
+      align-items: center;
+      color: #aaa;
+      font-size: 14px;
+      padding: 4px 4px;
+      cursor: pointer;
+      transition: background-color 0.2s ease, color 0.2s ease;
+
+      &:hover {
+        background-color: rgba(87, 87, 87, 0.8);
+      }
+
+      &.active {
+        background-color: rgba(87, 87, 87, 0.8);
+        color: #fff;
+      }
+    }
+
+    input[type="checkbox"]:checked + span {
+      color: #ffffff;
+    }
+  }
+
+  .custom-dropdown-label {
+    color: #666;
+  }
+
+  .custom-selected-tag {
+    background-color: #dadada;
+    color: #000000;
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-size: 14px;
+  }
+}

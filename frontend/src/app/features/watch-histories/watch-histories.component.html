@@ -1,4 +1,6 @@
 <div class="history-container">
+  <app-sparkles></app-sparkles>
+
   <div class="header">
     <h1><i class="icon">📋</i> My Watchlist</h1>
     <a class="clear-button" (click)="openConfirmationModal()">Clear</a>
@@ -19,18 +21,6 @@
     <p class="subtitle">
       Transform your watchlist into a time capsule: Start watching to preserve your movie and series journey
     </p>
-  </div>
-
-  <div class="sparkles">
-    <div
-      *ngFor="let sparkle of sparkles"
-      class="sparkle"
-      [ngStyle]="{
-          top: sparkle.top + 'px',
-          left: sparkle.left + 'px',
-          animationDelay: sparkle.delay + 's'
-        }"
-    ></div>
   </div>
 
   <div *ngIf="hasMediaItems">

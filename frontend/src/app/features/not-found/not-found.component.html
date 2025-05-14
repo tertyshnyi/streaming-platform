@@ -1,14 +1,5 @@
 <div class="not-found-page">
-  <div class="sparkles">
-    <div *ngFor="let sparkle of sparkles"
-         class="sparkle"
-         [ngStyle]="{
-           top: sparkle.top + 'px',
-           left: sparkle.left + 'px',
-           animationDelay: sparkle.delay + 's'
-         }">
-    </div>
-  </div>
+  <app-sparkles></app-sparkles>
 
   <div class="text-section">
     <h1>404 PAGE NOT FOUND</h1>

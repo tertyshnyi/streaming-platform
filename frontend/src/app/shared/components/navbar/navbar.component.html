@@ -16,9 +16,15 @@
           (input)="onSearchChange()"
         />
 
-        <span *ngIf="isSearchFocused" class="filter-icon" [routerLink]="['/filter', { query: searchQuery }]">
+        <a
+          *ngIf="isSearchFocused"
+          class="filter-icon"
+          [routerLink]="['/search']"
+          [queryParams]="{ query: searchQuery }"
+        >
           ⚙️
-        </span>
+        </a>
+
 
         <span *ngIf="isSearchFocused" class="clear-icon" (click)="clearSearch()">
           ❌

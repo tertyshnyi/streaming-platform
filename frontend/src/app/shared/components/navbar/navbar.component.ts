@@ -1,7 +1,7 @@
 import { Component, inject, HostListener } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { UserService } from '../../../core/services/user.service';
-import { RouterLink, RouterLinkActive } from '@angular/router';
+import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { SearchResult } from '../../../core/models/search-result';
 
@@ -18,6 +18,7 @@ import { SearchResult } from '../../../core/models/search-result';
   styleUrls: ['./navbar.component.scss']
 })
 export class NavbarComponent {
+  private router = inject(Router);
 
   userService = inject(UserService);
   user = this.userService.getUserSignal();
@@ -77,7 +78,7 @@ export class NavbarComponent {
           genre: 'Drama'
         }
       ];
-      
+
       this.searchResults = allResults.filter(result =>
         result.title.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
         result.genre.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
@@ -96,6 +97,14 @@ export class NavbarComponent {
       this.isSearchFocused = false;
     }, 150);
   }
+
+  goToSearch() {
+    const query = this.searchQuery.trim();
+    if (query.length > 0) {
+      this.router.navigate(['/search'], { queryParams: { q: query } });
+    }
+  }
+
 
   clearSearch() {
     this.searchQuery = '';

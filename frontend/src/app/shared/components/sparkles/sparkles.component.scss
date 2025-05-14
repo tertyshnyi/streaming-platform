@@ -1,0 +1,40 @@
+.sparkles {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: calc(100% - 5%);
+  height: 100%;
+  pointer-events: none;
+  z-index: 0;
+
+  @media (max-width: 1024px) {
+    .sparkles {
+      display: none;
+    }
+  }
+
+  .sparkle {
+    position: absolute;
+    width: 4px;
+    height: 4px;
+    background: white;
+    border-radius: 50%;
+    opacity: 0;
+    animation: sparkle 3s infinite ease-in-out;
+  }
+
+  @keyframes sparkle {
+    0% {
+      opacity: 0;
+      transform: scale(0.5);
+    }
+    50% {
+      opacity: 1;
+      transform: scale(1.2);
+    }
+    100% {
+      opacity: 0;
+      transform: scale(0.5);
+    }
+  }
+}

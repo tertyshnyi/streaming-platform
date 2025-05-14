@@ -1,9 +1,14 @@
 import { Component, OnInit } from "@angular/core";
 import { CommonModule } from '@angular/common';
 
+import { SparklesComponent } from "../../shared/components/sparkles/sparkles.component";
+
 @Component({
   selector: 'app-watch-histories',
-  imports: [CommonModule],
+  imports: [
+    CommonModule,
+    SparklesComponent
+  ],
   standalone: true,
   templateUrl: './watch-histories.component.html',
   styleUrls: ['./watch-histories.component.scss']
@@ -11,12 +16,6 @@ import { CommonModule } from '@angular/common';
 export class WatchHistoriesComponent implements OnInit {
   hasMediaItems: boolean = true;
   isModalOpen: boolean = false;
-
-  sparkles = Array.from({ length: 50 }, () => ({
-    top: Math.random() * window.innerHeight,
-    left: Math.random() * window.innerWidth,
-    delay: Math.random() * 2
-  }));
 
   mediaItems = [
     { title: 'Future Man', date: '2025-04-28', time: '01:45', duration: '50:00', image: '/images/settings-background.jpg' },
