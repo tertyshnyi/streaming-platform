@@ -4,8 +4,10 @@ $border-radius: 16px;
 $text-color: #ffffff;
 $text-muted: #cccccc;
 $primary: #e50914;
+$secondary: #2c2c2c;
 
 .media_card {
+  position: relative;
   background-color: $bg-darker;
   border-radius: $border-radius;
   color: $text-color;
@@ -15,6 +17,50 @@ $primary: #e50914;
   display: flex;
   flex-direction: column;
   gap: 8px;
+  overflow: hidden;
+  transition: box-shadow 0.3s ease;
+
+  .play-icon {
+    position: absolute;
+    top: 55%;
+    left: 50%;
+    z-index: 3;
+    width: 48px;
+    height: 48px;
+    transform: translate(-50%, -50%) scale(0.8);
+    transition: transform 0.3s ease, opacity 0.3s ease;
+    opacity: 0;
+    pointer-events: none;
+
+    svg {
+      width: 100%;
+      height: 100%;
+      stroke: white;
+    }
+  }
+
+  &:hover {
+    box-shadow: 0 4px 20px rgba(255, 255, 255, 0.5);
+
+    &::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(255, 255, 255, 0.7);
+      backdrop-filter: blur(6px);
+      border-radius: $border-radius;
+      z-index: 2;
+      pointer-events: none;
+    }
+
+    .play-icon {
+      opacity: 1;
+      transform: translate(-50%, -50%) scale(1);
+    }
+  }
 
   .image-wrapper {
     position: relative;
@@ -24,6 +70,8 @@ $primary: #e50914;
       width: 100%;
       height: 320px;
       object-fit: cover;
+      display: block;
+      border-radius: $border-radius $border-radius 0 0;
     }
 
     .rating {
@@ -44,9 +92,7 @@ $primary: #e50914;
 
       &.rating-red { background-color: #d00000; }
       &.rating-orange { background-color: #ff7b00; }
-      &.rating-yellow {
-        background-color: #ffd500;
-      }
+      &.rating-yellow { background-color: #ffd500; }
       &.rating-green { background-color: #00b000; }
     }
 
@@ -78,7 +124,7 @@ $primary: #e50914;
     text-overflow: ellipsis;
     padding: 5px 20px;
 
-  .year {
+    .year {
       color: white;
     }
 

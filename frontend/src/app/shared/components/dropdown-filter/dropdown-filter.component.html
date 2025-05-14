@@ -23,10 +23,9 @@
     </div>
   </button>
 
-
   <div class="custom-dropdown-menu" *ngIf="isOpen">
     <div class="custom-dropdown-options">
-      <label *ngFor="let item of items">
+      <label *ngFor="let item of items" [ngClass]="{'active': selectedItems.includes(item)}">
         <input
           *ngIf="isMultiple"
           type="checkbox"
