@@ -1,0 +1,80 @@
+<div class="custom-media-container" *ngIf="media as m">
+  <app-sparkles></app-sparkles>
+
+  <div class="custom-media-poster-background">
+    <img [src]="m.poster" [alt]="m.title" />
+    <div class="custom-gradient-overlay"></div>
+  </div>
+
+  <div class="custom-media-content">
+    <div class="custom-media-left">
+      <div class="custom-media-poster">
+        <img [src]="m.poster" [alt]="m.title" />
+        <button class="custom-trailer-button" (click)="openTrailer()">
+          <span class="icon">▶</span> Дивитися трейлер
+        </button>
+      </div>
+    </div>
+
+    <div class="custom-media-right">
+      <div class="custom-media-details">
+        <h1 class="custom-title"> {{ m.title }} </h1>
+
+        <div class="custom-genres">
+          <span class="custom-badge" *ngFor="let genre of m.genres">{{ genre }}</span>
+        </div>
+
+        <p class="custom-description">
+          {{ m.description }}
+        </p>
+
+        <div class="custom-meta">
+          <div class="custom-meta-item">
+            <strong>Озвучення</strong>
+            <div>{{ m.dubbing || 'Не вказано' }}</div>
+          </div>
+          <div class="custom-meta-item">
+            <strong>Звукорежисура</strong>
+            <div>{{ m.sound || 'Не вказано' }}</div>
+          </div>
+          <div class="custom-meta-item">
+            <strong>Переклад</strong>
+            <div>{{ m.translation || 'Не вказано' }}</div>
+          </div>
+          <div class="custom-meta-item">
+            <strong>К-сть епізодів</strong>
+            <div>{{ m.episodes || 'Не вказано' }}</div>
+          </div>
+          <div class="custom-meta-item">
+            <strong>Сезон</strong>
+            <div>{{ m.season || 'Не вказано' }}</div>
+          </div>
+          <div class="custom-meta-item">
+            <strong>Стан</strong>
+            <div>{{ m.status || 'Не вказано' }}</div>
+          </div>
+        </div>
+
+        <div *ngIf="m.countries?.length">
+          <span class="countries">{{ m.countries.join(', ') }}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="trailer-modal" *ngIf="isTrailerOpen" (click)="closeTrailer()">
+    <div class="trailer-modal-content-wrapper">
+      <button class="close-button" (click)="closeTrailer()">✕</button>
+
+      <div class="trailer-modal-content" (click)="$event.stopPropagation()">
+        <iframe
+          *ngIf="media?.trailerUrl"
+          [src]="getYouTubeEmbedUrl(media?.trailerUrl)"
+          frameborder="0"
+          allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+          allowfullscreen
+        ></iframe>
+      </div>
+    </div>
+  </div>
+</div>

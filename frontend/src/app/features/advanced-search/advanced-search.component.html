@@ -2,34 +2,34 @@
   <app-sparkles></app-sparkles>
 
   <div class="general">
-    <h2>Розширений пошук</h2>
+    <h2>Advanced search</h2>
 
     <div class="top-controls">
       <div class="left-controls">
         <app-dropdown
-          label="Всі"
+          label="All"
           [items]="typeOptions"
           [selectedItems]="selectedTypeOption ? [selectedTypeOption] : []"
-          [isOpen]="typeDropdownOpen"
+          [isOpen]="dropdownState['type']"
           [isMultiple]="false"
-          (toggleDropdown)="toggleTypeDropdown()"
+          (toggleDropdown)="toggleDropdown('type')"
           (selectionChanged)="onTypeSelectionChanged($event)"
         ></app-dropdown>
 
         <app-dropdown
-          label="✨ За новизною"
+          label="✨ By Novelty"
           [items]="noveltyOptions"
           [selectedItems]="selectedNoveltyOption ? [selectedNoveltyOption] : []"
-          [isOpen]="noveltyDropdownOpen"
+          [isOpen]="dropdownState['novelty']"
           [isMultiple]="false"
-          (toggleDropdown)="toggleNoveltyDropdown()"
+          (toggleDropdown)="toggleDropdown('novelty')"
           (selectionChanged)="onNoveltySelectionChanged($event)"
         ></app-dropdown>
       </div>
 
       <div class="center-controls">
         <div class="rating-range inline">
-          <label>Рейтинг: {{ minRating }} - {{ maxRating }}</label>
+          <label>Rating: {{ minRating }} - {{ maxRating }}</label>
           <div class="range-container">
             <div id="rangeSlider"></div>
           </div>
@@ -41,22 +41,22 @@
 
     <div class="filters-grid filters-two">
       <app-dropdown
-        label="Виберіть жанр"
+        label="Select Genre"
         [items]="genres"
         [selectedItems]="selectedGenresList"
-        [isOpen]="genreDropdownOpen"
+        [isOpen]="dropdownState['genre']"
         [isMultiple]="true"
-        (toggleDropdown)="toggleGenreDropdown()"
+        (toggleDropdown)="toggleDropdown('genre')"
         (selectionChanged)="onGenreSelectionChanged($event)"
       ></app-dropdown>
 
       <app-dropdown
-        label="Виберіть рік"
+        label="Select Year"
         [items]="years"
         [selectedItems]="selectedYearsList"
-        [isOpen]="yearDropdownOpen"
+        [isOpen]="dropdownState['year']"
         [isMultiple]="true"
-        (toggleDropdown)="toggleYearDropdown()"
+        (toggleDropdown)="toggleDropdown('year')"
         (selectionChanged)="onYearSelectionChanged($event)"
       ></app-dropdown>
     </div>
@@ -65,23 +65,25 @@
 
     <div class="filters-grid filters-two">
       <app-dropdown
-        label="Виберіть країну"
+        label="Select Country"
         [items]="countries"
         [selectedItems]="selectedCountriesList"
-        [isOpen]="countryDropdownOpen"
+        [isOpen]="dropdownState['country']"
         [isMultiple]="true"
-        (toggleDropdown)="toggleCountryDropdown()"
+        (toggleDropdown)="toggleDropdown('country')"
         (selectionChanged)="onCountrySelectionChanged($event)"
       ></app-dropdown>
 
       <div class="right-controls">
-        <button class="button secondary" (click)="resetFilters()">Скинути</button>
-        <button class="button primary" (click)="applyFilters()">Застосувати</button>
+        <button class="button secondary" (click)="resetFilters()">Reset</button>
+        <button class="button primary" (click)="applyFilters()">Apply</button>
       </div>
     </div>
 
+    <hr class="divider" />
+
     <div class="cards">
-      <a class="card-link" [routerLink]="['/search', show.title]" *ngFor="let show of shows">
+      <a class="card-link" [routerLink]="['/media', show.slug]" *ngFor="let show of shows">
         <app-media-card [media]="show"></app-media-card>
       </a>
     </div>

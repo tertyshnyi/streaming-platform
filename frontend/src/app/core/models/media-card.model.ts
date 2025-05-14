@@ -1,8 +1,10 @@
 export interface MediaCardModel {
+  id: number;
   title: string;
-  rating: number;
-  image: string;
+  slug: string;
+  poster: string;
   genres: string[];
-  countries: string[];
-  year: string;
+  rating: number;
+  countries?: string[];
+  year?: string;
 }

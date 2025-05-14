@@ -1,9 +1,9 @@
 import { Component, HostListener, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { RouterModule } from '@angular/router';
+import { RouterModule, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { Router } from '@angular/router';
 
+import { MediaService } from '../../core/services/media-content.service';
 import { MediaCardModel } from '../../core/models/media-card.model';
 
 import { MediaCardComponent } from '../../shared/components/media-card/media-card.component';
@@ -11,7 +11,6 @@ import { DropdownComponent } from '../../shared/components/dropdown-filter/dropd
 import { SparklesComponent } from '../../shared/components/sparkles/sparkles.component';
 
 import noUiSlider from 'nouislider';
-
 
 @Component({
   selector: 'app-advanced-search',
@@ -27,14 +26,41 @@ import noUiSlider from 'nouislider';
   templateUrl: './advanced-search.component.html',
   styleUrls: ['./advanced-search.component.scss'],
 })
-export class AdvancedSearchComponent {
-  typeOptions: string[] = ['Всі', 'Фільми', 'Серіали'];
-  noveltyOptions: string[] = ['👀 За обговоренням', '⭐ За рейтингом', '🆕 Нещодавно додано'];
-  genres: string[] = ['Аніме', 'Фантастика', 'Комедія', 'Драма'];
-  years: string[] = ['2020', '2021', '2022', '2023', '2024'];
-  countries: string[] = ['Японія', 'США', 'Корея'];
+export class AdvancedSearchComponent implements OnInit {
+  shows: MediaCardModel[] = [];
+  filteredShows: MediaCardModel[] = [];
 
-  ngOnInit() {
+  typeOptions = ['All', 'Movies', 'TV Shows'];
+  noveltyOptions = ['✨ By Novelty', '👀 Most Discussed', '⭐ Highest Rated', '🆕 Recently Added'];
+  genres = ['Anime', 'Sci-Fi', 'Comedy', 'Drama'];
+  years = ['2020', '2021', '2022', '2023', '2024'];
+  countries = ['Japan', 'USA', 'Korea'];
+
+  selectedTypeOption = '';
+  selectedNoveltyOption = '';
+  selectedGenres: { [key: string]: boolean } = {};
+  selectedYears: { [key: string]: boolean } = {};
+  selectedCountries: { [key: string]: boolean } = {};
+  minRating = 0;
+  maxRating = 10;
+
+  dropdownState: { [key: string]: boolean } = {
+    genre: false,
+    year: false,
+    country: false,
+    type: false,
+    novelty: false
+  };
+
+  constructor(private mediaService: MediaService, private router: Router) {}
+
+  ngOnInit(): void {
+    this.mediaService.getMedia().subscribe(data => {
+      console.log('Fetched media:', data);
+      this.shows = data;
+      this.filteredShows = [...this.shows];
+    });
+
     const rangeSlider = document.getElementById('rangeSlider') as HTMLElement;
 
     if (rangeSlider) {
@@ -63,197 +89,25 @@ export class AdvancedSearchComponent {
     }
   }
 
-  minRating: number = 0;
-  maxRating: number = 10;
-
-  onRatingChange() {
-    console.log(`Рейтинг изменен: ${this.minRating} - ${this.maxRating}`);
-  }
-
-  shows: MediaCardModel[] = [
-    {
-      title: 'Андор',
-      rating: 8.42,
-      image: '/images/settings-background.jpg',
-      genres: ['Драма', 'Аніме'],
-      countries: ['Japan', 'Korea', 'Аніме', 'Аніме'],
-      year: '2022',
-    },
-    {
-      title: 'Аніме 1',
-      rating: 7.91,
-      image: '/images/settings-background.jpg',
-      genres: ['Аніме'],
-      countries: ['Germany', 'USA'],
-      year: '2021',
-    },
-    {
-      title: 'Аніме 2',
-      rating: 6.89,
-      image: '/images/settings-background.jpg',
-      genres: ['Аніме', 'Фантастика'],
-      countries: ['Germany'],
-      year: '2020',
-    },
-    {
-      title: 'Аніме 3',
-      rating: 4.96,
-      image: '/images/settings-background.jpg',
-      genres: ['Аніме', 'Комедія'],
-      countries: ['Korea'],
-      year: '2023',
-    },
-  ];
-
-  selectedTypeOption: string = '';
-  selectedNoveltyOption: string = '';
-
-  selectedGenres: { [key: string]: boolean } = {};
-  selectedYears: { [key: string]: boolean } = {};
-  selectedCountries: { [key: string]: boolean } = {};
-
-  genreDropdownOpen: boolean = false;
-  yearDropdownOpen: boolean = false;
-  countryDropdownOpen: boolean = false;
-  typeDropdownOpen: boolean = false;
-  noveltyDropdownOpen: boolean = false;
-
   get selectedGenresList(): string[] {
     return Object.entries(this.selectedGenres)
       .filter(([_, checked]) => checked)
-      .map(([genre]) => genre);
+      .map(([key]) => key);
   }
 
-  get selectedYearsList(): string[] {
-    return Object.entries(this.selectedYears)
-      .filter(([_, checked]) => checked)
-      .map(([year]) => year);
+  applyFilters(): void {
+    this.filteredShows = this.shows.filter(show =>
+      (this.selectedTypeOption === 'All' || !this.selectedTypeOption || show.title.includes(this.selectedTypeOption)) &&
+      (this.selectedGenresList.length === 0 || this.selectedGenresList.some(g => show.genres.includes(g))) &&
+      (this.selectedYearsList.length === 0 || this.selectedYearsList.includes(show.year?.toString() ?? '')) &&
+      (this.selectedCountriesList.length === 0 || this.selectedCountriesList.some(c => show.countries?.includes(c))) &&
+      show.rating >= this.minRating && show.rating <= this.maxRating
+    );
+
+    console.log('Filtered Shows:', this.filteredShows);
   }
 
-  get selectedCountriesList(): string[] {
-    return Object.entries(this.selectedCountries)
-      .filter(([_, checked]) => checked)
-      .map(([country]) => country);
-  }
-
-  onGenreSelectionChanged(selectedGenres: string[]) {
-    this.selectedGenres = selectedGenres.reduce((acc, genre) => {
-      acc[genre] = true;
-      return acc;
-    }, {} as { [key: string]: boolean });
-  }
-
-  onYearSelectionChanged(selectedYears: string[]) {
-    this.selectedYears = selectedYears.reduce((acc, year) => {
-      acc[year] = true;
-      return acc;
-    }, {} as { [key: string]: boolean });
-  }
-
-  onCountrySelectionChanged(selectedCountries: string[]) {
-    this.selectedCountries = selectedCountries.reduce((acc, country) => {
-      acc[country] = true;
-      return acc;
-    }, {} as { [key: string]: boolean });
-  }
-
-  onTypeSelectionChanged(selectedTypes: string[]) {
-      this.selectedTypeOption = selectedTypes[0] || '';
-  }
-
-  onNoveltySelectionChanged(selectedNovelty: string[]) {
-    this.selectedNoveltyOption = selectedNovelty[0] || '';
-  }
-
-  toggleGenreDropdown() {
-    this.genreDropdownOpen = !this.genreDropdownOpen;
-    this.yearDropdownOpen = false;
-    this.countryDropdownOpen = false;
-    this.typeDropdownOpen = false;
-    this.noveltyDropdownOpen = false;
-  }
-
-  toggleYearDropdown() {
-    this.yearDropdownOpen = !this.yearDropdownOpen;
-    this.genreDropdownOpen = false;
-    this.countryDropdownOpen = false;
-    this.typeDropdownOpen = false;
-    this.noveltyDropdownOpen = false;
-  }
-
-  toggleCountryDropdown() {
-    this.countryDropdownOpen = !this.countryDropdownOpen;
-    this.genreDropdownOpen = false;
-    this.yearDropdownOpen = false;
-    this.typeDropdownOpen = false;
-    this.noveltyDropdownOpen = false;
-  }
-
-  toggleTypeDropdown() {
-    this.typeDropdownOpen = !this.typeDropdownOpen;
-    this.noveltyDropdownOpen = false;
-    this.genreDropdownOpen = false;
-    this.yearDropdownOpen = false;
-    this.countryDropdownOpen = false;
-  }
-
-  toggleNoveltyDropdown() {
-    this.noveltyDropdownOpen = !this.noveltyDropdownOpen;
-    this.typeDropdownOpen = false;
-    this.genreDropdownOpen = false;
-    this.yearDropdownOpen = false;
-    this.countryDropdownOpen = false;
-  }
-
-  @HostListener('document:click', ['$event'])
-  closeDropdowns(event: MouseEvent) {
-    const target = event.target as HTMLElement;
-
-    if (!target.closest('.custom-dropdown')) {
-      this.genreDropdownOpen = false;
-      this.yearDropdownOpen = false;
-      this.countryDropdownOpen = false;
-      this.typeDropdownOpen = false;
-      this.noveltyDropdownOpen = false;
-    }
-  }
-
-  applyFilters() {
-    const queryParams = new URLSearchParams();
-
-    if (this.selectedTypeOption) {
-      queryParams.set('type', this.selectedTypeOption);
-    }
-
-    if (this.selectedGenresList.length > 0) {
-      queryParams.set('genres', this.selectedGenresList.join(','));
-    }
-
-    if (this.selectedYearsList.length > 0) {
-      queryParams.set('years', this.selectedYearsList.join(','));
-    }
-
-    if (this.selectedCountriesList.length > 0) {
-      queryParams.set('countries', this.selectedCountriesList.join(','));
-    }
-
-    if (this.minRating !== 0 || this.maxRating !== 10) {
-      queryParams.set('rating_min', this.minRating.toString());
-      queryParams.set('rating_max', this.maxRating.toString());
-    }
-
-    if (this.selectedNoveltyOption) {
-      queryParams.set('sort_by', this.selectedNoveltyOption);
-    }
-
-    const queryString = queryParams.toString();
-    const newUrl = `/search?${queryString}`;
-
-    this.router.navigateByUrl(newUrl);
-    console.log('Фильтры применены, передан запрос на бекенд!', newUrl);
-  }
-
-  resetFilters() {
+  resetFilters(): void {
     this.selectedGenres = {};
     this.selectedYears = {};
     this.selectedCountries = {};
@@ -261,14 +115,61 @@ export class AdvancedSearchComponent {
     this.selectedNoveltyOption = '';
     this.minRating = 0;
     this.maxRating = 10;
+    this.filteredShows = [...this.shows];
 
     const slider = document.getElementById('rangeSlider') as any;
-    if (slider && slider.noUiSlider) {
+    if (slider?.noUiSlider) {
       slider.noUiSlider.set([this.minRating, this.maxRating]);
     }
 
-    console.log('Фильтры сброшены!');
+    console.log('Filters reset!');
   }
 
-  constructor(private router: Router) {}
+  onGenreSelectionChanged(selected: string[]) {
+    this.selectedGenres = Object.fromEntries(selected.map(g => [g, true]));
+  }
+
+  get selectedYearsList(): string[] {
+    return Object.entries(this.selectedYears)
+      .filter(([_, checked]) => checked)
+      .map(([key]) => key);
+  }
+
+  get selectedCountriesList(): string[] {
+    return Object.entries(this.selectedCountries)
+      .filter(([_, checked]) => checked)
+      .map(([key]) => key);
+  }
+
+  onYearSelectionChanged(selected: string[]) {
+    this.selectedYears = Object.fromEntries(selected.map(y => [y, true]));
+  }
+
+  onCountrySelectionChanged(selected: string[]) {
+    this.selectedCountries = Object.fromEntries(selected.map(c => [c, true]));
+  }
+
+  onTypeSelectionChanged(selected: string[]) {
+    this.selectedTypeOption = selected[0] || '';
+  }
+
+  onNoveltySelectionChanged(selected: string[]) {
+    this.selectedNoveltyOption = selected[0] || '';
+  }
+
+  toggleDropdown(name: string): void {
+    for (const key in this.dropdownState) {
+      this.dropdownState[key] = key === name ? !this.dropdownState[key] : false;
+    }
+  }
+
+  @HostListener('document:click', ['$event'])
+  closeDropdowns(event: MouseEvent): void {
+    const target = event.target as HTMLElement;
+    if (!target.closest('.custom-dropdown')) {
+      for (const key in this.dropdownState) {
+        this.dropdownState[key] = false;
+      }
+    }
+  }
 }

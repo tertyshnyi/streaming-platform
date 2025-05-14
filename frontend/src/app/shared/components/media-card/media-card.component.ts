@@ -14,11 +14,14 @@ export class MediaCardComponent {
   @Input() media!: MediaCardModel;
 
   get ratingColorClass(): string {
+    if (!this.media || !this.media.rating) {
+      return 'rating-gray';
+    }
     const r = this.media.rating;
     if (r < 3) return 'rating-red';
     if (r < 5) return 'rating-orange';
     if (r < 8) return 'rating-yellow';
     return 'rating-green';
   }
-
 }
+export type { MediaCardModel };
