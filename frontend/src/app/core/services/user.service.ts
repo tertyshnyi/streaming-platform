@@ -1,6 +1,6 @@
 import { inject, Injectable, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { UserModel } from '../models/user-model';
+import { UserModel } from '../models/user.model';
 import { OAuthService } from 'angular-oauth2-oidc';
 import { authCodeFlowConfig } from '../config/authCodeFlowConfig.config';
 import { ActivatedRouteSnapshot, CanActivateFn, Router, RouterStateSnapshot } from '@angular/router';

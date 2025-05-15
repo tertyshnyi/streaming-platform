@@ -2,63 +2,78 @@
   <app-sparkles></app-sparkles>
 
   <div class="custom-media-poster-background">
-    <img [src]="m.poster" [alt]="m.title" />
+    <img [src]="m.coverImg" [alt]="m.title" />
     <div class="custom-gradient-overlay"></div>
   </div>
 
-  <div class="custom-media-content">
-    <div class="custom-media-left">
-      <div class="custom-media-poster">
-        <img [src]="m.poster" [alt]="m.title" />
-        <button class="custom-trailer-button" (click)="openTrailer()">
-          <span class="icon">▶</span> Дивитися трейлер
-        </button>
+  <div class="custom-media-wrapper">
+    <div class="custom-media-content">
+      <div class="custom-media-left">
+        <div class="custom-media-poster">
+          <img [src]="m.posterImg" [alt]="m.title" />
+          <button class="custom-trailer-button" (click)="openTrailer()">
+            <span class="icon">▶</span> Watch trailer
+          </button>
+        </div>
+      </div>
+
+      <div class="custom-media-right">
+        <div class="custom-media-details">
+          <h1 class="custom-title">{{ m.title }}</h1>
+
+          <div class="custom-genres">
+            <span class="custom-badge" *ngFor="let genre of m.genres">{{ genre }}</span>
+          </div>
+
+          <div class="custom-description-wrapper" [class.expanded]="isDescriptionExpanded">
+            <p class="custom-description">
+              {{ m.description }}
+            </p>
+            <div class="fade-overlay"></div>
+          </div>
+          <div class="custom-expand-btn-wrapper">
+            <button class="custom-expand-btn" (click)="toggleDescription()">
+              {{ isDescriptionExpanded ? 'Show less' : 'Show more' }}
+            </button>
+          </div>
+
+          <div class="custom-meta-grid">
+            <div class="custom-meta-item" *ngIf="m.actors?.length">
+              <strong>Directors</strong>
+              <span>{{ m.directors.join(', ') }}</span>
+            </div>
+            <div class="custom-meta-item">
+              <strong>Rating</strong>
+              <span>{{ m.globalRating }}</span>
+            </div>
+            <div class="custom-meta-item" *ngIf="m.actors?.length">
+              <strong>Actors</strong>
+              <span>{{ m.actors.join(', ') }}</span>
+            </div>
+            <div class="custom-meta-item">
+              <strong>Duration</strong>
+              <span>{{ m.duration }}</span>
+            </div>
+            <div class="custom-meta-item" *ngIf="m.countries?.length">
+              <strong>Countries</strong>
+              <span>{{ m.countries.join(', ') }}</span>
+            </div>
+            <div class="custom-meta-item">
+              <strong>Release date</strong>
+              <span>{{ m.releaseDate | date }}</span>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
 
-    <div class="custom-media-right">
-      <div class="custom-media-details">
-        <h1 class="custom-title"> {{ m.title }} </h1>
-
-        <div class="custom-genres">
-          <span class="custom-badge" *ngFor="let genre of m.genres">{{ genre }}</span>
-        </div>
-
-        <p class="custom-description">
-          {{ m.description }}
-        </p>
-
-        <div class="custom-meta">
-          <div class="custom-meta-item">
-            <strong>Озвучення</strong>
-            <div>{{ m.dubbing || 'Не вказано' }}</div>
-          </div>
-          <div class="custom-meta-item">
-            <strong>Звукорежисура</strong>
-            <div>{{ m.sound || 'Не вказано' }}</div>
-          </div>
-          <div class="custom-meta-item">
-            <strong>Переклад</strong>
-            <div>{{ m.translation || 'Не вказано' }}</div>
-          </div>
-          <div class="custom-meta-item">
-            <strong>К-сть епізодів</strong>
-            <div>{{ m.episodes || 'Не вказано' }}</div>
-          </div>
-          <div class="custom-meta-item">
-            <strong>Сезон</strong>
-            <div>{{ m.season || 'Не вказано' }}</div>
-          </div>
-          <div class="custom-meta-item">
-            <strong>Стан</strong>
-            <div>{{ m.status || 'Не вказано' }}</div>
-          </div>
-        </div>
-
-        <div *ngIf="m.countries?.length">
-          <span class="countries">{{ m.countries.join(', ') }}</span>
-        </div>
-      </div>
+    <div class="custom-plyr-video">
+      <video
+        #videoPlayer
+        playsinline
+        controls
+        crossorigin
+      ></video>
     </div>
   </div>
 
@@ -68,8 +83,8 @@
 
       <div class="trailer-modal-content" (click)="$event.stopPropagation()">
         <iframe
-          *ngIf="media?.trailerUrl"
-          [src]="getYouTubeEmbedUrl(media?.trailerUrl)"
+          *ngIf="m?.trailerUrl"
+          [src]="getYouTubeEmbedUrl(m?.trailerUrl)"
           frameborder="0"
           allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
           allowfullscreen

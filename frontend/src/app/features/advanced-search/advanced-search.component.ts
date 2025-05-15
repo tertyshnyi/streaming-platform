@@ -101,7 +101,7 @@ export class AdvancedSearchComponent implements OnInit {
       (this.selectedGenresList.length === 0 || this.selectedGenresList.some(g => show.genres.includes(g))) &&
       (this.selectedYearsList.length === 0 || this.selectedYearsList.includes(show.year?.toString() ?? '')) &&
       (this.selectedCountriesList.length === 0 || this.selectedCountriesList.some(c => show.countries?.includes(c))) &&
-      show.rating >= this.minRating && show.rating <= this.maxRating
+      show.globalRating >= this.minRating && show.globalRating <= this.maxRating
     );
 
     console.log('Filtered Shows:', this.filteredShows);

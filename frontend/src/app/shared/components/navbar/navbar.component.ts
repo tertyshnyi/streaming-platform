@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { UserService } from '../../../core/services/user.service';
 import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { FormsModule } from '@angular/forms';
-import { SearchResult } from '../../../core/models/search-result';
+import { SearchResultModel } from '../../../core/models/search-result.model';
 
 @Component({
   selector: 'app-navbar',
@@ -50,12 +50,12 @@ export class NavbarComponent {
   searchQuery: string = '';
   isSearchFocused: boolean = false;
 
-  searchResults: SearchResult[] = [];
+  searchResults: SearchResultModel[] = [];
   noResultsFound: boolean = false;
 
   onSearchChange() {
     if (this.searchQuery.length > 2) {
-      const allResults: SearchResult[] = [
+      const allResults: SearchResultModel[] = [
         {
           image: '/images/settings-background.jpg',
           title: 'Movie 1',

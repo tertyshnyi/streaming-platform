@@ -11,17 +11,35 @@ export class MediaService {
     id: 1,
     title: 'Amazing Show',
     slug: 'amazing-show',
-    description: 'An amazing show that captivates audiences worldwide.',
-    poster: '/images/settings-background.jpg',
+    releaseDate: '2023-05-01',
+    description: 'An amazing show that captivates audiences worldwide. An amazing show that captivates audiences worldwide.' +
+      'An amazing show that captivates audiences worldwide. An amazing show that captivates audiences worldwide.' +
+      ' An amazing show that captivates audiences worldwide. An amazing show that captivates audiences worldwide.' +
+      'An amazing show that captivates audiences worldwide. An amazing show that captivates audiences worldwide.' +
+      'An amazing show that captivates audiences worldwide. An amazing show that captivates audiences worldwide.' +
+      'An amazing show that captivates audiences worldwide. An amazing show that captivates audiences worldwide.',
     genres: ['Action', 'Drama', 'Adventure'],
-    dubbing: 'English',
-    sound: 'Stereo',
-    translation: 'Spanish',
-    episodes: '12',
-    season: '1',
-    status: 'Ongoing',
+    actors: ['John Doe', 'Jane Smith'],
+    directors: ['Alice Johnson'],
+    trailerUrl: 'https://www.youtube.com/watch?v=ee9i6oMqShk',
     countries: ['USA', 'Canada'],
-    trailerUrl: 'https://www.youtube.com/watch?v=ee9i6oMqShk'
+    globalRating: 8.4,
+    commentsTotal: 0,
+    posterImg: '/images/posterImg.webp',
+    coverImg: '/images/posterImg.webp',
+    duration: '25m',
+    videos: [
+      {
+        quality: 1080,
+        url: '/videos/videoplayback.mp4',
+        type: 'mp4',
+      },
+      {
+        quality: 720,
+        url: '/videos/test.mp4',
+        type: 'mp4',
+      }
+    ]
   };
 
   private mediaCardData: MediaCardModel[] = [
@@ -29,9 +47,9 @@ export class MediaService {
       id: 1,
       title: 'Amazing Show',
       slug: 'amazing-show',
-      poster: '/images/settings-background.jpg',
+      posterImg: '/images/posterImg.webp',
       genres: ['Action', 'Drama'],
-      rating: 8.5,
+      globalRating: 8.5,
       countries: ['USA'],
       year: '2023',
     },
@@ -39,16 +57,15 @@ export class MediaService {
       id: 2,
       title: 'Another Show',
       slug: 'another-show',
-      poster: '/images/settings-background.jpg',
+      posterImg: '/images/posterImg.webp',
       genres: ['Comedy', 'Drama'],
-      rating: 7.4,
+      globalRating: 7.4,
       countries: ['USA'],
       year: '2022',
     },
   ];
 
   getBySlug(slug: string): Observable<MediaContentModel | null> {
-    // Если slug совпадает с slug в mediaData, возвращаем объект
     return of(this.mediaData.slug === slug ? this.mediaData : null);
   }
 
