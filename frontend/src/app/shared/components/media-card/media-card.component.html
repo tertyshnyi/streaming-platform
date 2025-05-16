@@ -1,7 +1,7 @@
-<div class="media_card" *ngIf="media">
+<div class="media_card" *ngIf="media as m">
   <div class="image-wrapper">
-    <img [src]="media.posterImg" alt="{{ media.title }}" />
-    <div class="rating" [ngClass]="ratingColorClass">{{ media.globalRating }}</div>
+    <img [src]="m.posterImg" alt="{{ m.title }}" />
+    <div class="rating" [ngClass]="ratingColorClass">{{ m.globalRating }}</div>
     <div class="play-icon">
       <svg width="64px" height="64px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path d="M3 12L3 18.9671C3 21.2763 5.53435 22.736 7.59662 21.6145L10.7996 19.8727M3 8L3 5.0329C3 2.72368 5.53435 1.26402 7.59661 2.38548L20.4086 9.35258C22.5305 10.5065 22.5305 13.4935 20.4086 14.6474L14.0026 18.131"
@@ -10,11 +10,11 @@
     </div>
   </div>
 
-  <h3>{{ media.title }}</h3>
+  <h3>{{ m.title }}</h3>
 
   <div class="meta">
-    <span class="year">{{ media.year }}</span> •
-    <span class="genres">{{ media.genres.join(', ') || 'Не указаны' }}</span> •
-    <span class="countries">{{ media.countries?.join(', ') || 'Не указаны' }}</span>
+    <span class="year">{{ m.year }}</span> •
+    <span class="genres">{{ m.genres.join(', ') || 'Не указаны' }}</span> •
+    <span class="countries">{{ m.countries?.join(', ') || 'Не указаны' }}</span>
   </div>
 </div>

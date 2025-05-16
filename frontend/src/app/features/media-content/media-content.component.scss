@@ -232,15 +232,23 @@
   }
 
   @media (max-width: 910px) {
+    .custom-media-poster-background {
+      height: 80vh;
+    }
+
     .custom-media-content {
+      margin-top: -60%;
       flex-direction: column;
-      margin: 0 5%;
       gap: 30px;
+      align-items: center;
+      text-align: center;
     }
 
     .custom-media-left {
       width: 100%;
       height: auto;
+      display: flex;
+      justify-content: center;
 
       .custom-media-poster {
         height: auto;
@@ -250,6 +258,26 @@
 
     .custom-media-right {
       padding: 0;
+
+      .custom-title {
+        text-align: center;
+      }
+
+      .custom-genres {
+        justify-content: center;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+      }
+
+      .custom-description-wrapper {
+        text-align: left;
+        width: 100%;
+      }
+
+      .custom-description {
+        text-align: left;
+      }
     }
   }
 }
@@ -298,6 +326,50 @@
 
     &:hover {
       color: #9d9d9d;
+    }
+  }
+}
+
+::ng-deep .custom-plyr-video {
+  --plyr-color-main: #ffffff;
+
+  .plyr__control {
+    transition: all 0.3s ease;
+    background-color: transparent;
+    color: white;
+
+    svg {
+      fill: white;
+      transition: fill 0.3s ease;
+    }
+
+    &:hover,
+    &.plyr__control--pressed,
+    &.plyr--pressed {
+      background-color: #ffffff !important;
+      color: #000000 !important;
+
+      svg {
+        fill: #000000 !important;
+      }
+    }
+  }
+
+  .plyr__menu__container {
+    background-color: #ffffff !important;
+    color: #000000 !important;
+
+    .plyr__control {
+      color: #000000 !important;
+
+      &:hover {
+        background-color: #f0f0f0 !important;
+        color: #000000 !important;
+
+        svg {
+          fill: #000000 !important;
+        }
+      }
     }
   }
 }
