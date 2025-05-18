@@ -24,7 +24,7 @@ export class MediaService {
     trailerUrl: 'https://www.youtube.com/watch?v=ee9i6oMqShk',
     countries: ['USA', 'Canada'],
     globalRating: 8.4,
-    commentsTotal: 0,
+    commentsTotal: 2,
     posterImg: '/images/posterImg.webp',
     coverImg: '/images/posterImg.webp',
     duration: '25m',

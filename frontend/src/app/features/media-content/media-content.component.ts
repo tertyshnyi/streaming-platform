@@ -1,5 +1,5 @@
 import { Component, ElementRef, OnInit, ViewChild, OnDestroy } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, RouterModule, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { DomSanitizer } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
@@ -9,12 +9,14 @@ import Plyr from 'plyr';
 import { SparklesComponent } from '../../shared/components/sparkles/sparkles.component';
 import { MediaService } from '../../core/services/media-content.service';
 import { MediaContentModel } from '../../core/models/media-content.model';
+import { CommentModel } from '../../core/models/comment.model';
 
 @Component({
   selector: 'app-media-content',
   imports: [
     CommonModule,
     FormsModule,
+    RouterModule,
     SparklesComponent
   ],
   standalone: true,
@@ -22,6 +24,159 @@ import { MediaContentModel } from '../../core/models/media-content.model';
   styleUrls: ['./media-content.component.scss']
 })
 export class MediaContentComponent implements OnInit, OnDestroy {
+
+  comments: CommentModel[] = [
+    {
+      id: 1,
+      parentId: null,
+      profileImg: '/images/404-captain.png',
+      name: 'DoctorNIFI',
+      createdAt: '49 хвилин тому',
+      content: 'хуйня ебана',
+      childrenComments: [
+        {
+          id: 2,
+          parentId: 1,
+          profileImg: '/images/404-captain.png',
+          name: 'Moderator',
+          createdAt: '40 хвилин тому',
+          content: 'Будь ласка, дотримуйтесь правил спільноти.',
+          childrenComments: []
+        }
+      ]
+    },
+    {
+      id: 3,
+      parentId: null,
+      profileImg: '/images/404-captain.png',
+      name: 'Darka_Tsvihunova',
+      createdAt: '1 місяць тому',
+      content: 'Це просто неймовірно. Прекрасне естетичне та атмосферне аніме.',
+      childrenComments: []
+    }
+  ];
+
+  newCommentInput: string = '';
+  isNewCommentActive: boolean = false;
+
+  sendNewComment(): void {
+    const content = this.newCommentInput.trim();
+    if (!content) return;
+
+    const newComment: CommentModel = {
+      id: Date.now(),
+      parentId: null,
+      profileImg: '/images/404-vdova.png',
+      name: 'You',
+      createdAt: 'щойно',
+      content: content,
+      childrenComments: []
+    };
+
+    this.comments.push(newComment);
+    this.newCommentInput = '';
+    this.isNewCommentActive = false;
+  }
+
+  cancelNewComment(): void {
+    this.newCommentInput = '';
+    this.isNewCommentActive = false;
+  }
+
+  onNewCommentInputBlur(): void {
+    setTimeout(() => {
+      if (!this.newCommentInput) {
+        this.isNewCommentActive = false;
+      }
+    }, 150);
+  }
+
+  repliesVisibility: { [key: number]: boolean } = {};
+  replyVisibility: { [key: number]: boolean } = {};
+  replyInputs: { [key: number]: string } = {};
+  replyRecipients: { [key: number]: string } = {};
+
+  toggleReplies(commentId: number): void {
+    this.repliesVisibility[commentId] = !this.repliesVisibility[commentId];
+  }
+
+  isRepliesVisible(commentId: number): boolean {
+    return !!this.repliesVisibility[commentId];
+  }
+
+  hasReplies(comment: CommentModel): boolean {
+    return comment.childrenComments?.length > 0;
+  }
+
+  toggleReplyField(commentId: number, recipientName: string = ''): void {
+    if (this.replyVisibility[commentId]) {
+      delete this.replyVisibility[commentId];
+      delete this.replyRecipients[commentId];
+    } else {
+      this.replyVisibility[commentId] = true;
+      this.replyRecipients[commentId] = recipientName;
+    }
+  }
+
+  isReplyFieldVisible(commentId: number): boolean {
+    return !!this.replyVisibility[commentId];
+  }
+
+  sendReply(parentComment: CommentModel): void {
+    const replyTextRaw = this.replyInputs[parentComment.id]?.trim();
+    if (!replyTextRaw) return;
+
+    const newReply: CommentModel = {
+      id: Date.now(),
+      parentId: parentComment.id,
+      profileImg: '/images/404-vdova.png',
+      name: 'You',
+      createdAt: 'щойно',
+      content: replyTextRaw,
+      childrenComments: []
+    };
+
+    if (!parentComment.childrenComments) {
+      parentComment.childrenComments = [];
+    }
+    parentComment.childrenComments.push(newReply);
+
+    this.replyInputs[parentComment.id] = '';
+    this.cancelReply(parentComment.id);
+  }
+
+  cancelReply(commentId: number): void {
+    this.replyInputs[commentId] = '';
+    delete this.replyVisibility[commentId];
+    delete this.replyRecipients[commentId];
+  }
+
+  getAllDescendants(comment: CommentModel): CommentModel[] {
+    let descendants: CommentModel[] = [];
+    if (comment.childrenComments && comment.childrenComments.length > 0) {
+      comment.childrenComments.forEach(child => {
+        descendants.push(child);
+        descendants.push(...this.getAllDescendants(child));
+      });
+    }
+    return descendants;
+  }
+
+  findParentName(parentId: number | null): string {
+    if (!parentId) return '';
+    let found = this.findCommentById(parentId, this.comments);
+    return found ? found.name : '';
+  }
+
+  findCommentById(id: number, commentsList: CommentModel[]): CommentModel | null {
+    for (let comment of commentsList) {
+      if (comment.id === id) return comment;
+      let foundInChildren = this.findCommentById(id, comment.childrenComments || []);
+      if (foundInChildren) return foundInChildren;
+    }
+    return null;
+  }
+
   media: MediaContentModel | null = null;
   loading = true;
 
