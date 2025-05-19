@@ -1,7 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { CommonModule } from '@angular/common';
 
-import { SparklesComponent } from "../../shared/components/sparkles/sparkles.component";
+import { SparklesComponent } from "../../../shared/components/sparkles/sparkles.component";
 
 @Component({
   selector: 'app-watch-histories',

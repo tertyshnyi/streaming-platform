@@ -1,0 +1,117 @@
+<div class="custom-media-container" *ngIf="media as m">
+  <app-sparkles></app-sparkles>
+
+  <div class="custom-media-poster-background">
+    <img [src]="m.coverImg" [alt]="m.title" />
+    <div class="custom-gradient-overlay"></div>
+  </div>
+
+  <div class="custom-media-wrapper">
+    <div class="custom-media-content">
+      <div class="custom-media-left">
+        <div class="custom-media-poster">
+          <img [src]="m.posterImg" [alt]="m.title" />
+          <button class="custom-trailer-button" (click)="openTrailer()">
+            <span class="icon">▶</span> Watch trailer
+          </button>
+        </div>
+      </div>
+
+      <div class="custom-media-right">
+        <div class="custom-media-details">
+          <h1 class="custom-title">{{ m.title }}</h1>
+
+          <div class="custom-genres">
+            <span class="custom-badge" *ngFor="let genre of m.genres">{{ genre }}</span>
+          </div>
+
+          <div
+            class="custom-description-wrapper"
+          >
+            <p class="custom-description">{{ m.description }}</p>
+          </div>
+
+          <div class="custom-expand-btn-wrapper">
+            <button class="custom-expand-btn" (click)="toggleDescription()">
+              {{ isDescriptionExpanded ? 'Show less' : 'Show more' }}
+            </button>
+          </div>
+
+          <div class="custom-meta-grid">
+            <div class="custom-meta-item" *ngIf="m.actors?.length">
+              <strong>Directors</strong>
+              <span>{{ m.directors.join(', ') }}</span>
+            </div>
+            <div class="custom-meta-item">
+              <strong>Rating</strong>
+              <span>{{ m.globalRating }}</span>
+            </div>
+            <div class="custom-meta-item" *ngIf="m.actors?.length">
+              <strong>Actors</strong>
+              <span>{{ m.actors.join(', ') }}</span>
+            </div>
+            <div class="custom-meta-item">
+              <strong>Duration</strong>
+              <span>{{ m.duration }}</span>
+            </div>
+            <div class="custom-meta-item" *ngIf="m.countries?.length">
+              <strong>Countries</strong>
+              <span>{{ m.countries.join(', ') }}</span>
+            </div>
+            <div class="custom-meta-item">
+              <strong>Release date</strong>
+              <span>{{ m.releaseDate | date }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <app-video-player
+      *ngIf="media"
+      [media]="media"
+    ></app-video-player>
+
+    <div class="custom-comment-section">
+
+      <div class="unauthorized-area" *ngIf="!isAuthenticated">
+        <h1>Account required</h1>
+        <p>
+          Please,
+          <a routerLink="/auth">log in</a> or
+          <a routerLink="/register">create an account</a>,
+          to post a comment
+        </p>
+      </div>
+
+      <div class="comments-info">
+        <h3>Comments ({{ m.commentsTotal }})</h3>
+        <button>SORT BY</button>
+      </div>
+
+      <app-comments-section
+        [isAuthenticated]="isAuthenticated()"
+        [currentUser]="userService.getUserSignal()() ?? null"
+        [comments]="comments"
+      ></app-comments-section>
+
+
+    </div>
+  </div>
+
+  <div class="trailer-modal" *ngIf="isTrailerOpen" (click)="closeTrailer()">
+    <div class="trailer-modal-content-wrapper">
+      <button class="close-button" (click)="closeTrailer()">✕</button>
+
+      <div class="trailer-modal-content" (click)="$event.stopPropagation()">
+        <iframe
+          *ngIf="m?.trailerUrl"
+          [src]="getYouTubeEmbedUrl(m?.trailerUrl)"
+          frameborder="0"
+          allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+          allowfullscreen
+        ></iframe>
+      </div>
+    </div>
+  </div>
+</div>

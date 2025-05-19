@@ -2,15 +2,14 @@ export interface MediaContentModel {
   id: number;
   title: string;
   slug: string;
-  releaseDate: string; // ISO формат даты, например: "2023-05-01"
+  releaseDate: string;
   description: string;
   genres: string[];
   actors: string[];
   directors: string[];
   trailerUrl?: string;
   countries: string[];
-  globalRating: number; // например, 7.8
-  // comments: CommentModel[]; // предполагается, что у тебя есть такой интерфейс
+  globalRating: number;
   commentsTotal: number;
   posterImg: string;
   coverImg: string;
@@ -20,6 +19,6 @@ export interface MediaContentModel {
 
 export interface VideoSourceModel {
   quality: number;
-  url: string; // для YouTube — это может быть либо полная ссылка, либо ID
+  url: string;
   type: 'mp4' | 'youtube';
 }

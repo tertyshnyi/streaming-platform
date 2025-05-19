@@ -1,0 +1,58 @@
+::ng-deep .custom-plyr-video {
+  --plyr-color-main: #ffffff;
+  margin: 0 5%;
+
+  .plyr__control {
+    transition: all 0.3s ease;
+    background-color: rgba(255, 255, 255, 0.05);
+    color: white;
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    border-radius: 8px;
+
+    svg {
+      fill: white;
+      transition: fill 0.3s ease;
+    }
+
+    &.plyr__control--pressed,
+    &.plyr--pressed {
+      background-color: rgba(255, 255, 255, 0.05) !important;
+      color: white !important;
+
+      svg {
+        fill: white !important;
+      }
+    }
+
+    &:hover {
+      background-color: rgba(255, 255, 255, 0.85) !important;
+      color: #000000 !important;
+
+      svg {
+        fill: #000000 !important;
+      }
+    }
+  }
+
+  .plyr__menu__container {
+    background-color: rgba(255, 255, 255, 0.9) !important;
+    color: #000000 !important;
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    border-radius: 10px;
+
+    .plyr__control {
+      color: #000000 !important;
+
+      &:hover {
+        background-color: #f0f0f0 !important;
+        color: #000000 !important;
+
+        svg {
+          fill: #000000 !important;
+        }
+      }
+    }
+  }
+}

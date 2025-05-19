@@ -1,0 +1,140 @@
+<div class="authorized-area" *ngIf="isAuthenticated">
+  <div class="reply-form" [class.active]="isNewCommentActive">
+    <div class="top-form">
+      <img [src]="currentUser?.profileImg || '/images/404-vdova.png'" alt="your avatar" class="avatar" />
+      <input
+        type="text"
+        placeholder="Write a comment..."
+        [(ngModel)]="newCommentInput"
+        (focus)="isNewCommentActive = true"
+        (blur)="onNewCommentInputBlur()"
+        (keydown.enter)="sendNewComment()"
+      />
+    </div>
+    <div class="bottom-form" *ngIf="isNewCommentActive">
+      <button (click)="cancelNewComment()">Cancel</button>
+      <button
+        (click)="sendNewComment()"
+        [disabled]="
+          !newCommentInput.trim() ||
+          newCommentInput.trim().length < 2 ||
+          newCommentInput.trim().length > 300
+        "
+      >
+        Submit
+      </button>
+    </div>
+  </div>
+</div>
+
+<div class="comments-list">
+  <div *ngFor="let rootComment of comments" class="comment">
+    <img [src]="rootComment.user.profileImg || '/images/404-vdova.png'" alt="avatar" class="avatar" />
+    <div class="comment-body">
+      <div class="comment-header">
+        <strong>{{ rootComment.user.name }}</strong>
+        <span class="comment-time">{{ getRelativeTime(rootComment.createdAt) }}</span>
+      </div>
+
+      <div class="comment-text">
+        {{ rootComment.content }}
+      </div>
+
+      <button class="answer-button" (click)="onAnswerClick(rootComment.id, rootComment.user.name)">
+        <svg class="reply-icon" width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M10 8V5L3 12L10 19V16C17 16 20 20 21 21C20 15 17 10 10 8Z" />
+        </svg>
+        Answer
+      </button>
+
+      <div
+        [@expandCollapse]="isReplyFieldVisible(rootComment.id) ? 'expanded' : 'collapsed'"
+        class="reply-form"
+      >
+        <div class="top-form">
+          <img [src]="currentUser?.profileImg || '/images/404-vdova.png'" alt="your avatar" class="avatar" />
+          <input
+            type="text"
+            [placeholder]="'Reply to ' + (replyRecipients[rootComment.id] || '')"
+            [(ngModel)]="replyInputs[rootComment.id]"
+          />
+        </div>
+        <div class="bottom-form">
+          <button (click)="cancelReply(rootComment.id)">Cancel</button>
+          <button
+            (click)="sendReply(rootComment)"
+            [disabled]="
+              !replyInputs[rootComment.id] ||
+              replyInputs[rootComment.id].trim().length < 2 ||
+              replyInputs[rootComment.id].trim().length > 300
+            "
+          >
+            Submit
+          </button>
+        </div>
+      </div>
+
+      <div class="comment-show" *ngIf="getAllDescendants(rootComment).length > 0">
+        <button (click)="toggleReplies(rootComment.id)">
+          <span class="arrow">{{ isRepliesVisible(rootComment.id) ? '▲' : '▼' }}</span>
+          {{ isRepliesVisible(rootComment.id) ? 'Hide answers' : 'Show answers' }}
+          ({{ getAllDescendants(rootComment).length }})
+        </button>
+
+        <div
+          [@expandCollapse]="isRepliesVisible(rootComment.id) ? 'expanded' : 'collapsed'"
+          class="comments-list"
+        >
+          <div *ngFor="let childComment of getAllDescendants(rootComment)" class="comment child-comment">
+            <img [src]="childComment.user.profileImg || '/images/404-vdova.png'" alt="avatar" class="avatar" />
+            <div class="comment-body">
+              <div class="comment-header">
+                <strong>{{ childComment.user.name }}</strong>
+                <span class="comment-time">{{ getRelativeTime(childComment.createdAt) }}</span>
+              </div>
+
+              <div class="comment-text">
+                <span class="reply-to">{{ findParentName(childComment.parentId) }}</span>, {{ childComment.content }}
+              </div>
+
+              <button class="answer-button" (click)="onAnswerClick(childComment.id, childComment.user.name)">
+                <svg class="reply-icon" width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M10 8V5L3 12L10 19V16C17 16 20 20 21 21C20 15 17 10 10 8Z" />
+                </svg>
+                Answer
+              </button>
+
+              <div
+                [@expandCollapse]="isReplyFieldVisible(childComment.id) ? 'expanded' : 'collapsed'"
+                class="reply-form"
+              >
+                <div class="top-form">
+                  <img [src]="currentUser?.profileImg || '/images/404-vdova.png'" alt="your avatar" class="avatar" />
+                  <input
+                    type="text"
+                    [placeholder]="'Reply to ' + (replyRecipients[childComment.id] || '')"
+                    [(ngModel)]="replyInputs[childComment.id]"
+                  />
+                </div>
+                <div class="bottom-form">
+                  <button (click)="cancelReply(childComment.id)">Cancel</button>
+                  <button
+                    (click)="sendReply(childComment)"
+                    [disabled]="
+                      !replyInputs[childComment.id] ||
+                      replyInputs[childComment.id].trim().length < 2 ||
+                      replyInputs[childComment.id].trim().length > 300
+                    "
+                  >
+                    Submit
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>

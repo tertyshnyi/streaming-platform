@@ -1,8 +1,10 @@
+import { UserModel } from "./user.model";
+
 export interface CommentModel {
   id: number;
   parentId: number | null;
-  profileImg: string;
-  name: string;
+  mediaId: number;
+  user: UserModel;
   createdAt: string;
   content: string;
   childrenComments: CommentModel[];

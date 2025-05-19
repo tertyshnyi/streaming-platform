@@ -1,7 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { UserService } from '../../core/services/user.service';
+import { UserService } from '../../../core/services/user.service';
 
 @Component({
   selector: 'app-user-settings',

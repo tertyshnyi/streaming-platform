@@ -3,12 +3,12 @@ import { FormsModule } from '@angular/forms';
 import { RouterModule, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 
-import { MediaService } from '../../core/services/media-content.service';
-import { MediaCardModel } from '../../core/models/media-card.model';
+import { MediaService } from '../../../core/services/media-content.service';
+import { MediaCardModel } from '../../../core/models/media-card.model';
 
-import { MediaCardComponent } from '../../shared/components/media-card/media-card.component';
-import { DropdownComponent } from '../../shared/components/dropdown-filter/dropdown-filter.component';
-import { SparklesComponent } from '../../shared/components/sparkles/sparkles.component';
+import { MediaCardComponent } from '../../../shared/components/media-card/media-card.component';
+import { DropdownComponent } from '../../../shared/components/dropdown-filter/dropdown-filter.component';
+import { SparklesComponent } from '../../../shared/components/sparkles/sparkles.component';
 
 import noUiSlider from 'nouislider';
 
