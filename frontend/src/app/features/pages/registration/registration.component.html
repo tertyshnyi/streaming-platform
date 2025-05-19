@@ -1,0 +1,38 @@
+<div class="registration-container">
+  <h2>Register</h2>
+  <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" novalidate>
+
+    <label for="name">Name</label>
+    <input id="name" formControlName="name" type="text" placeholder="Your name" />
+    <div *ngIf="name.invalid && (name.dirty || name.touched)" class="error">
+      <div *ngIf="name.errors?.['required']">Name is required.</div>
+      <div *ngIf="name.errors?.['minlength']">Name must be at least 2 characters.</div>
+    </div>
+
+    <label for="email">Email</label>
+    <input id="email" formControlName="email" type="email" placeholder="you@example.com" />
+    <div *ngIf="email.invalid && (email.dirty || email.touched)" class="error">
+      <div *ngIf="email.errors?.['required']">Email is required.</div>
+      <div *ngIf="email.errors?.['email']">Invalid email format.</div>
+    </div>
+
+    <label for="password">Password</label>
+    <input id="password" formControlName="password" type="password" placeholder="Password" />
+    <div *ngIf="password.invalid && (password.dirty || password.touched)" class="error">
+      <div *ngIf="password.errors?.['required']">Password is required.</div>
+      <div *ngIf="password.errors?.['minlength']">Password must be at least 6 characters.</div>
+    </div>
+
+    <label for="phoneNumber">Phone Number</label>
+    <input id="phoneNumber" formControlName="phoneNumber" type="tel" placeholder="+1234567890" />
+    <div *ngIf="phoneNumber.invalid && (phoneNumber.dirty || phoneNumber.touched)" class="error">
+      <div *ngIf="phoneNumber.errors?.['required']">Phone number is required.</div>
+      <div *ngIf="phoneNumber.errors?.['pattern']">Invalid phone number.</div>
+    </div>
+
+    <label for="profileImg">Profile Image URL (optional)</label>
+    <input id="profileImg" formControlName="profileImg" type="url" placeholder="https://example.com/avatar.jpg" />
+
+    <button type="submit" [disabled]="registerForm.invalid">Register</button>
+  </form>
+</div>
