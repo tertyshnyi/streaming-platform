@@ -129,4 +129,12 @@ $secondary: #2c2c2c;
     border-radius: 4px;
     font-size: 14px;
   }
+
+  .custom-dropdown-toggle,
+  .custom-dropdown-arrow,
+  .custom-selected-tag,
+  .dropdown-item-text,
+  .custom-dropdown-options label {
+    user-select: none;
+  }
 }

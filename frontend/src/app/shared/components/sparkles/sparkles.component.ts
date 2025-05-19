@@ -13,11 +13,21 @@ export class SparklesComponent implements OnInit {
   sparkles: { top: number; left: number; delay: number }[] = [];
 
   ngOnInit(): void {
+    const pageHeight = Math.max(
+      document.documentElement.scrollHeight,
+      document.body.scrollHeight,
+      document.documentElement.clientHeight
+    );
+    const pageWidth = Math.max(
+      document.documentElement.scrollWidth,
+      document.body.scrollWidth,
+      document.documentElement.clientWidth
+    );
+
     this.sparkles = Array.from({ length: 50 }, () => ({
-      top: Math.random() * window.innerHeight,
-      left: Math.random() * window.innerWidth,
+      top: Math.random() * pageHeight,
+      left: Math.random() * pageWidth,
       delay: Math.random() * 3
     }));
   }
-
 }

@@ -1,12 +1,11 @@
-import { inject, Injectable, signal } from '@angular/core';
+import { computed, inject, Injectable, Signal, signal } from '@angular/core';
+import { toObservable } from '@angular/core/rxjs-interop'; // <-- импорт сюда
 import { HttpClient } from '@angular/common/http';
-import { UserModel } from '../models/user-model';
+import { UserModel } from '../models/user.model';
 import { OAuthService } from 'angular-oauth2-oidc';
 import { authCodeFlowConfig } from '../config/authCodeFlowConfig.config';
 import { ActivatedRouteSnapshot, CanActivateFn, Router, RouterStateSnapshot } from '@angular/router';
-// import { environment } from '../../environments/environment';
 import { environment } from '../../environments/environment.development';
-
 
 @Injectable({
   providedIn: 'root'
@@ -15,6 +14,9 @@ export class UserService {
 
   private user = signal<UserModel | undefined>(undefined);
   private http = inject(HttpClient);
+
+  public isAuthenticatedSignal = computed(() => !!this.user());
+  public isAuthenticated$ = toObservable(this.isAuthenticatedSignal);
 
   constructor(private oauthService: OAuthService) {
     this.oauthService.configure(authCodeFlowConfig);
@@ -67,7 +69,6 @@ export const canActiveHome: CanActivateFn = (route: ActivatedRouteSnapshot, stat
   const router = inject(Router);
   const userService = inject(UserService);
 
-
   return userService.isUserLoggedIn()
     .then(value => {
       if (value) {
@@ -76,5 +77,5 @@ export const canActiveHome: CanActivateFn = (route: ActivatedRouteSnapshot, stat
         userService.login();
         return false;
       }
-    })
+    });
 };

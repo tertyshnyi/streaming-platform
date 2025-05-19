@@ -1,0 +1,12 @@
+<div class="custom-plyr-video">
+  <video
+    *ngIf="!noVideoAvailable"
+    #videoPlayer
+    playsinline
+    controls
+    crossorigin
+  ></video>
+  <div *ngIf="noVideoAvailable" class="no-video-message">
+    <p>No video available for this content.</p>
+  </div>
+</div>

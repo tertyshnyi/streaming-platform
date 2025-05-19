@@ -6,6 +6,7 @@ import localeSk from '@angular/common/locales/sk';
 import { registerLocaleData } from '@angular/common';
 import { DefaultOAuthInterceptor, OAuthModule } from 'angular-oauth2-oidc';
 import { routes } from './app.routes';
+import { provideAnimations } from '@angular/platform-browser/animations';
 
 registerLocaleData(localeSk, 'sk');
 
@@ -13,6 +14,7 @@ export const appConfig: ApplicationConfig = {
   providers: [
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideRouter(routes),
+    provideAnimations(),
     provideHttpClient(
       withInterceptorsFromDi()
     ),
