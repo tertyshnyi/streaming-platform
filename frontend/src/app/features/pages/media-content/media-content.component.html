@@ -74,7 +74,7 @@
 
     <div class="custom-comment-section">
 
-      <div class="unauthorized-area" *ngIf="!isAuthenticated">
+      <div class="unauthorized-area" *ngIf="isAuthenticated">
         <h1>Account required</h1>
         <p>
           Please,
@@ -94,7 +94,6 @@
         [currentUser]="userService.getUserSignal()() ?? null"
         [comments]="comments"
       ></app-comments-section>
-
 
     </div>
   </div>

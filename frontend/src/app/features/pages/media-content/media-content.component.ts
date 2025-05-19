@@ -31,7 +31,7 @@ import { CommentModel } from '../../../core/models/comment.model';
 export class MediaContentComponent implements OnInit, OnDestroy {
 
   media: MediaContentModel | null = null;
-  comments: CommentModel[] = [];    // <--- добавлено: хранит комментарии
+  comments: CommentModel[] = [];
   loading = true;
 
   isTrailerOpen = false;
