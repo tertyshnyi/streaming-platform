@@ -3,10 +3,8 @@ package sk.posam.fsa.streaming.security;
 import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.oauth2.jwt.Jwt;
 import sk.posam.fsa.streaming.rest.dto.UserDto;
-import sk.posam.fsa.streaming.rest.dto.AuthorityDto;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 public class JwtConverter extends AbstractAuthenticationToken {
     private final Jwt source;
@@ -32,26 +30,36 @@ public class JwtConverter extends AbstractAuthenticationToken {
         userDto.setEmail(source.getClaimAsString("email"));
         userDto.setName(source.getClaimAsString("name"));
 
+        List<String> roles = extractAuthorities();
+        userDto.setAuthorities(String.join(",", roles));
+
         System.out.println("Extracted User Data from JWT: " + userDto);
 
         if (userDto.getPhoneNumber() == null || userDto.getEmail() == null || userDto.getName() == null || userDto.getId() == null) {
             throw new IllegalStateException("Missing expected claims in JWT.");
         }
 
-        userDto.setAuthorities(extractAuthorities());
-
         return userDto;
     }
 
+    private List<String> extractAuthorities() {
+        Object claim = source.getClaim("authorities");
 
-    private List<AuthorityDto> extractAuthorities() {
-        List<String> roles = (List<String>) source.getClaim("authorities");
-        if (roles == null || roles.isEmpty()) {
-            return Collections.emptyList();
+        if (claim instanceof List<?> list) {
+            return list.stream()
+                    .filter(Objects::nonNull)
+                    .map(Object::toString)
+                    .toList();
         }
 
-        return roles.stream()
-                .map(AuthorityDto::valueOf)
-                .collect(Collectors.toList());
+        // В случае если роли одной строкой, например "ROLE_USER,ROLE_ADMIN"
+        if (claim instanceof String str) {
+            return Arrays.stream(str.split(","))
+                    .map(String::trim)
+                    .filter(s -> !s.isEmpty())
+                    .toList();
+        }
+
+        return Collections.emptyList();
     }
 }

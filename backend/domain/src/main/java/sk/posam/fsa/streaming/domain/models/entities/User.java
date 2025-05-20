@@ -1,7 +1,5 @@
 package sk.posam.fsa.streaming.domain.models.entities;
 
-import sk.posam.fsa.streaming.domain.models.enums.Authority;
-
 import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
@@ -9,17 +7,18 @@ import java.util.UUID;
 
 public class User {
     private UUID id;
+    private String keycloakId;
     private String name;
     private String password;
     private String phoneNumber;
     private String email;
     private String profileImg;
     private LocalDateTime createdAt;
-    private Set<Authority> authorities = new HashSet<>();;
+    private String authorities;;
 
     public User(){}
 
-    public User(UUID id, String name, String password, String phoneNumber, String email, Set<Authority> authorities,
+    public User(UUID id, String name, String password, String phoneNumber, String email, String authorities,
                 String profileImg, LocalDateTime createdAt) {
         this.id = id;
         this.name = name;
@@ -71,11 +70,11 @@ public class User {
         this.email = email;
     }
 
-    public Set<Authority> getAuthorities() {
+    public String getAuthorities() {
         return authorities;
     }
 
-    public void setAuthorities(Set<Authority> authorities) {
+    public void setAuthorities(String authorities) {
         this.authorities = authorities;
     }
 

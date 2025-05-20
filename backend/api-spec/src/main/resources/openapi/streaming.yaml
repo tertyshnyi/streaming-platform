@@ -64,14 +64,6 @@ paths:
 
 components:
   schemas:
-    Authority:
-      type: string
-      enum:
-        - USER
-        - RELEASER
-        - MODERATOR
-        - ADMIN
-
     CreateUser:
       type: object
       required:
@@ -128,12 +120,10 @@ components:
           description: User's phone number
           example: "+1234567890"
         authorities:
-          type: array
-          items:
-            $ref: '#/components/schemas/Authority'
+          type: string
           description: User roles
           example:
-            - "USER"
+            - "USER, RELEASER"
         profileImg:
           type: string
           description: User's profile image URL

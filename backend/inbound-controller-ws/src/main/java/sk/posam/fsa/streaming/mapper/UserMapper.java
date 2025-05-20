@@ -2,11 +2,11 @@ package sk.posam.fsa.streaming.mapper;
 
 import org.springframework.stereotype.Component;
 import sk.posam.fsa.streaming.domain.models.entities.User;
-import sk.posam.fsa.streaming.domain.models.enums.Authority;
 import sk.posam.fsa.streaming.rest.dto.UserDto;
-import sk.posam.fsa.streaming.rest.dto.AuthorityDto;
 
 import java.time.ZoneOffset;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.stream.Collectors;
 
 @Component
@@ -23,19 +23,19 @@ public class UserMapper {
         dto.setEmail(entity.getEmail());
         dto.setPhoneNumber(entity.getPhoneNumber());
         dto.setProfileImg(entity.getProfileImg());
-        dto.setAuthorities(entity.getAuthorities().stream()
-                .map(authority -> AuthorityDto.valueOf(authority.name()))
-                .collect(Collectors.toList()));
+
+        dto.setAuthorities(
+                entity.getAuthorities() != null && !entity.getAuthorities().isBlank()
+                        ? entity.getAuthorities()
+                        : ""
+        );
+
         if (entity.getCreatedAt() != null) {
             dto.setCreatedAt(entity.getCreatedAt().atOffset(ZoneOffset.UTC));
         }
 
-        // Логирование данных перед возвращением dto
-        System.out.println("Mapped UserDto: " + dto);
-
         return dto;
     }
-
 
     public User toUserEntity(UserDto dto) {
         if (dto == null) {
@@ -48,14 +48,17 @@ public class UserMapper {
         entity.setEmail(dto.getEmail());
         entity.setPhoneNumber(dto.getPhoneNumber());
         entity.setProfileImg(dto.getProfileImg());
-        entity.setAuthorities(dto.getAuthorities().stream()
-                .map(authorityDto -> Authority.valueOf(authorityDto.name()))
-                .collect(Collectors.toSet()));
+
+        entity.setAuthorities(
+                dto.getAuthorities() != null
+                        ? dto.getAuthorities()
+                        : ""
+        );
+
         if (dto.getCreatedAt() != null) {
             entity.setCreatedAt(dto.getCreatedAt().toLocalDateTime());
         }
 
         return entity;
     }
-
 }

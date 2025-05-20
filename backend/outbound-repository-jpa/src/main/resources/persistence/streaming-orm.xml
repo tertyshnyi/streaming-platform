@@ -35,7 +35,6 @@
 
             <basic name="authorities">
                 <column name="authorities"/>
-                <convert converter="sk.posam.fsa.streaming.jpa.AuthorityConverter"/>
             </basic>
         </attributes>
     </entity>
