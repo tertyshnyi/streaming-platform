@@ -1,0 +1,83 @@
+.slider-container {
+  position: relative;
+  height: 100vh;
+  background-size: cover;
+  background-position: center;
+  color: white;
+  overflow: hidden;
+  margin-top: 130px;
+}
+
+.overlay {
+  background: linear-gradient(to right, rgba(0,0,0,0.85), rgba(0,0,0,0.4));
+  height: 100%;
+  padding: 2rem;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.content {
+  max-width: 600px;
+}
+
+.genres {
+  font-weight: 300;
+  opacity: 0.8;
+}
+
+.description {
+  margin: 1rem 0;
+}
+
+.watch-btn {
+  background-color: red;
+  color: white;
+  padding: 0.7rem 1.5rem;
+  border: none;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.slider-nav {
+  position: absolute;
+  bottom: 2rem;
+  display: flex;
+  gap: 0.5rem;
+}
+
+.dot {
+  width: 10px;
+  height: 10px;
+  background-color: gray;
+  border-radius: 50%;
+  cursor: pointer;
+  opacity: 0.6;
+  transition: opacity 0.3s;
+}
+
+.dot.active {
+  background-color: white;
+  opacity: 1;
+}
+
+.nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 2rem;
+  background: none;
+  border: none;
+  color: white;
+  cursor: pointer;
+  z-index: 10;
+}
+
+.nav.prev {
+  left: 1rem;
+}
+
+.nav.next {
+  right: 1rem;
+}

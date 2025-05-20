@@ -12,6 +12,7 @@
         <table name="users"/>
         <attributes>
             <id name="id">
+                <generated-value strategy="IDENTITY"/>
             </id>
             <basic name="name">
                 <column name="name" nullable="false"/>

@@ -6,6 +6,7 @@ import { OAuthService } from 'angular-oauth2-oidc';
 import { authCodeFlowConfig } from '../config/authCodeFlowConfig.config';
 import { ActivatedRouteSnapshot, CanActivateFn, Router, RouterStateSnapshot } from '@angular/router';
 import { environment } from '../../environments/environment.development';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -14,6 +15,7 @@ export class UserService {
 
   private user = signal<UserModel | undefined>(undefined);
   private http = inject(HttpClient);
+  private apiUrl = `${environment.beUrl}/users`;
 
   public isAuthenticatedSignal = computed(() => !!this.user());
   public isAuthenticated$ = toObservable(this.isAuthenticatedSignal);
@@ -21,6 +23,10 @@ export class UserService {
   constructor(private oauthService: OAuthService) {
     this.oauthService.configure(authCodeFlowConfig);
     this.tryLogin();
+  }
+
+  register(userData: any): Observable<UserModel> {
+    return this.http.post<UserModel>(this.apiUrl, userData);
   }
 
   getUserSignal() {
@@ -31,7 +37,7 @@ export class UserService {
     return this.oauthService.loadDiscoveryDocumentAndTryLogin()
       .then(() => {
         console.log('Attempting to fetch user data');
-        return this.http.get<UserModel>(`${environment.beUrl}/users/me`).toPromise();
+        return this.http.get<UserModel>(`${this.apiUrl}/me`).toPromise();
       })
       .then((userModel) => {
         console.log('User data loaded from backend:', userModel);

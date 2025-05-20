@@ -36,7 +36,7 @@ export class MediaContentComponent implements OnInit, OnDestroy {
 
   isTrailerOpen = false;
   isDescriptionExpanded = false;
-  isAuthenticated = signal(false);
+  isAuthenticated!: () => boolean;
 
   constructor(
     public userService: UserService,
@@ -45,13 +45,11 @@ export class MediaContentComponent implements OnInit, OnDestroy {
     private router: Router,
     private sanitizer: DomSanitizer
 
-  ) {
-    effect(() => {
-      this.isAuthenticated.set(this.userService.isAuthenticatedSignal());
-    });
-  }
+  ) {}
 
   ngOnInit() {
+    this.isAuthenticated = this.userService.isAuthenticatedSignal;
+
     const slug = this.route.snapshot.paramMap.get('slug');
     if (slug) {
       this.mediaService.getBySlug(slug).subscribe(data => {
