@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { UserService } from '../../../core/services/user.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-registration',
@@ -12,7 +14,7 @@ import { CommonModule } from '@angular/common';
 export class RegistrationComponent implements OnInit {
   registerForm!: FormGroup;
 
-  constructor(private fb: FormBuilder) {}
+  constructor(private fb: FormBuilder, private userService: UserService, private router: Router) {}
 
   ngOnInit() {
     this.registerForm = this.fb.group({
@@ -33,7 +35,17 @@ export class RegistrationComponent implements OnInit {
   onSubmit() {
     if (this.registerForm.valid) {
       const formValue = this.registerForm.value;
-      console.log('Registration data:', formValue);
+
+      this.userService.register(formValue).subscribe({
+        next: (response) => {
+          console.log('User registered:', response);
+          this.router.navigate(['/']);
+        },
+        error: (error) => {
+          console.error('Registration error:', error);
+        }
+      });
+
     } else {
       this.registerForm.markAllAsTouched();
     }

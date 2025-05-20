@@ -94,7 +94,7 @@
               </div>
 
               <div class="comment-text">
-                <span class="reply-to">{{ findParentName(childComment.parentId) }}</span>, {{ childComment.content }}
+                <span class="reply-to">{{ findParentName(childComment.parentId) }}</span> , {{ childComment.content }}
               </div>
 
               <button class="answer-button" (click)="onAnswerClick(childComment.id, childComment.user.name)">

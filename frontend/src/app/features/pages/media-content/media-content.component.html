@@ -74,8 +74,8 @@
 
     <div class="custom-comment-section">
 
-      <div class="unauthorized-area" *ngIf="isAuthenticated">
-        <h1>Account required</h1>
+      <div class="unauthorized-area" *ngIf="!isAuthenticated()">
+      <h1>Account required</h1>
         <p>
           Please,
           <a routerLink="/auth">log in</a> or
