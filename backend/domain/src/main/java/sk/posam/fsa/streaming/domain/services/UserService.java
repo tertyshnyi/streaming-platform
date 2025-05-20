@@ -1,7 +1,6 @@
 package sk.posam.fsa.streaming.domain.services;
 
 import sk.posam.fsa.streaming.domain.models.entities.User;
-import sk.posam.fsa.streaming.domain.models.enums.Authority;
 import sk.posam.fsa.streaming.domain.repositories.UserRepository;
 
 import java.time.LocalDateTime;
@@ -19,11 +18,6 @@ public class UserService implements UserFacade {
         try {
             if (user.getCreatedAt() == null) {
                 user.setCreatedAt(LocalDateTime.now());
-            }
-            if (user.getAuthorities() == null || user.getAuthorities().isEmpty()) {
-                Set<Authority> authorities = new HashSet<>();
-                authorities.add(Authority.USER);
-                user.setAuthorities(authorities);
             }
             return userRepository.create(user);
         } catch (Exception e) {
