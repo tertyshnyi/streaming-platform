@@ -5,9 +5,6 @@ import sk.posam.fsa.streaming.domain.models.entities.User;
 import sk.posam.fsa.streaming.rest.dto.UserDto;
 
 import java.time.ZoneOffset;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.stream.Collectors;
 
 @Component
 public class UserMapper {

@@ -62,6 +62,146 @@ paths:
         '404':
           description: User not found
 
+  /series:
+    post:
+      summary: Create a new series
+      operationId: createSeries
+      tags: [ Series ]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateSeries'
+      responses:
+        '201':
+          description: Series created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Series'
+
+    get:
+      summary: Get list of series
+      operationId: getAllSeries
+      tags: [ Series ]
+      responses:
+        '200':
+          description: List of series
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Series'
+
+  /series/{id}:
+    get:
+      summary: Get series by ID
+      operationId: getSeriesById
+      tags: [ Series ]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Found series
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Series'
+        '404':
+          description: Not found
+
+    delete:
+      summary: Delete series by ID
+      operationId: deleteSeries
+      tags: [ Series ]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '204':
+          description: Deleted
+
+  /movies:
+    post:
+      summary: Create a new movie
+      operationId: createMovie
+      tags: [ Movie ]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateMovie'
+      responses:
+        '201':
+          description: Movie created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Movie'
+
+    get:
+      summary: Get list of movies
+      operationId: getAllMovies
+      tags: [ Movie ]
+      responses:
+        '200':
+          description: List of movies
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Movie'
+
+  /movies/{id}:
+    get:
+      summary: Get movie by ID
+      operationId: getMovieById
+      tags: [ Movie ]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Found movie
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Movie'
+        '404':
+          description: Not found
+
+    delete:
+      summary: Delete movie by ID
+      operationId: deleteMovie
+      tags: [ Movie ]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '204':
+          description: Deleted
+
 components:
   schemas:
     CreateUser:
@@ -133,3 +273,203 @@ components:
           format: date-time
           description: Timestamp when the user was created
           example: "2025-04-08T12:00:00Z"
+
+    Genre:
+      type: string
+      description: Genre of the media content
+      enum:
+        - ACTION
+        - ADVENTURE
+        - ANIMATION
+        - BIOGRAPHY
+        - COMEDY
+        - CRIME
+        - DOCUMENTARY
+        - DRAMA
+        - FAMILY
+        - FANTASY
+        - HISTORY
+        - HORROR
+        - MUSIC
+        - MYSTERY
+        - ROMANCE
+        - SCIENCE_FICTION
+        - SPORT
+        - THRILLER
+        - WAR
+        - WESTERN
+        - MUSICAL
+        - SUPERHERO
+        - SHORT
+        - REALITY
+        - TALK_SHOW
+        - GAME_SHOW
+        - NEWS
+        - NOIR
+        - EXPERIMENTAL
+
+    Episode:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          description: Unique identifier for the episode
+        series:
+          allOf:
+            - $ref: '#/components/schemas/Series'
+          description: The series this episode belongs to
+        title:
+          type: string
+          nullable: true
+          description: Title of the episode (optional)
+        duration:
+          type: integer
+          description: Duration of the episode in minutes
+        videos:
+          type: array
+          items:
+            $ref: '#/components/schemas/Video'
+          description: List of videos for this episode
+      required:
+        - id
+        - series
+        - duration
+        - videos
+
+    CreateSeries:
+      type: object
+      required: [ title, releaseDate ]
+      properties:
+        title:
+          type: string
+        description:
+          type: string
+        releaseDate:
+          type: string
+          format: date
+        releaseYear:
+          type: integer
+        genres:
+          type: array
+          items:
+            $ref: '#/components/schemas/Genre'
+        actors:
+          type: string
+        directors:
+          type: string
+        trailerUrl:
+          type: string
+        countries:
+          type: array
+          items:
+            type: string
+        posterImg:
+          type: string
+        coverImg:
+          type: string
+        episodeCount:
+          type: integer
+        avgDuration:
+          type: integer
+        episodes:
+          type: array
+          items:
+            $ref: '#/components/schemas/Episode'
+
+    Series:
+      allOf:
+        - $ref: '#/components/schemas/CreateSeries'
+        - type: object
+          properties:
+            id:
+              type: integer
+              format: int64
+            createdAt:
+              type: string
+              format: date-time
+            updatedAt:
+              type: string
+              format: date-time
+            commentsTotal:
+              type: integer
+            globalRating:
+              type: number
+              format: float
+
+    CreateMovie:
+      type: object
+      required: [ title, releaseDate, duration ]
+      properties:
+        title:
+          type: string
+        description:
+          type: string
+        releaseDate:
+          type: string
+          format: date
+        releaseYear:
+          type: integer
+        duration:
+          type: integer
+        genres:
+          type: array
+          items:
+            $ref: '#/components/schemas/Genre'
+        actors:
+          type: string
+        directors:
+          type: string
+        trailerUrl:
+          type: string
+        countries:
+          type: array
+          items:
+            type: string
+        posterImg:
+          type: string
+        coverImg:
+          type: string
+        videos:
+          type: array
+          items:
+            $ref: '#/components/schemas/Video'
+
+    Movie:
+      allOf:
+        - $ref: '#/components/schemas/CreateMovie'
+        - type: object
+          properties:
+            id:
+              type: integer
+              format: int64
+            videos:
+              type: array
+              items:
+                $ref: '#/components/schemas/Video'
+            createdAt:
+              type: string
+              format: date-time
+            updatedAt:
+              type: string
+              format: date-time
+            commentsTotal:
+              type: integer
+            globalRating:
+              type: number
+              format: float
+
+    Video:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        resolution:
+          type: string
+        url:
+          type: string
+      required:
+        - id
+        - resolution
+        - url

@@ -25,6 +25,7 @@ public class UserService implements UserFacade {
         }
     }
 
+    @Override
     public Optional<User> get(UUID id) {
         try {
             return userRepository.get(id);

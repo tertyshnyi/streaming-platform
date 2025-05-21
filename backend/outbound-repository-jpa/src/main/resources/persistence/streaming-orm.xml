@@ -7,7 +7,6 @@
         https://jakarta.ee/xml/ns/persistence/orm/orm_3_0.xsd"
         version="3.0">
 
-    <!-- User Entity -->
     <entity class="sk.posam.fsa.streaming.domain.models.entities.User" access="FIELD">
         <table name="users"/>
         <attributes>
@@ -29,13 +28,100 @@
             <basic name="profileImg">
                 <column name="profileImg" nullable="true"/>
             </basic>
-            <basic name="createdAt">
-                <column name="createdAt"/>
-            </basic>
+            <basic name="createdAt"/>
+            <basic name="authorities"/>
+        </attributes>
+    </entity>
 
-            <basic name="authorities">
-                <column name="authorities"/>
-            </basic>
+    <entity class="sk.posam.fsa.streaming.domain.models.entities.MediaContent" access="FIELD">
+        <table name="media_content"/>
+        <inheritance strategy="JOINED"/>
+        <attributes>
+            <id name="id">
+                <generated-value strategy="IDENTITY"/>
+            </id>
+
+            <!-- базовые поля -->
+            <basic name="title"/>
+            <basic name="releaseDate"/>
+            <basic name="releaseYear"/>
+            <basic name="description"/>
+            <basic name="actors"/>
+            <basic name="directors"/>
+            <basic name="trailerUrl"/>
+            <basic name="createdAt"/>
+            <basic name="updatedAt"/>
+            <basic name="type"/>
+            <basic name="globalRating"/>
+            <basic name="commentsTotal"/>
+            <basic name="posterImg"/>
+            <basic name="coverImg"/>
+
+            <many-to-one name="updatedBy">
+                <join-column name="updated_by_id"/>
+            </many-to-one>
+            <many-to-one name="createdBy">
+                <join-column name="created_by_id" />
+            </many-to-one>
+
+            <!-- связи сначала -->
+            <one-to-many name="comments" mapped-by="mediaContent"/>
+
+            <element-collection name="genres">
+                <collection-table name="media_content_genres"/>
+            </element-collection>
+            <element-collection name="countries">
+                <collection-table name="media_content_countries"/>
+            </element-collection>
+        </attributes>
+    </entity>
+
+    <entity class="sk.posam.fsa.streaming.domain.models.entities.Movie" access="FIELD">
+        <table name="movies"/>
+        <attributes>
+            <basic name="duration"/>
+
+            <element-collection name="videos">
+                <collection-table name="movie_videos"/>
+            </element-collection>
+        </attributes>
+    </entity>
+
+    <entity class="sk.posam.fsa.streaming.domain.models.entities.Series" access="FIELD">
+        <table name="series"/>
+        <attributes>
+            <basic name="episodeCount"/>
+            <basic name="avgDuration"/>
+
+            <element-collection name="episodes">
+                <collection-table name="series_episodes"/>
+            </element-collection>
+        </attributes>
+    </entity>
+
+    <entity class="sk.posam.fsa.streaming.domain.models.entities.Comment" access="FIELD">
+        <table name="comments"/>
+        <attributes>
+            <id name="id">
+                <generated-value strategy="IDENTITY"/>
+            </id>
+
+            <basic name="content"/>
+            <basic name="createdAt"/>
+
+            <many-to-one name="user">
+                <join-column name="user_id" />
+            </many-to-one>
+
+            <many-to-one name="mediaContent">
+                <join-column name="media_content_id" />
+            </many-to-one>
+
+            <many-to-one name="parentComment">
+                <join-column name="parent_comment_id" />
+            </many-to-one>
+
+            <one-to-many name="childrenComments" mapped-by="parentComment"/>
         </attributes>
     </entity>
 

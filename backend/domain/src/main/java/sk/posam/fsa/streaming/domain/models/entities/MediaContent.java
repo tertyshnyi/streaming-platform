@@ -4,6 +4,7 @@ import sk.posam.fsa.streaming.domain.models.enums.Genre;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 public abstract class MediaContent {
@@ -12,11 +13,11 @@ public abstract class MediaContent {
     protected LocalDate releaseDate;
     protected Integer releaseYear;
     protected String description;
-    protected List<Genre> genres;
+    protected List<Genre> genres = new ArrayList<>();
     protected String actors;
     protected String directors;
     protected String trailerUrl;
-    protected List<String> countries;
+    protected List<String> countries = new ArrayList<>();
     protected LocalDateTime createdAt;
     protected LocalDateTime updatedAt;
     protected User createdBy;
@@ -24,7 +25,7 @@ public abstract class MediaContent {
     protected String type;
 
     protected Double globalRating;
-    protected List<Comment> comments;
+    protected List<Comment> comments = new ArrayList<>();
     protected Integer commentsTotal;
     protected String posterImg;
     protected String coverImg;

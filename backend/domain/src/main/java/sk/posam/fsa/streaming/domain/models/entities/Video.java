@@ -1,15 +1,17 @@
 package sk.posam.fsa.streaming.domain.models.entities;
 
 public class Video {
+    private Long id;
     private Episode episode;
     private Movie movie;
     private String resolution;
     private String url;
 
-    private Video(Episode episode, Movie movie, String resolution, String url) {
+    private Video(Long id, Episode episode, Movie movie, String resolution, String url) {
         if ((episode == null && movie == null) || (episode != null && movie != null)) {
             throw new IllegalArgumentException("Video must be linked to either a movie or an episode, but not both.");
         }
+        this.id = id;
         this.episode = episode;
         this.movie = movie;
         this.resolution = resolution;
@@ -18,12 +20,20 @@ public class Video {
 
     public Video() {}
 
-    public static Video ofEpisode(Episode episode, String resolution, String url) {
-        return new Video(episode, null, resolution, url);
+    public static Video ofEpisode(Long id, Episode episode, String resolution, String url) {
+        return new Video(id, episode, null, resolution, url);
     }
 
-    public static Video ofMovie(Movie movie, String resolution, String url) {
-        return new Video(null, movie, resolution, url);
+    public static Video ofMovie(Long id, Movie movie, String resolution, String url) {
+        return new Video(id, null, movie, resolution, url);
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public Episode getEpisode() {

@@ -4,10 +4,11 @@ import sk.posam.fsa.streaming.domain.models.enums.Genre;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Series extends MediaContent {
-    private List<Episode> episodes;
+    private List<Episode> episodes = new ArrayList<>();
     private Integer episodeCount;
     private Integer avgDuration;
 
