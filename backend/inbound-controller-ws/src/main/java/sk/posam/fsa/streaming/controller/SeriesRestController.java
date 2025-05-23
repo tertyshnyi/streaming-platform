@@ -3,10 +3,8 @@ package sk.posam.fsa.streaming.controller;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
-import sk.posam.fsa.streaming.domain.models.entities.Episode;
-import sk.posam.fsa.streaming.domain.models.entities.Movie;
-import sk.posam.fsa.streaming.domain.models.entities.Series;
-import sk.posam.fsa.streaming.domain.models.entities.Video;
+import sk.posam.fsa.streaming.domain.models.entities.*;
+import sk.posam.fsa.streaming.domain.models.enums.Genre;
 import sk.posam.fsa.streaming.domain.services.SeriesFacade;
 import sk.posam.fsa.streaming.mapper.EpisodeMapper;
 import sk.posam.fsa.streaming.mapper.SeriesMapper;
@@ -17,6 +15,7 @@ import sk.posam.fsa.streaming.rest.dto.*;
 import java.util.Comparator;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RestController
@@ -32,6 +31,36 @@ public class SeriesRestController implements SeriesApi {
         this.seriesMapper = seriesMapper;
         this.episodeMapper = episodeMapper;
         this.videoMapper = videoMapper;
+    }
+
+    @Override
+    public ResponseEntity<List<SeriesDto>> seriesFilterGet(
+            List<GenreDto> genresDto,
+            List<String> countries,
+            List<Integer> releaseYears,
+            Float ratingFrom,
+            Float ratingTo) {
+
+        List<Genre> genres = null;
+        if (genresDto != null) {
+            genres = genresDto.stream()
+                    .map(genreDto -> Genre.valueOf(genreDto.name()))
+                    .collect(Collectors.toList());
+        }
+
+        MediaContentFilter filter = new MediaContentFilter();
+        filter.setGenres(genres);
+        filter.setCountries(countries);
+        filter.setReleaseYears(releaseYears);
+        filter.setRatingFrom(ratingFrom);
+        filter.setRatingTo(ratingTo);
+
+        List<Series> filteredSeries = seriesFacade.filter(filter);
+        List<SeriesDto> seriesDtos = filteredSeries.stream()
+                .map(seriesMapper::toDto)
+                .collect(Collectors.toList());
+
+        return ResponseEntity.ok(seriesDtos);
     }
 
     @Override
@@ -58,7 +87,6 @@ public class SeriesRestController implements SeriesApi {
                 .map(ResponseEntity::ok)
                 .orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).build());
     }
-
 
     @Override
     public ResponseEntity<SeriesDto> createSeries(CreateSeriesDto createSeriesDto) {

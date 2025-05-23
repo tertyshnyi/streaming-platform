@@ -13,6 +13,5 @@ public interface MediaContentFacade<T extends MediaContent> {
     T update(Long id, T mediaContent);
     void delete(Long id);
     List<T> findAll();
-
     List<T> filter(MediaContentFilter filter);
 }

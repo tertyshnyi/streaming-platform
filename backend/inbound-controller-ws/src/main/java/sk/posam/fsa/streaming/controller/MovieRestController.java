@@ -5,7 +5,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 import sk.posam.fsa.streaming.domain.models.entities.MediaContentFilter;
 import sk.posam.fsa.streaming.domain.models.entities.Movie;
-import sk.posam.fsa.streaming.domain.models.entities.Video;
 import sk.posam.fsa.streaming.domain.models.enums.Genre;
 import sk.posam.fsa.streaming.domain.services.MovieFacade;
 import sk.posam.fsa.streaming.mapper.MovieMapper;
