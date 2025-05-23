@@ -23,7 +23,7 @@ public abstract class MediaContent {
     protected LocalDateTime updatedAt;
 //    protected User createdBy;
 //    protected User updatedBy;
-    protected Double globalRating;
+    protected Float globalRating;
     protected List<Comment> comments = new ArrayList<>();
     protected Integer commentsTotal;
     protected String posterImg;
@@ -32,7 +32,7 @@ public abstract class MediaContent {
     public MediaContent(Long id, String title, String slug, LocalDate releaseDate, Integer releaseYear, String description,
                         List<Genre> genres, String actors, String directors, String trailerUrl, List<String> countries,
                         LocalDateTime createdAt, LocalDateTime updatedAt,
-                        Double globalRating, List<Comment> comments, Integer commentsTotal, String posterImg,
+                        Float globalRating, List<Comment> comments, Integer commentsTotal, String posterImg,
                         String coverImg) {
         this.id = id;
         this.title = title;
@@ -178,11 +178,11 @@ public abstract class MediaContent {
 //        this.updatedBy = updatedBy;
 //    }
 
-    public Double getGlobalRating() {
+    public Float getGlobalRating() {
         return globalRating;
     }
 
-    public void setGlobalRating(Double globalRating) {
+    public void setGlobalRating(Float globalRating) {
         this.globalRating = globalRating;
     }
 

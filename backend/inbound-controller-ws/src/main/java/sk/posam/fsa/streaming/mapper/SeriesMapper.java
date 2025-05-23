@@ -45,7 +45,7 @@ public class SeriesMapper {
         dto.setCreatedAt(series.getCreatedAt() != null ? series.getCreatedAt().atOffset(ZoneOffset.UTC) : null);
         dto.setUpdatedAt(series.getUpdatedAt() != null ? series.getUpdatedAt().atOffset(ZoneOffset.UTC) : null);
         dto.setCommentsTotal(series.getCommentsTotal());
-        dto.setGlobalRating(series.getGlobalRating() != null ? series.getGlobalRating().floatValue() : null);
+        dto.setGlobalRating(series.getGlobalRating() != null ? series.getGlobalRating() : null);
 
         return dto;
     }

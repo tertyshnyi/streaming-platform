@@ -3,16 +3,15 @@ package sk.posam.fsa.streaming.controller;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
+import sk.posam.fsa.streaming.domain.models.entities.MediaContentFilter;
 import sk.posam.fsa.streaming.domain.models.entities.Movie;
 import sk.posam.fsa.streaming.domain.models.entities.Video;
+import sk.posam.fsa.streaming.domain.models.enums.Genre;
 import sk.posam.fsa.streaming.domain.services.MovieFacade;
 import sk.posam.fsa.streaming.mapper.MovieMapper;
 import sk.posam.fsa.streaming.mapper.VideoMapper;
 import sk.posam.fsa.streaming.rest.api.MoviesApi;
-import sk.posam.fsa.streaming.rest.dto.CreateMovieDto;
-import sk.posam.fsa.streaming.rest.dto.MovieDto;
-import sk.posam.fsa.streaming.rest.dto.SeriesDto;
-import sk.posam.fsa.streaming.rest.dto.VideoDto;
+import sk.posam.fsa.streaming.rest.dto.*;
 
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -29,6 +28,36 @@ public class MovieRestController implements MoviesApi {
         this.movieFacade = movieFacade;
         this.movieMapper = movieMapper;
         this.videoMapper = videoMapper;
+    }
+
+    @Override
+    public ResponseEntity<List<MovieDto>> moviesFilterGet(
+            List<GenreDto> genresDto,
+            List<String> countries,
+            List<Integer> releaseYears,
+            Float ratingFrom,
+            Float ratingTo) {
+
+        List<Genre> genres = null;
+        if (genresDto != null) {
+            genres = genresDto.stream()
+                    .map(genreDto -> Genre.valueOf(genreDto.name()))
+                    .collect(Collectors.toList());
+        }
+
+        MediaContentFilter filter = new MediaContentFilter();
+        filter.setGenres(genres);
+        filter.setCountries(countries);
+        filter.setReleaseYears(releaseYears);
+        filter.setRatingFrom(ratingFrom);
+        filter.setRatingTo(ratingTo);
+
+        List<Movie> filteredMovies = movieFacade.filter(filter);
+        List<MovieDto> movieDtos = filteredMovies.stream()
+                .map(movieMapper::toDto)
+                .collect(Collectors.toList());
+
+        return ResponseEntity.ok(movieDtos);
     }
 
     @Override

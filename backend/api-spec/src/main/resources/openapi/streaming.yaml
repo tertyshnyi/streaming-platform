@@ -262,6 +262,68 @@ paths:
         '204':
           description: Deleted
 
+  /movies/filter:
+    get:
+      summary: Movie filtering
+      parameters:
+        - name: genres
+          in: query
+          description: List of genres
+          required: false
+          style: form
+          explode: true
+          schema:
+            type: array
+            items:
+              $ref: '#/components/schemas/Genre'
+
+        - name: countries
+          in: query
+          description: List of countries
+          required: false
+          style: form
+          explode: true
+          schema:
+            type: array
+            items:
+              type: string
+
+        - name: releaseYears
+          in: query
+          description: List of release years
+          required: false
+          style: form
+          explode: true
+          schema:
+            type: array
+            items:
+              type: integer
+
+        - name: ratingFrom
+          in: query
+          required: false
+          schema:
+            type: number
+            format: float
+
+        - name: ratingTo
+          in: query
+          required: false
+          schema:
+            type: number
+            format: float
+
+      responses:
+        '200':
+          description: List of filtered movies
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Movie'
+
+
   /series/{seriesId}/episodes:
     post:
       summary: Add a new episode to a series

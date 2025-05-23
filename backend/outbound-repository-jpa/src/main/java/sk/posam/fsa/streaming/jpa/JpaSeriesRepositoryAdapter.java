@@ -1,6 +1,7 @@
 package sk.posam.fsa.streaming.jpa;
 
 import org.springframework.stereotype.Repository;
+import sk.posam.fsa.streaming.domain.models.entities.MediaContentFilter;
 import sk.posam.fsa.streaming.domain.models.entities.Movie;
 import sk.posam.fsa.streaming.domain.models.entities.Series;
 import sk.posam.fsa.streaming.domain.models.enums.Genre;
@@ -56,6 +57,11 @@ public class JpaSeriesRepositoryAdapter implements SeriesRepository {
     @Override
     public List<Series> findAll() {
         return seriesSpringDataRepository.findAll();
+    }
+
+    @Override
+    public List<Series> filter(MediaContentFilter filter) {
+        return null;
     }
 
 }

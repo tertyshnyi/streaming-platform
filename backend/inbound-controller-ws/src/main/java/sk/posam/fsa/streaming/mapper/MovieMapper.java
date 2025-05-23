@@ -49,7 +49,7 @@ public class MovieMapper {
         dto.setCreatedAt(movie.getCreatedAt() != null ? movie.getCreatedAt().atOffset(ZoneOffset.UTC) : null);
         dto.setUpdatedAt(movie.getUpdatedAt() != null ? movie.getUpdatedAt().atOffset(ZoneOffset.UTC) : null);
         dto.setCommentsTotal(movie.getCommentsTotal());
-        dto.setGlobalRating(movie.getGlobalRating() != null ? movie.getGlobalRating().floatValue() : null);
+        dto.setGlobalRating(movie.getGlobalRating() != null ? movie.getGlobalRating() : null);
 
         if (movie.getVideos() != null) {
             dto.setVideos(movie.getVideos().stream()

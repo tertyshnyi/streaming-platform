@@ -1,6 +1,7 @@
 package sk.posam.fsa.streaming.domain.services;
 
 import sk.posam.fsa.streaming.domain.models.entities.MediaContent;
+import sk.posam.fsa.streaming.domain.models.entities.MediaContentFilter;
 import sk.posam.fsa.streaming.domain.models.enums.Genre;
 import sk.posam.fsa.streaming.domain.repositories.MediaContentRepository;
 import sk.posam.fsa.streaming.domain.repositories.SlugRepository;
@@ -69,6 +70,11 @@ public abstract class MediaContentService<T extends MediaContent> implements Med
 
         return slug;
     }
+
+    public List<T> filter(MediaContentFilter filter) {
+        return repository.filter(filter);
+    }
+
 
     @Override
     public void delete(Long id) {
