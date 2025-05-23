@@ -1,5 +1,6 @@
 package sk.posam.fsa.streaming.mapper;
 
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 import sk.posam.fsa.streaming.domain.models.entities.Episode;
 import sk.posam.fsa.streaming.domain.models.entities.Series;
@@ -16,7 +17,7 @@ public class EpisodeMapper {
     private final SeriesMapper seriesMapper;
     private final VideoMapper videoMapper;
 
-    public EpisodeMapper(SeriesMapper seriesMapper, VideoMapper videoMapper) {
+    public EpisodeMapper(@Lazy SeriesMapper seriesMapper, VideoMapper videoMapper) {
         this.seriesMapper = seriesMapper;
         this.videoMapper = videoMapper;
     }
@@ -26,9 +27,11 @@ public class EpisodeMapper {
 
         EpisodeDto dto = new EpisodeDto();
         dto.setId(entity.getId());
-        dto.setTitle(entity.getTitle().orElse(null));
+        dto.setTitle(entity.getTitle());
         dto.setDuration(entity.getDuration());
-        dto.setSeries(seriesMapper.toMinimalDto(entity.getSeries()));
+        if (entity.getSeries() != null) {
+            dto.setSeriesId(entity.getSeries().getId().intValue());
+        }
 
         if (entity.getVideos() != null) {
             dto.setVideos(entity.getVideos().stream()
@@ -44,7 +47,7 @@ public class EpisodeMapper {
 
         Episode entity = new Episode();
         entity.setId(dto.getId());
-        entity.setTitle(Optional.ofNullable(dto.getTitle()));
+        entity.setTitle(dto.getTitle());
         entity.setDuration(dto.getDuration());
         entity.setSeries(series);
 

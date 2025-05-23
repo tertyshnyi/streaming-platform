@@ -4,12 +4,15 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 import sk.posam.fsa.streaming.domain.models.entities.Movie;
+import sk.posam.fsa.streaming.domain.models.entities.Video;
 import sk.posam.fsa.streaming.domain.services.MovieFacade;
 import sk.posam.fsa.streaming.mapper.MovieMapper;
 import sk.posam.fsa.streaming.mapper.VideoMapper;
 import sk.posam.fsa.streaming.rest.api.MoviesApi;
 import sk.posam.fsa.streaming.rest.dto.CreateMovieDto;
 import sk.posam.fsa.streaming.rest.dto.MovieDto;
+import sk.posam.fsa.streaming.rest.dto.SeriesDto;
+import sk.posam.fsa.streaming.rest.dto.VideoDto;
 
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -32,7 +35,20 @@ public class MovieRestController implements MoviesApi {
     public ResponseEntity<MovieDto> createMovie(CreateMovieDto createMovieDto) {
         Movie movie = movieMapper.toEntity(createMovieDto);
         Movie savedMovie = movieFacade.create(movie);
-        return ResponseEntity.status(HttpStatus.CREATED).body(movieMapper.toDto(savedMovie));
+        MovieDto dto = movieMapper.toDto(savedMovie);
+        dto.setVideos(null);
+        return ResponseEntity.status(HttpStatus.CREATED).body(dto);
+    }
+
+    @Override
+    public ResponseEntity<MovieDto> updateMovie(Long id, CreateMovieDto dto) {
+        try {
+            Movie movie = movieMapper.toEntity(dto);
+            Movie updated = movieFacade.update(id, movie);
+            return ResponseEntity.ok(movieMapper.toDto(updated));
+        } catch (NoSuchElementException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
     }
 
     @Override
@@ -46,7 +62,10 @@ public class MovieRestController implements MoviesApi {
 
     @Override
     public ResponseEntity<MovieDto> getMovieById(Long id) {
-        return null;
+        return movieFacade.get(id)
+                .map(movieMapper::toDto)
+                .map(ResponseEntity::ok)
+                .orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).build());
     }
 
     @Override

@@ -27,6 +27,7 @@ public class MovieMapper {
         MovieDto dto = new MovieDto();
         dto.setId(movie.getId());
         dto.setTitle(movie.getTitle());
+        dto.setSlug(movie.getSlug());
         dto.setDescription(movie.getDescription());
         dto.setReleaseDate(movie.getReleaseDate());
         dto.setReleaseYear(movie.getReleaseYear());
@@ -39,8 +40,8 @@ public class MovieMapper {
                         .collect(Collectors.toList())
         );
 
-        dto.setActors(movie.getActors());
-        dto.setDirectors(movie.getDirectors());
+        dto.setActors(stringToList(movie.getActors()));
+        dto.setDirectors(stringToList(movie.getDirectors()));
         dto.setTrailerUrl(movie.getTrailerUrl());
         dto.setCountries(movie.getCountries());
         dto.setPosterImg(movie.getPosterImg());
@@ -75,8 +76,8 @@ public class MovieMapper {
                         .map(genreDto -> Genre.valueOf(genreDto.name()))
                         .collect(Collectors.toList())
         );
-        movie.setActors(createDto.getActors());
-        movie.setDirectors(createDto.getDirectors());
+        movie.setActors(listToString(createDto.getActors()));
+        movie.setDirectors(listToString(createDto.getDirectors()));
         movie.setTrailerUrl(createDto.getTrailerUrl());
         movie.setCountries(createDto.getCountries());
         movie.setPosterImg(createDto.getPosterImg());
@@ -90,6 +91,15 @@ public class MovieMapper {
         }
 
         return movie;
+    }
+
+    private String listToString(List<String> list) {
+        return list == null ? null : String.join(", ", list);
+    }
+
+    private List<String> stringToList(String str) {
+        if (str == null || str.isEmpty()) return List.of();
+        return List.of(str.split("\\s*,\\s*"));
     }
 
     private List<String> toGenres(List<Genre> genres) {

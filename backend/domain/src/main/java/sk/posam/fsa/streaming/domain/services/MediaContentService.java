@@ -3,6 +3,7 @@ package sk.posam.fsa.streaming.domain.services;
 import sk.posam.fsa.streaming.domain.models.entities.MediaContent;
 import sk.posam.fsa.streaming.domain.models.enums.Genre;
 import sk.posam.fsa.streaming.domain.repositories.MediaContentRepository;
+import sk.posam.fsa.streaming.domain.repositories.SlugRepository;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -12,9 +13,11 @@ import java.util.Optional;
 public abstract class MediaContentService<T extends MediaContent> implements MediaContentFacade<T> {
 
     protected final MediaContentRepository<T> repository;
+    protected final SlugRepository<T> slugRepository;
 
-    public MediaContentService(MediaContentRepository<T> repository) {
+    public MediaContentService(MediaContentRepository<T> repository, SlugRepository<T> slugRepository) {
         this.repository = repository;
+        this.slugRepository = slugRepository;
     }
 
     @Override
@@ -28,15 +31,43 @@ public abstract class MediaContentService<T extends MediaContent> implements Med
 
     @Override
     public T create(T mediaContent) {
-        try {
-            if (mediaContent.getCreatedAt() == null) {
-                mediaContent.setCreatedAt(LocalDateTime.now());
-            }
-            mediaContent.setUpdatedAt(LocalDateTime.now());
-            return repository.create(mediaContent);
-        } catch (Exception e) {
-            throw new RuntimeException("Unable to create media content: " + e.getMessage(), e);
+        if (mediaContent.getCreatedAt() == null) {
+            mediaContent.setCreatedAt(LocalDateTime.now());
         }
+        mediaContent.setUpdatedAt(LocalDateTime.now());
+
+        String baseSlug = mediaContent.generateBaseSlug();
+        String uniqueSlug = generateUniqueSlug(baseSlug);
+        mediaContent.setSlug(uniqueSlug);
+
+        mediaContent.updateCommentsTotal();
+
+        return repository.create(mediaContent);
+    }
+
+    @Override
+    public T update(Long id, T mediaContent) {
+        T existing = repository.get(id).orElseThrow(() ->
+                new NoSuchElementException("Media content not found with id: " + id));
+
+        mediaContent.setId(id);
+        mediaContent.setCreatedAt(existing.getCreatedAt());
+        mediaContent.setUpdatedAt(LocalDateTime.now());
+        mediaContent.setSlug(existing.getSlug());
+
+        return repository.update(id, mediaContent);
+    }
+
+    private String generateUniqueSlug(String baseSlug) {
+        String slug = baseSlug;
+        int suffix = 1;
+
+        while (slugRepository.findBySlug(slug).isPresent()) {
+            slug = baseSlug + "-" + suffix;
+            suffix++;
+        }
+
+        return slug;
     }
 
     @Override
@@ -61,42 +92,5 @@ public abstract class MediaContentService<T extends MediaContent> implements Med
             throw new RuntimeException("Error retrieving all media contents: " + e.getMessage(), e);
         }
     }
-
-    @Override
-    public List<T> findByGenre(Genre genre) {
-        try {
-            return repository.findByGenre(genre);
-        } catch (Exception e) {
-            throw new RuntimeException("Error finding media contents by genre: " + e.getMessage(), e);
-        }
-    }
-
-    @Override
-    public List<T> findByReleaseYear(Integer year) {
-        try {
-            return repository.findByReleaseYear(year);
-        } catch (Exception e) {
-            throw new RuntimeException("Error finding media contents by release year: " + e.getMessage(), e);
-        }
-    }
-
-    @Override
-    public List<T> findByCountry(String country) {
-        try {
-            return repository.findByCountry(country);
-        } catch (Exception e) {
-            throw new RuntimeException("Error finding media contents by country: " + e.getMessage(), e);
-        }
-    }
-
-    @Override
-    public List<T> findTopByCommentsCount(int limit) {
-        try {
-            return repository.findTopByCommentsCount(limit);
-        } catch (Exception e) {
-            throw new RuntimeException("Error finding top media contents by comments count: " + e.getMessage(), e);
-        }
-    }
-
 }
 

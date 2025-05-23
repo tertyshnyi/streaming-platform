@@ -13,7 +13,7 @@ public class SeriesService extends MediaContentService<Series> implements Series
     private final SeriesRepository seriesRepository;
 
     public SeriesService(SeriesRepository seriesRepository) {
-        super(seriesRepository);
+        super(seriesRepository, seriesRepository);
         this.seriesRepository = seriesRepository;
     }
 

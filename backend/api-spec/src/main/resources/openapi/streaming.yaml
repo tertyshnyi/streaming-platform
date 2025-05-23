@@ -96,6 +96,36 @@ paths:
                   $ref: '#/components/schemas/Series'
 
   /series/{id}:
+    put:
+      summary: Update an existing series
+      operationId: updateSeries
+      tags:
+        - Series
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID of the series to update
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        description: Updated series object
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateSeries'
+      responses:
+        '200':
+          description: Successfully updated series
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Series'
+        '404':
+          description: Series not found
+
     get:
       summary: Get series by ID
       operationId: getSeriesById
@@ -166,6 +196,36 @@ paths:
                   $ref: '#/components/schemas/Movie'
 
   /movies/{id}:
+    put:
+      summary: Update an existing movie
+      operationId: updateMovie
+      tags:
+        - Movies
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID of the movie to update
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        description: Updated movie object
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateMovie'
+      responses:
+        '200':
+          description: Successfully updated movie
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Movie'
+        '404':
+          description: Movie not found
+
     get:
       summary: Get movie by ID
       operationId: getMovieById
@@ -201,6 +261,142 @@ paths:
       responses:
         '204':
           description: Deleted
+
+  /series/{seriesId}/episodes:
+    post:
+      summary: Add a new episode to a series
+      operationId: addEpisodeToSeries
+      tags:
+        - Episode
+      parameters:
+        - name: seriesId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Episode'
+      responses:
+        '201':
+          description: Created episode
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Episode'
+
+    get:
+      summary: Get all episodes of a series
+      operationId: getAllEpisodesOfSeries
+      tags:
+        - Episode
+      parameters:
+        - name: seriesId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: List of episodes for the series
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Episode'
+
+  /series/{seriesId}/episodes/{episodeId}:
+    get:
+      summary: Get an episode by ID
+      operationId: getEpisodeById
+      tags:
+        - Episode
+      parameters:
+        - name: seriesId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: episodeId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Found episode
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Episode'
+        '404':
+          description: Episode not found
+
+    put:
+      summary: Update an episode by ID
+      operationId: updateEpisodeById
+      tags:
+        - Episode
+      parameters:
+        - name: seriesId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: episodeId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Episode'
+      responses:
+        '200':
+          description: Updated episode
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Episode'
+        '404':
+          description: Episode not found
+
+    delete:
+      summary: Delete an episode by ID
+      operationId: deleteEpisodeById
+      tags:
+        - Episode
+      parameters:
+        - name: seriesId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: episodeId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '204':
+          description: Episode deleted
+        '404':
+          description: Episode not found
 
 components:
   schemas:
@@ -315,10 +511,9 @@ components:
           type: integer
           format: int64
           description: Unique identifier for the episode
-        series:
-          allOf:
-            - $ref: '#/components/schemas/Series'
-          description: The series this episode belongs to
+        seriesId:
+          type: integer
+          description: The ID of the series this episode belongs to
         title:
           type: string
           nullable: true
@@ -355,15 +550,22 @@ components:
           items:
             $ref: '#/components/schemas/Genre'
         actors:
-          type: string
+          type: array
+          items:
+            type: string
         directors:
-          type: string
+          type: array
+          items:
+            type: string
         trailerUrl:
           type: string
         countries:
           type: array
           items:
             type: string
+        globalRating:
+          type: number
+          format: float
         posterImg:
           type: string
         coverImg:
@@ -391,11 +593,10 @@ components:
             updatedAt:
               type: string
               format: date-time
+            slug:
+              type: string
             commentsTotal:
               type: integer
-            globalRating:
-              type: number
-              format: float
 
     CreateMovie:
       type: object
@@ -417,15 +618,22 @@ components:
           items:
             $ref: '#/components/schemas/Genre'
         actors:
-          type: string
+          type: array
+          items:
+            type: string
         directors:
-          type: string
+          type: array
+          items:
+            type: string
         trailerUrl:
           type: string
         countries:
           type: array
           items:
             type: string
+        globalRating:
+          type: number
+          format: float
         posterImg:
           type: string
         coverImg:
@@ -453,11 +661,10 @@ components:
             updatedAt:
               type: string
               format: date-time
+            slug:
+              type: string
             commentsTotal:
               type: integer
-            globalRating:
-              type: number
-              format: float
 
     Video:
       type: object
@@ -473,3 +680,4 @@ components:
         - id
         - resolution
         - url
+

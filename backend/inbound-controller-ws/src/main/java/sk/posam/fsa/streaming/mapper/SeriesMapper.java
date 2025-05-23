@@ -28,19 +28,20 @@ public class SeriesMapper {
         SeriesDto dto = new SeriesDto();
         dto.setId(series.getId());
         dto.setTitle(series.getTitle());
+        dto.setSlug(series.getSlug());
         dto.setDescription(series.getDescription());
         dto.setReleaseDate(series.getReleaseDate());
         dto.setReleaseYear(series.getReleaseYear());
         dto.setGenres(toGenreDtoList(series.getGenres()));
-        dto.setActors(series.getActors());
-        dto.setDirectors(series.getDirectors());
+        dto.setActors(stringToList(series.getActors()));
+        dto.setDirectors(stringToList(series.getDirectors()));
         dto.setTrailerUrl(series.getTrailerUrl());
         dto.setCountries(series.getCountries());
         dto.setPosterImg(series.getPosterImg());
         dto.setCoverImg(series.getCoverImg());
         dto.setEpisodeCount(series.getEpisodeCount());
         dto.setAvgDuration(series.getAvgDuration());
-        dto.setEpisodes(toEpisodeDtoList(series.getEpisodes(), series));
+        dto.setEpisodes(toMinimalEpisodeDtoList(series.getEpisodes()));
         dto.setCreatedAt(series.getCreatedAt() != null ? series.getCreatedAt().atOffset(ZoneOffset.UTC) : null);
         dto.setUpdatedAt(series.getUpdatedAt() != null ? series.getUpdatedAt().atOffset(ZoneOffset.UTC) : null);
         dto.setCommentsTotal(series.getCommentsTotal());
@@ -60,14 +61,20 @@ public class SeriesMapper {
         series.setGenres(dto.getGenres().stream()
                 .map(g -> Genre.valueOf(g.name()))
                 .collect(Collectors.toList()));
-        series.setActors(dto.getActors());
-        series.setDirectors(dto.getDirectors());
+        series.setActors(listToString(dto.getActors()));
+        series.setDirectors(listToString(dto.getDirectors()));
         series.setTrailerUrl(dto.getTrailerUrl());
         series.setCountries(dto.getCountries());
         series.setPosterImg(dto.getPosterImg());
         series.setCoverImg(dto.getCoverImg());
         series.setEpisodeCount(dto.getEpisodeCount());
         series.setAvgDuration(dto.getAvgDuration());
+        if (dto.getEpisodes() != null) {
+            List<Episode> episodes = dto.getEpisodes().stream()
+                    .map(episodeDto -> episodeMapper.toEntity(episodeDto, series))
+                    .collect(Collectors.toList());
+            series.setEpisodes(episodes);
+        }
 
         return series;
     }
@@ -81,6 +88,17 @@ public class SeriesMapper {
         return dto;
     }
 
+    private String listToString(List<String> list) {
+        if (list == null || list.isEmpty()) return "";
+        return String.join(", ", list);
+    }
+
+    private List<String> stringToList(String str) {
+        if (str == null || str.isEmpty()) return List.of();
+        return List.of(str.split("\\s*,\\s*"));
+    }
+
+
     private List<GenreDto> toGenreDtoList(List<Genre> genres) {
         if (genres == null) return null;
 
@@ -89,11 +107,17 @@ public class SeriesMapper {
                 .collect(Collectors.toList());
     }
 
-    private List<EpisodeDto> toEpisodeDtoList(List<Episode> episodes, Series series) {
+    private List<EpisodeDto> toMinimalEpisodeDtoList(List<Episode> episodes) {
         if (episodes == null) return null;
 
-        return episodes.stream()
-                .map(episodeMapper::toDto)
-                .collect(Collectors.toList());
+        return episodes.stream().map(episode -> {
+            EpisodeDto dto = new EpisodeDto();
+            dto.setId(episode.getId());
+            dto.setTitle(episode.getTitle());
+            dto.setDuration(episode.getDuration());
+            dto.setVideos(null);
+            dto.setSeriesId(episode.getSeries() != null ? episode.getSeries().getId().intValue() : null);
+            return dto;
+        }).collect(Collectors.toList());
     }
 }

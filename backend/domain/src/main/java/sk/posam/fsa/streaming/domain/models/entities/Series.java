@@ -12,8 +12,8 @@ public class Series extends MediaContent {
     private Integer episodeCount;
     private Integer avgDuration;
 
-    public Series(Long id, String title, LocalDate releaseDate, Integer releaseYear, String description, List<Genre> genres, String actors, String directors, String trailerUrl, List<String> countries, LocalDateTime createdAt, LocalDateTime updatedAt, User createdBy, User updatedBy, String type, Double globalRating, List<Comment> comments, Integer commentsTotal, String posterImg, String coverImg, List<Episode> episodes, Integer episodeCount, Integer avgDuration) {
-        super(id, title, releaseDate, releaseYear, description, genres, actors, directors, trailerUrl, countries, createdAt, updatedAt, createdBy, updatedBy, type, globalRating, comments, commentsTotal, posterImg, coverImg);
+    public Series(Long id, String title, String slug, LocalDate releaseDate, Integer releaseYear, String description, List<Genre> genres, String actors, String directors, String trailerUrl, List<String> countries, LocalDateTime createdAt, LocalDateTime updatedAt, User createdBy, User updatedBy, String type, Double globalRating, List<Comment> comments, Integer commentsTotal, String posterImg, String coverImg, List<Episode> episodes, Integer episodeCount, Integer avgDuration) {
+        super(id, title, slug, releaseDate, releaseYear, description, genres, actors, directors, trailerUrl, countries, createdAt, updatedAt, globalRating, comments, commentsTotal, posterImg, coverImg);
         this.episodes = episodes;
         this.episodeCount = episodeCount;
         this.avgDuration = avgDuration;

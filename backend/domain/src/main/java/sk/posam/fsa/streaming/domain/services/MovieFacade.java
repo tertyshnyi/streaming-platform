@@ -7,14 +7,5 @@ import java.util.List;
 import java.util.Optional;
 
 public interface MovieFacade extends MediaContentFacade<Movie> {
-    Movie addVideo(Long movieId, Video video);
-
-    Movie updateVideo(Long movieId, Long videoId, Video updatedVideo);
-
-    void removeVideo(Long movieId, Long videoId);
-
-    Optional<Video> getVideoById(Long movieId, Long videoId);
-
-    List<Video> getAllVideos(Long movieId);
 }
 

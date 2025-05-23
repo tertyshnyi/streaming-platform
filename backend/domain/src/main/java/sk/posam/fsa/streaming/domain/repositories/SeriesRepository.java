@@ -4,7 +4,7 @@ import sk.posam.fsa.streaming.domain.models.entities.Series;
 
 import java.util.Optional;
 
-public interface SeriesRepository extends MediaContentRepository<Series> {
+public interface SeriesRepository extends MediaContentRepository<Series>, SlugRepository<Series> {
     Series save(Series series);
     Optional<Series> findById(Long id);
 }

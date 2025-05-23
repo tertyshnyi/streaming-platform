@@ -41,7 +41,6 @@
                 <generated-value strategy="IDENTITY"/>
             </id>
 
-            <!-- базовые поля -->
             <basic name="title"/>
             <basic name="releaseDate"/>
             <basic name="releaseYear"/>
@@ -64,7 +63,6 @@
                 <join-column name="created_by_id" />
             </many-to-one>
 
-            <!-- связи сначала -->
             <one-to-many name="comments" mapped-by="mediaContent"/>
 
             <element-collection name="genres">
@@ -81,9 +79,11 @@
         <attributes>
             <basic name="duration"/>
 
-            <element-collection name="videos">
-                <collection-table name="movie_videos"/>
-            </element-collection>
+            <one-to-many name="videos" mapped-by="movie" orphan-removal="true">
+                <cascade>
+                    <cascade-all/>
+                </cascade>
+            </one-to-many>
         </attributes>
     </entity>
 
@@ -93,9 +93,11 @@
             <basic name="episodeCount"/>
             <basic name="avgDuration"/>
 
-            <element-collection name="episodes">
-                <collection-table name="series_episodes"/>
-            </element-collection>
+            <one-to-many name="episodes" mapped-by="series" orphan-removal="true">
+                <cascade>
+                    <cascade-all/>
+                </cascade>
+            </one-to-many>
         </attributes>
     </entity>
 
@@ -121,8 +123,58 @@
                 <join-column name="parent_comment_id" />
             </many-to-one>
 
-            <one-to-many name="childrenComments" mapped-by="parentComment"/>
+            <one-to-many name="childrenComments" mapped-by="parentComment" orphan-removal="true">
+                <cascade>
+                    <cascade-all/>
+                </cascade>
+            </one-to-many>
         </attributes>
     </entity>
+
+    <entity class="sk.posam.fsa.streaming.domain.models.entities.Episode" access="FIELD">
+        <table name="episodes"/>
+        <attributes>
+            <id name="id">
+                <generated-value strategy="IDENTITY"/>
+            </id>
+
+            <basic name="title">
+                <column name="title"/>
+            </basic>
+
+            <basic name="duration"/>
+
+            <many-to-one name="series">
+                <join-column name="series_id"/>
+            </many-to-one>
+
+            <one-to-many name="videos" mapped-by="episode" orphan-removal="true">
+                <cascade>
+                    <cascade-all/>
+                </cascade>
+            </one-to-many>
+        </attributes>
+    </entity>
+
+    <entity class="sk.posam.fsa.streaming.domain.models.entities.Video" access="FIELD">
+        <table name="videos"/>
+        <attributes>
+            <id name="id">
+                <generated-value strategy="IDENTITY"/>
+            </id>
+
+            <basic name="resolution"/>
+            <basic name="url"/>
+
+            <many-to-one name="episode">
+                <join-column name="episode_id"/>
+            </many-to-one>
+
+            <many-to-one name="movie">
+                <join-column name="movie_id"/>
+            </many-to-one>
+        </attributes>
+    </entity>
+
 
 </entity-mappings>

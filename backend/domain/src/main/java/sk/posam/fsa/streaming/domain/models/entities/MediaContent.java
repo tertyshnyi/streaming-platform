@@ -10,6 +10,7 @@ import java.util.List;
 public abstract class MediaContent {
     protected Long id;
     protected String title;
+    protected String slug;
     protected LocalDate releaseDate;
     protected Integer releaseYear;
     protected String description;
@@ -20,23 +21,22 @@ public abstract class MediaContent {
     protected List<String> countries = new ArrayList<>();
     protected LocalDateTime createdAt;
     protected LocalDateTime updatedAt;
-    protected User createdBy;
-    protected User updatedBy;
-    protected String type;
-
+//    protected User createdBy;
+//    protected User updatedBy;
     protected Double globalRating;
     protected List<Comment> comments = new ArrayList<>();
     protected Integer commentsTotal;
     protected String posterImg;
     protected String coverImg;
 
-    public MediaContent(Long id, String title, LocalDate releaseDate, Integer releaseYear, String description,
+    public MediaContent(Long id, String title, String slug, LocalDate releaseDate, Integer releaseYear, String description,
                         List<Genre> genres, String actors, String directors, String trailerUrl, List<String> countries,
-                        LocalDateTime createdAt, LocalDateTime updatedAt, User createdBy, User updatedBy, String type,
+                        LocalDateTime createdAt, LocalDateTime updatedAt,
                         Double globalRating, List<Comment> comments, Integer commentsTotal, String posterImg,
                         String coverImg) {
         this.id = id;
         this.title = title;
+        this.slug = slug;
         this.releaseDate = releaseDate;
         this.releaseYear = releaseYear;
         this.description = description;
@@ -47,9 +47,8 @@ public abstract class MediaContent {
         this.countries = countries;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
-        this.createdBy = createdBy;
-        this.updatedBy = updatedBy;
-        this.type = type;
+//        this.createdBy = createdBy;
+//        this.updatedBy = updatedBy;
         this.globalRating = globalRating;
         this.comments = comments;
         this.commentsTotal = commentsTotal;
@@ -73,6 +72,14 @@ public abstract class MediaContent {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public String getSlug() {
+        return slug;
+    }
+
+    public void setSlug(String slug) {
+        this.slug = slug;
     }
 
     public LocalDate getReleaseDate() {
@@ -155,29 +162,21 @@ public abstract class MediaContent {
         this.updatedAt = updatedAt;
     }
 
-    public User getCreatedBy() {
-        return createdBy;
-    }
-
-    public void setCreatedBy(User createdBy) {
-        this.createdBy = createdBy;
-    }
-
-    public User getUpdatedBy() {
-        return updatedBy;
-    }
-
-    public void setUpdatedBy(User updatedBy) {
-        this.updatedBy = updatedBy;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
+//    public User getCreatedBy() {
+//        return createdBy;
+//    }
+//
+//    public void setCreatedBy(User createdBy) {
+//        this.createdBy = createdBy;
+//    }
+//
+//    public User getUpdatedBy() {
+//        return updatedBy;
+//    }
+//
+//    public void setUpdatedBy(User updatedBy) {
+//        this.updatedBy = updatedBy;
+//    }
 
     public Double getGlobalRating() {
         return globalRating;
@@ -217,6 +216,17 @@ public abstract class MediaContent {
 
     public void setCoverImg(String coverImg) {
         this.coverImg = coverImg;
+    }
+
+    public void updateCommentsTotal() {
+        this.commentsTotal = comments == null ? 0 : comments.size();
+    }
+
+    public String generateBaseSlug() {
+        if (title == null) return null;
+        return title.toLowerCase()
+                .replaceAll("[^a-z0-9]+", "-")
+                .replaceAll("(^-|-$)", "");
     }
 }
 
