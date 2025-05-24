@@ -9,12 +9,11 @@ import sk.posam.fsa.streaming.mapper.UserMapper;
 import sk.posam.fsa.streaming.mapper.UserMapperMapstruct;
 import sk.posam.fsa.streaming.rest.api.UsersApi;
 import sk.posam.fsa.streaming.rest.dto.CreateUserDto;
+import sk.posam.fsa.streaming.rest.dto.UpdateUserDto;
 import sk.posam.fsa.streaming.rest.dto.UserDto;
 import sk.posam.fsa.streaming.security.CurrentUserDetailService;
 
 import java.util.NoSuchElementException;
-import java.util.Optional;
-import java.util.UUID;
 
 @RestController
 public class UserRestController implements UsersApi {
@@ -33,13 +32,26 @@ public class UserRestController implements UsersApi {
     }
 
     @Override
-    public ResponseEntity<UserDto> createUser(CreateUserDto createUserDto) {
-        User user = userMapperMapstruct.toUser(createUserDto);
-        User savedUser = userFacade.create(user);
-        UserDto userDto = userMapper.toUserDto(savedUser);
-
-        return ResponseEntity.status(HttpStatus.CREATED).body(userDto);
+    public ResponseEntity<UserDto> createUser(CreateUserDto dto) {
+        User user = userMapperMapstruct.toUser(dto);
+        User created = userFacade.createWithKeycloak(user);
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(userMapper.toUserDto(created));
     }
+
+    public ResponseEntity<UserDto> updateUser(Long id, UpdateUserDto dto) {
+        User existingUser = userFacade.get(id)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        existingUser.setName(dto.getName());
+        existingUser.setEmail(dto.getEmail());
+        existingUser.setPhoneNumber(dto.getPhoneNumber());
+        existingUser.setProfileImg(dto.getProfileImg());
+
+        User updated = userFacade.updateWithKeycloak(existingUser);
+        return ResponseEntity.ok(userMapper.toUserDto(updated));
+    }
+
 
     @Override
     public ResponseEntity<UserDto> getCurrentUser() {
@@ -61,9 +73,8 @@ public class UserRestController implements UsersApi {
         }
     }
 
-
     @Override
-    public ResponseEntity<Void> deleteUser(UUID id) {
+    public ResponseEntity<Void> deleteCurrentUser() {
         UserDto currentUser = currentUserDetailService.getCurrentUser();
         try {
             userFacade.delete(currentUser.getId());

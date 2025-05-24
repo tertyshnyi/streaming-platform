@@ -6,7 +6,8 @@ import java.util.Optional;
 import java.util.UUID;
 
 public interface UserRepository {
-    Optional<User> get(UUID id);
+    Optional<User> get(Long id);
     User create(User user);
-    void delete(UUID id);
+    void delete(Long id);
+    User update(User user);
 }

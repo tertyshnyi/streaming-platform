@@ -29,9 +29,9 @@ class SecurityConfiguration implements WebMvcConfigurer {
                                                      .AuthorizationManagerRequestMatcherRegistry auth) {
         auth
                 .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
-                .requestMatchers(HttpMethod.POST, "/users").permitAll()
+                .requestMatchers(HttpMethod.POST, "/users/**").permitAll()
                 .requestMatchers(EndpointRequest.toAnyEndpoint()).permitAll()
-                .anyRequest().authenticated();
+                .anyRequest().permitAll();
     }
 
 

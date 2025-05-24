@@ -39,3 +39,10 @@ management:
 logging:
   level:
     org.springframework.security: debug
+
+keycloak:
+  url: http://localhost:8081
+  realm: FSA
+  client-id: fsa-client
+  client-secret: "**********"
+
