@@ -103,4 +103,19 @@ public class JpaSeriesRepositoryAdapter implements SeriesRepository {
         return entityManager.createQuery(query).getResultList();
     }
 
+    @Override
+    public List<Series> searchByText(String text) {
+        CriteriaBuilder cb = entityManager.getCriteriaBuilder();
+        CriteriaQuery<Series> query = cb.createQuery(Series.class);
+        Root<Series> root = query.from(Series.class);
+
+        String likePattern = "%" + text.toLowerCase() + "%";
+
+        Predicate titleMatch = cb.like(cb.lower(root.get("title")), likePattern);
+        Predicate descriptionMatch = cb.like(cb.lower(root.get("description")), likePattern);
+        query.where(cb.or(titleMatch, descriptionMatch));
+
+        return entityManager.createQuery(query).getResultList();
+    }
+
 }

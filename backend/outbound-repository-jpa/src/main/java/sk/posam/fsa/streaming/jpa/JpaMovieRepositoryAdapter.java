@@ -25,11 +25,6 @@ public class JpaMovieRepositoryAdapter implements MovieRepository {
     }
 
     @Override
-    public Optional<Movie> findById(Long id) {
-        return movieSpringDataRepository.findById(id);
-    }
-
-    @Override
     public Optional<Movie> findBySlug(String slug) {
         return movieSpringDataRepository.findBySlug(slug);
     }
@@ -47,11 +42,6 @@ public class JpaMovieRepositoryAdapter implements MovieRepository {
     @Override
     public Movie update(Long id, Movie entity) {
         return movieSpringDataRepository.save(entity);
-    }
-
-    @Override
-    public Movie save(Movie movie) {
-        return movieSpringDataRepository.save(movie);
     }
 
     @Override
@@ -95,6 +85,20 @@ public class JpaMovieRepositoryAdapter implements MovieRepository {
         return entityManager.createQuery(query).getResultList();
     }
 
+    @Override
+    public List<Movie> searchByText(String text) {
+        CriteriaBuilder cb = entityManager.getCriteriaBuilder();
+        CriteriaQuery<Movie> query = cb.createQuery(Movie.class);
+        Root<Movie> root = query.from(Movie.class);
+
+        String likePattern = "%" + text.toLowerCase() + "%";
+
+        Predicate titleMatch = cb.like(cb.lower(root.get("title")), likePattern);
+        Predicate descriptionMatch = cb.like(cb.lower(root.get("description")), likePattern);
+        query.where(cb.or(titleMatch, descriptionMatch));
+
+        return entityManager.createQuery(query).getResultList();
+    }
 
     @Override
     public void delete(Long id) {

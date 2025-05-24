@@ -12,6 +12,6 @@ public interface MediaContentRepository<T extends MediaContent> {
     T update(Long id, T entity);
     void delete(Long id);
     List<T> findAll();
-
     List<T> filter(MediaContentFilter filter);
+    List<T> searchByText(String text);
 }

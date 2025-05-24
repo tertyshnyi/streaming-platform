@@ -34,36 +34,6 @@ public class SeriesRestController implements SeriesApi {
     }
 
     @Override
-    public ResponseEntity<List<SeriesDto>> seriesFilterGet(
-            List<GenreDto> genresDto,
-            List<String> countries,
-            List<Integer> releaseYears,
-            Float ratingFrom,
-            Float ratingTo) {
-
-        List<Genre> genres = null;
-        if (genresDto != null) {
-            genres = genresDto.stream()
-                    .map(genreDto -> Genre.valueOf(genreDto.name()))
-                    .collect(Collectors.toList());
-        }
-
-        MediaContentFilter filter = new MediaContentFilter();
-        filter.setGenres(genres);
-        filter.setCountries(countries);
-        filter.setReleaseYears(releaseYears);
-        filter.setRatingFrom(ratingFrom);
-        filter.setRatingTo(ratingTo);
-
-        List<Series> filteredSeries = seriesFacade.filter(filter);
-        List<SeriesDto> seriesDtos = filteredSeries.stream()
-                .map(seriesMapper::toDto)
-                .collect(Collectors.toList());
-
-        return ResponseEntity.ok(seriesDtos);
-    }
-
-    @Override
     public ResponseEntity<Void> deleteSeries(Long id) {
         try {
             seriesFacade.delete(id);

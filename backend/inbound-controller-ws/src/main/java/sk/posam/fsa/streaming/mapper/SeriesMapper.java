@@ -28,6 +28,7 @@ public class SeriesMapper {
         SeriesDto dto = new SeriesDto();
         dto.setId(series.getId());
         dto.setTitle(series.getTitle());
+        dto.setType(series.getType());
         dto.setSlug(series.getSlug());
         dto.setDescription(series.getDescription());
         dto.setReleaseDate(series.getReleaseDate());
@@ -55,6 +56,7 @@ public class SeriesMapper {
 
         Series series = new Series();
         series.setTitle(dto.getTitle());
+        series.setType(dto.getType());
         series.setDescription(dto.getDescription());
         series.setReleaseDate(dto.getReleaseDate());
         series.setReleaseYear(dto.getReleaseYear());

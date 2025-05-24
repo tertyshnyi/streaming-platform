@@ -10,13 +10,16 @@ public class MediaContentFilter {
     private List<Integer> releaseYears;
     private Float ratingFrom;
     private Float ratingTo;
+    private String type;
 
-    public MediaContentFilter(List<Genre> genres, List<String> countries, List<Integer> releaseYears, Float ratingFrom, Float ratingTo) {
+    public MediaContentFilter(List<Genre> genres, List<String> countries, List<Integer> releaseYears, Float ratingFrom,
+                              Float ratingTo, String type) {
         this.genres = genres;
         this.countries = countries;
         this.releaseYears = releaseYears;
         this.ratingFrom = ratingFrom;
         this.ratingTo = ratingTo;
+        this.type = type;
     }
 
     public MediaContentFilter() {
@@ -60,5 +63,13 @@ public class MediaContentFilter {
 
     public void setRatingTo(Float ratingTo) {
         this.ratingTo = ratingTo;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 }

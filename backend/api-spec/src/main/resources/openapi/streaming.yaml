@@ -262,68 +262,6 @@ paths:
         '204':
           description: Deleted
 
-  /movies/filter:
-    get:
-      summary: Movie filtering
-      parameters:
-        - name: genres
-          in: query
-          description: List of genres
-          required: false
-          style: form
-          explode: true
-          schema:
-            type: array
-            items:
-              $ref: '#/components/schemas/Genre'
-
-        - name: countries
-          in: query
-          description: List of countries
-          required: false
-          style: form
-          explode: true
-          schema:
-            type: array
-            items:
-              type: string
-
-        - name: releaseYears
-          in: query
-          description: List of release years
-          required: false
-          style: form
-          explode: true
-          schema:
-            type: array
-            items:
-              type: integer
-
-        - name: ratingFrom
-          in: query
-          required: false
-          schema:
-            type: number
-            format: float
-
-        - name: ratingTo
-          in: query
-          required: false
-          schema:
-            type: number
-            format: float
-
-      responses:
-        '200':
-          description: List of filtered movies
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Movie'
-
-
   /series/{seriesId}/episodes:
     post:
       summary: Add a new episode to a series
@@ -460,10 +398,18 @@ paths:
         '404':
           description: Episode not found
 
-  /series/filter:
+  /media/filter:
     get:
-      summary: Series filtering
+      summary: Filter media content (movies or series)
       parameters:
+        - name: type
+          in: query
+          description: Type of content (MOVIE, SERIES, or omitted for all)
+          required: false
+          schema:
+            type: string
+            enum: [ MOVIE, SERIES ]
+
         - name: genres
           in: query
           description: List of genres
@@ -513,13 +459,33 @@ paths:
 
       responses:
         '200':
-          description: List of filtered series
+          description: List of filtered media content
           content:
             application/json:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/Series'
+                  $ref: '#/components/schemas/MediaContent'
+
+  /media/search:
+    get:
+      summary: Search media content by text
+      parameters:
+        - name: query
+          in: query
+          description: Text to search in title and description
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Search results
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/MediaContent'
 
 components:
   schemas:
@@ -693,6 +659,8 @@ components:
           type: string
         coverImg:
           type: string
+        type:
+          type: string
         episodeCount:
           type: integer
         avgDuration:
@@ -761,6 +729,8 @@ components:
           type: string
         coverImg:
           type: string
+        type:
+          type: string
         videos:
           type: array
           items:
@@ -803,4 +773,37 @@ components:
         - id
         - resolution
         - url
+
+    MediaContent:
+      type: object
+      discriminator:
+        propertyName: type
+      properties:
+        id:
+          type: integer
+          format: int64
+        title:
+          type: string
+        description:
+          type: string
+        type:
+          type: string
+        slug:
+          type: string
+        globalRating:
+          type: number
+          format: float
+        releaseDate:
+          type: string
+          format: date
+        countries:
+          type: array
+          items:
+            type: string
+        posterImg:
+          type: string
+        genres:
+          type: array
+          items:
+            $ref: '#/components/schemas/Genre'
 

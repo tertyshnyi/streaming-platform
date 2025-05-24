@@ -22,6 +22,12 @@ public abstract class MediaContentService<T extends MediaContent> implements Med
     }
 
     @Override
+    public List<T> searchByText(String text) {
+        return repository.searchByText(text);
+    }
+
+
+    @Override
     public Optional<T> get(Long id) {
         try {
             return repository.get(id);
@@ -74,7 +80,6 @@ public abstract class MediaContentService<T extends MediaContent> implements Med
     public List<T> filter(MediaContentFilter filter) {
         return repository.filter(filter);
     }
-
 
     @Override
     public void delete(Long id) {

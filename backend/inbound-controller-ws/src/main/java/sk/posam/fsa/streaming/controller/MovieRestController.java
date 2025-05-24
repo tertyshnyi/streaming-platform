@@ -30,36 +30,6 @@ public class MovieRestController implements MoviesApi {
     }
 
     @Override
-    public ResponseEntity<List<MovieDto>> moviesFilterGet(
-            List<GenreDto> genresDto,
-            List<String> countries,
-            List<Integer> releaseYears,
-            Float ratingFrom,
-            Float ratingTo) {
-
-        List<Genre> genres = null;
-        if (genresDto != null) {
-            genres = genresDto.stream()
-                    .map(genreDto -> Genre.valueOf(genreDto.name()))
-                    .collect(Collectors.toList());
-        }
-
-        MediaContentFilter filter = new MediaContentFilter();
-        filter.setGenres(genres);
-        filter.setCountries(countries);
-        filter.setReleaseYears(releaseYears);
-        filter.setRatingFrom(ratingFrom);
-        filter.setRatingTo(ratingTo);
-
-        List<Movie> filteredMovies = movieFacade.filter(filter);
-        List<MovieDto> movieDtos = filteredMovies.stream()
-                .map(movieMapper::toDto)
-                .collect(Collectors.toList());
-
-        return ResponseEntity.ok(movieDtos);
-    }
-
-    @Override
     public ResponseEntity<MovieDto> createMovie(CreateMovieDto createMovieDto) {
         Movie movie = movieMapper.toEntity(createMovieDto);
         Movie savedMovie = movieFacade.create(movie);

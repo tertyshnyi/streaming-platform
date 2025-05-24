@@ -28,12 +28,12 @@ public abstract class MediaContent {
     protected Integer commentsTotal;
     protected String posterImg;
     protected String coverImg;
+    protected String type;
 
     public MediaContent(Long id, String title, String slug, LocalDate releaseDate, Integer releaseYear, String description,
                         List<Genre> genres, String actors, String directors, String trailerUrl, List<String> countries,
-                        LocalDateTime createdAt, LocalDateTime updatedAt,
-                        Float globalRating, List<Comment> comments, Integer commentsTotal, String posterImg,
-                        String coverImg) {
+                        LocalDateTime createdAt, LocalDateTime updatedAt, Float globalRating, List<Comment> comments,
+                        Integer commentsTotal, String posterImg, String coverImg, String type) {
         this.id = id;
         this.title = title;
         this.slug = slug;
@@ -54,6 +54,7 @@ public abstract class MediaContent {
         this.commentsTotal = commentsTotal;
         this.posterImg = posterImg;
         this.coverImg = coverImg;
+        this.type = type;
     }
 
     public MediaContent() {}
@@ -216,6 +217,14 @@ public abstract class MediaContent {
 
     public void setCoverImg(String coverImg) {
         this.coverImg = coverImg;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 
     public void updateCommentsTotal() {

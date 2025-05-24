@@ -27,6 +27,7 @@ public class MovieMapper {
         MovieDto dto = new MovieDto();
         dto.setId(movie.getId());
         dto.setTitle(movie.getTitle());
+        dto.setType(movie.getType());
         dto.setSlug(movie.getSlug());
         dto.setDescription(movie.getDescription());
         dto.setReleaseDate(movie.getReleaseDate());
@@ -66,6 +67,7 @@ public class MovieMapper {
 
         Movie movie = new Movie();
         movie.setTitle(createDto.getTitle());
+        movie.setType(createDto.getType());
         movie.setDescription(createDto.getDescription());
         movie.setReleaseDate(createDto.getReleaseDate());
         movie.setReleaseYear(createDto.getReleaseYear());

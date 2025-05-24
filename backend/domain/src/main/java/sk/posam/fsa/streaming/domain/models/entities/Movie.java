@@ -17,7 +17,7 @@ public class Movie extends MediaContent {
                  Float globalRating, List<Comment> comments, Integer commentsTotal, String posterImg, String coverImg,
                  List<Video> videos, Integer duration) {
         super(id, title, slug, releaseDate, releaseYear, description, genres, actors, directors, trailerUrl,
-                countries, createdAt, updatedAt, globalRating, comments, commentsTotal, posterImg, coverImg);
+                countries, createdAt, updatedAt, globalRating, comments, commentsTotal, posterImg, coverImg, type);
         this.videos = videos;
         this.duration = duration;
     }

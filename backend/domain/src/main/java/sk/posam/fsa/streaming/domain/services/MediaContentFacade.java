@@ -14,4 +14,5 @@ public interface MediaContentFacade<T extends MediaContent> {
     void delete(Long id);
     List<T> findAll();
     List<T> filter(MediaContentFilter filter);
+    List<T> searchByText(String text);
 }
