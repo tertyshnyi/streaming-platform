@@ -8,6 +8,6 @@ import java.util.UUID;
 public interface UserRepository {
     Optional<User> get(Long id);
     User create(User user);
-    void delete(Long id);
     User update(User user);
+    Optional<User> findByKeycloakId(UUID keycloakId);
 }

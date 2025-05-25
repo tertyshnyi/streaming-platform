@@ -21,8 +21,8 @@ public abstract class MediaContent {
     protected List<String> countries = new ArrayList<>();
     protected LocalDateTime createdAt;
     protected LocalDateTime updatedAt;
-//    protected User createdBy;
-//    protected User updatedBy;
+    protected User createdBy;
+    protected User updatedBy;
     protected Float globalRating;
     protected List<Comment> comments = new ArrayList<>();
     protected Integer commentsTotal;
@@ -32,8 +32,8 @@ public abstract class MediaContent {
 
     public MediaContent(Long id, String title, String slug, LocalDate releaseDate, Integer releaseYear, String description,
                         List<Genre> genres, String actors, String directors, String trailerUrl, List<String> countries,
-                        LocalDateTime createdAt, LocalDateTime updatedAt, Float globalRating, List<Comment> comments,
-                        Integer commentsTotal, String posterImg, String coverImg, String type) {
+                        LocalDateTime createdAt, LocalDateTime updatedAt, User createdBy, User updatedBy, Float globalRating,
+                        List<Comment> comments, Integer commentsTotal, String posterImg, String coverImg, String type) {
         this.id = id;
         this.title = title;
         this.slug = slug;
@@ -47,8 +47,8 @@ public abstract class MediaContent {
         this.countries = countries;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
-//        this.createdBy = createdBy;
-//        this.updatedBy = updatedBy;
+        this.createdBy = createdBy;
+        this.updatedBy = updatedBy;
         this.globalRating = globalRating;
         this.comments = comments;
         this.commentsTotal = commentsTotal;
@@ -163,21 +163,21 @@ public abstract class MediaContent {
         this.updatedAt = updatedAt;
     }
 
-//    public User getCreatedBy() {
-//        return createdBy;
-//    }
-//
-//    public void setCreatedBy(User createdBy) {
-//        this.createdBy = createdBy;
-//    }
-//
-//    public User getUpdatedBy() {
-//        return updatedBy;
-//    }
-//
-//    public void setUpdatedBy(User updatedBy) {
-//        this.updatedBy = updatedBy;
-//    }
+    public User getCreatedBy() {
+        return createdBy;
+    }
+
+    public void setCreatedBy(User createdBy) {
+        this.createdBy = createdBy;
+    }
+
+    public User getUpdatedBy() {
+        return updatedBy;
+    }
+
+    public void setUpdatedBy(User updatedBy) {
+        this.updatedBy = updatedBy;
+    }
 
     public Float getGlobalRating() {
         return globalRating;
@@ -236,6 +236,10 @@ public abstract class MediaContent {
         return title.toLowerCase()
                 .replaceAll("[^a-z0-9]+", "-")
                 .replaceAll("(^-|-$)", "");
+    }
+
+    public void incrementCommentsTotal() {
+        this.commentsTotal++;
     }
 }
 

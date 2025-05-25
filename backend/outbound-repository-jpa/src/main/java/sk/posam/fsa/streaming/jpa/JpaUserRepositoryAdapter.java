@@ -5,6 +5,7 @@ import sk.posam.fsa.streaming.domain.models.entities.User;
 import sk.posam.fsa.streaming.domain.repositories.UserRepository;
 
 import java.util.Optional;
+import java.util.UUID;
 
 @Repository
 public class JpaUserRepositoryAdapter implements UserRepository {
@@ -26,12 +27,12 @@ public class JpaUserRepositoryAdapter implements UserRepository {
     }
 
     @Override
-    public void delete(Long id) {
-        userSpringDataRepository.deleteById(id);
+    public User update(User user) {
+        return userSpringDataRepository.save(user);
     }
 
     @Override
-    public User update(User user) {
-        return userSpringDataRepository.save(user);
+    public Optional<User> findByKeycloakId(UUID keycloakId) {
+        return userSpringDataRepository.findByKeycloakId(keycloakId);
     }
 }

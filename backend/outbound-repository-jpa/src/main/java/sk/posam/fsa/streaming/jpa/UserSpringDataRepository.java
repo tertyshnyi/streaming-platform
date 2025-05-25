@@ -7,4 +7,5 @@ import java.util.Optional;
 import java.util.UUID;
 
 public interface UserSpringDataRepository extends JpaRepository<User, Long> {
+    Optional<User> findByKeycloakId(UUID keycloakId);
 }

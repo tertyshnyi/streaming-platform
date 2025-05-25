@@ -25,15 +25,22 @@ class SecurityConfiguration implements WebMvcConfigurer {
                 .build();
     }
 
-    private void configureAuthorizationRules(AuthorizeHttpRequestsConfigurer<HttpSecurity>
-                                                     .AuthorizationManagerRequestMatcherRegistry auth) {
+    private void configureAuthorizationRules(AuthorizeHttpRequestsConfigurer<HttpSecurity>.AuthorizationManagerRequestMatcherRegistry auth) {
         auth
                 .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                 .requestMatchers(HttpMethod.POST, "/users/**").permitAll()
                 .requestMatchers(EndpointRequest.toAnyEndpoint()).permitAll()
+
+                .requestMatchers(HttpMethod.POST, "/movies/**").hasAnyRole("ADMIN", "RELEASER")
+                .requestMatchers(HttpMethod.PUT, "/movies/**").hasAnyRole("ADMIN", "RELEASER")
+                .requestMatchers(HttpMethod.DELETE, "/movies/**").hasAnyRole("ADMIN", "RELEASER")
+
+                .requestMatchers(HttpMethod.POST, "/series/**").hasAnyRole("ADMIN", "RELEASER")
+                .requestMatchers(HttpMethod.PUT, "/series/**").hasAnyRole("ADMIN", "RELEASER")
+                .requestMatchers(HttpMethod.DELETE, "/series/**").hasAnyRole("ADMIN", "RELEASER")
+
                 .anyRequest().permitAll();
     }
-
 
     private void configureOauth2ResourceServer(OAuth2ResourceServerConfigurer<HttpSecurity> oauth2, JwtDecoder jwtDecoder) {
         oauth2

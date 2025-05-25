@@ -2,15 +2,18 @@ package sk.posam.fsa.streaming.controller;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.RestController;
 import sk.posam.fsa.streaming.domain.models.entities.*;
 import sk.posam.fsa.streaming.domain.models.enums.Genre;
 import sk.posam.fsa.streaming.domain.services.SeriesFacade;
+import sk.posam.fsa.streaming.domain.services.UserFacade;
 import sk.posam.fsa.streaming.mapper.EpisodeMapper;
 import sk.posam.fsa.streaming.mapper.SeriesMapper;
 import sk.posam.fsa.streaming.mapper.VideoMapper;
 import sk.posam.fsa.streaming.rest.api.SeriesApi;
 import sk.posam.fsa.streaming.rest.dto.*;
+import sk.posam.fsa.streaming.security.CurrentUserDetailService;
 
 import java.util.Comparator;
 import java.util.List;
@@ -25,12 +28,16 @@ public class SeriesRestController implements SeriesApi {
     private final SeriesMapper seriesMapper;
     private final EpisodeMapper episodeMapper;
     private final VideoMapper videoMapper;
+    private final UserFacade userFacade;
+    private final CurrentUserDetailService currentUserDetailService;
 
-    public SeriesRestController(SeriesFacade seriesFacade, SeriesMapper seriesMapper, EpisodeMapper episodeMapper, VideoMapper videoMapper) {
+    public SeriesRestController(SeriesFacade seriesFacade, SeriesMapper seriesMapper, EpisodeMapper episodeMapper, VideoMapper videoMapper, UserFacade userFacade, CurrentUserDetailService currentUserDetailService) {
         this.seriesFacade = seriesFacade;
         this.seriesMapper = seriesMapper;
         this.episodeMapper = episodeMapper;
         this.videoMapper = videoMapper;
+        this.userFacade = userFacade;
+        this.currentUserDetailService = currentUserDetailService;
     }
 
     @Override
@@ -60,7 +67,10 @@ public class SeriesRestController implements SeriesApi {
 
     @Override
     public ResponseEntity<SeriesDto> createSeries(CreateSeriesDto createSeriesDto) {
-        Series series = seriesMapper.toEntity(createSeriesDto);
+        UserDto userDto = currentUserDetailService.getCurrentUser();
+        User user = userFacade.findByKeycloakId(userDto.getKeycloakId())
+                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+        Series series = seriesMapper.toEntity(createSeriesDto, user, user);
         Series saved = seriesFacade.create(series);
         return ResponseEntity.status(HttpStatus.CREATED).body(seriesMapper.toDto(saved));
     }
@@ -68,8 +78,16 @@ public class SeriesRestController implements SeriesApi {
     @Override
     public ResponseEntity<SeriesDto> updateSeries(Long id, CreateSeriesDto dto) {
         try {
-            Series series = seriesMapper.toEntity(dto);
-            Series updated = seriesFacade.update(id, series);
+            UserDto userDto = currentUserDetailService.getCurrentUser();
+            User user = userFacade.findByKeycloakId(userDto.getKeycloakId())
+                    .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+
+            Series existingSeries = seriesFacade.get(id)
+                    .orElseThrow(() -> new NoSuchElementException("Series not found"));
+
+            seriesMapper.updateEntity(existingSeries, dto, user);
+
+            Series updated = seriesFacade.update(id, existingSeries);
             return ResponseEntity.ok(seriesMapper.toDto(updated));
         } catch (NoSuchElementException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
@@ -118,27 +136,9 @@ public class SeriesRestController implements SeriesApi {
             Series series = seriesFacade.get(seriesId).orElseThrow(() -> new NoSuchElementException("Series not found"));
             Episode episode = seriesFacade.getEpisodeById(seriesId, episodeId).orElseThrow(() -> new NoSuchElementException("Episode not found"));
 
-            episode.setTitle(episodeDto.getTitle());
-            episode.setDuration(episodeDto.getDuration());
+            episodeMapper.updateEntity(episode, episodeDto);
 
-            if (episodeDto.getVideos() != null) {
-                List<Video> updatedVideos = episodeDto.getVideos().stream()
-                        .map(videoDto -> videoMapper.toEntity(videoDto, episode, null))
-                        .toList();
-
-                List<Video> currentVideos = episode.getVideos();
-
-                currentVideos.removeIf(video -> !updatedVideos.contains(video));
-
-                for (Video video : updatedVideos) {
-                    if (!currentVideos.contains(video)) {
-                        video.setEpisode(episode);
-                        currentVideos.add(video);
-                    }
-                }
-            }
-
-            Series updatedSeries = seriesFacade.updateEpisode(seriesId, episodeId, episode);
+            seriesFacade.updateEpisode(seriesId, episodeId, episode);
 
             Episode updatedEpisode = seriesFacade.getEpisodeById(seriesId, episodeId)
                     .orElseThrow(() -> new NoSuchElementException("Episode not found after update"));

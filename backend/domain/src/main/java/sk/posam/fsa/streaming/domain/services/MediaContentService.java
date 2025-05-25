@@ -77,6 +77,7 @@ public abstract class MediaContentService<T extends MediaContent> implements Med
         return slug;
     }
 
+    @Override
     public List<T> filter(MediaContentFilter filter) {
         return repository.filter(filter);
     }

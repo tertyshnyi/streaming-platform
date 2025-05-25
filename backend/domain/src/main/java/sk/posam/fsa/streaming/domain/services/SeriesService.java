@@ -70,4 +70,20 @@ public class SeriesService extends MediaContentService<Series> implements Series
                 .findFirst()
                 .orElseThrow(() -> new NoSuchElementException("Episode not found with id: " + episodeId));
     }
+
+    @Override
+    public void incrementCommentsTotal(Long id) {
+        Series series = seriesRepository.get(id)
+                .orElseThrow(() -> new IllegalArgumentException("Movie not found"));
+        series.setCommentsTotal(series.getCommentsTotal() + 1);
+        seriesRepository.update(id, series);
+    }
+
+    @Override
+    public void decrementCommentsTotal(Long id) {
+        Series series = seriesRepository.get(id).orElseThrow(() -> new IllegalArgumentException("Movie not found"));
+        int current = series.getCommentsTotal();
+        series.setCommentsTotal(Math.max(0, current - 1));
+        seriesRepository.update(id, series);
+    }
 }

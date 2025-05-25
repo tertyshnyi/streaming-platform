@@ -2,12 +2,11 @@ package sk.posam.fsa.streaming.mapper;
 
 import org.springframework.stereotype.Component;
 import sk.posam.fsa.streaming.domain.models.entities.Episode;
+import sk.posam.fsa.streaming.domain.models.entities.Movie;
 import sk.posam.fsa.streaming.domain.models.entities.Series;
+import sk.posam.fsa.streaming.domain.models.entities.User;
 import sk.posam.fsa.streaming.domain.models.enums.Genre;
-import sk.posam.fsa.streaming.rest.dto.CreateSeriesDto;
-import sk.posam.fsa.streaming.rest.dto.EpisodeDto;
-import sk.posam.fsa.streaming.rest.dto.GenreDto;
-import sk.posam.fsa.streaming.rest.dto.SeriesDto;
+import sk.posam.fsa.streaming.rest.dto.*;
 
 import java.time.ZoneOffset;
 import java.util.List;
@@ -45,13 +44,15 @@ public class SeriesMapper {
         dto.setEpisodes(toMinimalEpisodeDtoList(series.getEpisodes()));
         dto.setCreatedAt(series.getCreatedAt() != null ? series.getCreatedAt().atOffset(ZoneOffset.UTC) : null);
         dto.setUpdatedAt(series.getUpdatedAt() != null ? series.getUpdatedAt().atOffset(ZoneOffset.UTC) : null);
+        dto.setCreatedBy(series.getCreatedBy() != null ? series.getCreatedBy().getId().toString() : null);
+        dto.setUpdatedBy(series.getUpdatedBy() != null ? series.getUpdatedBy().getId().toString() : null);
         dto.setCommentsTotal(series.getCommentsTotal());
-        dto.setGlobalRating(series.getGlobalRating() != null ? series.getGlobalRating() : null);
+        dto.setGlobalRating(series.getGlobalRating());
 
         return dto;
     }
 
-    public Series toEntity(CreateSeriesDto dto) {
+    public Series toEntity(CreateSeriesDto dto, User createdBy, User updatedBy) {
         if (dto == null) return null;
 
         Series series = new Series();
@@ -71,6 +72,9 @@ public class SeriesMapper {
         series.setCoverImg(dto.getCoverImg());
         series.setEpisodeCount(dto.getEpisodeCount());
         series.setAvgDuration(dto.getAvgDuration());
+        series.setCreatedBy(createdBy);
+        series.setUpdatedBy(null);
+
         if (dto.getEpisodes() != null) {
             List<Episode> episodes = dto.getEpisodes().stream()
                     .map(episodeDto -> episodeMapper.toEntity(episodeDto, series))
@@ -79,6 +83,55 @@ public class SeriesMapper {
         }
 
         return series;
+    }
+
+    public void updateEntity(Series existingSeries, CreateSeriesDto dto, User updatedBy) {
+        if (dto == null || existingSeries == null) return;
+
+        existingSeries.setTitle(dto.getTitle());
+        existingSeries.setType(dto.getType());
+        existingSeries.setDescription(dto.getDescription());
+        existingSeries.setReleaseDate(dto.getReleaseDate());
+        existingSeries.setReleaseYear(dto.getReleaseYear());
+        existingSeries.setGenres(dto.getGenres().stream()
+                .map(g -> Genre.valueOf(g.name()))
+                .collect(Collectors.toList()));
+        existingSeries.setActors(listToString(dto.getActors()));
+        existingSeries.setDirectors(listToString(dto.getDirectors()));
+        existingSeries.setTrailerUrl(dto.getTrailerUrl());
+        existingSeries.setCountries(dto.getCountries());
+        existingSeries.setPosterImg(dto.getPosterImg());
+        existingSeries.setCoverImg(dto.getCoverImg());
+        existingSeries.setEpisodeCount(dto.getEpisodeCount());
+        existingSeries.setAvgDuration(dto.getAvgDuration());
+        existingSeries.setUpdatedBy(updatedBy);
+
+        if (dto.getEpisodes() != null) {
+            List<Episode> newEpisodes = dto.getEpisodes().stream()
+                    .map(episodeDto -> episodeMapper.toEntity(episodeDto, existingSeries))
+                    .collect(Collectors.toList());
+
+            List<Episode> existingEpisodes = existingSeries.getEpisodes();
+
+            existingEpisodes.removeIf(existing -> newEpisodes.stream()
+                    .noneMatch(ne -> ne.getId() != null && ne.getId().equals(existing.getId()))
+            );
+
+            for (Episode newEp : newEpisodes) {
+                if (newEp.getId() == null) {
+                    existingEpisodes.add(newEp);
+                } else {
+                    existingEpisodes.stream()
+                            .filter(ex -> ex.getId().equals(newEp.getId()))
+                            .findFirst()
+                            .ifPresent(existingEp -> {
+                                existingEp.setTitle(newEp.getTitle());
+                                existingEp.setDuration(newEp.getDuration());
+                                existingEp.setVideos(newEp.getVideos());
+                            });
+                }
+            }
+        }
     }
 
     public SeriesDto toMinimalDto(Series series) {
@@ -99,7 +152,6 @@ public class SeriesMapper {
         if (str == null || str.isEmpty()) return List.of();
         return List.of(str.split("\\s*,\\s*"));
     }
-
 
     private List<GenreDto> toGenreDtoList(List<Genre> genres) {
         if (genres == null) return null;

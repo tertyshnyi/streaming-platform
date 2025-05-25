@@ -60,4 +60,36 @@ public class EpisodeMapper {
 
         return entity;
     }
+
+    public void updateEntity(Episode existingEpisode, EpisodeDto dto) {
+        if (dto == null || existingEpisode == null) return;
+
+        existingEpisode.setTitle(dto.getTitle());
+        existingEpisode.setDuration(dto.getDuration());
+
+        if (dto.getVideos() != null) {
+            List<Video> newVideos = dto.getVideos().stream()
+                    .map(videoDto -> videoMapper.toEntity(videoDto, existingEpisode, null))
+                    .collect(Collectors.toList());
+
+            List<Video> existingVideos = existingEpisode.getVideos();
+
+            existingVideos.removeIf(ev -> newVideos.stream().noneMatch(nv -> nv.getId() != null && nv.getId().equals(ev.getId())));
+
+            for (Video newVideo : newVideos) {
+                if (newVideo.getId() == null) {
+                    existingVideos.add(newVideo);
+                } else {
+                    existingVideos.stream()
+                            .filter(ev -> ev.getId().equals(newVideo.getId()))
+                            .findFirst()
+                            .ifPresent(ev -> {
+                                ev.setUrl(newVideo.getUrl());
+                                ev.setResolution(newVideo.getResolution());
+                            });
+                }
+            }
+        }
+    }
+
 }

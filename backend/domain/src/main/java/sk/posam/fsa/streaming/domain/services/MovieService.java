@@ -14,4 +14,19 @@ public class MovieService extends MediaContentService<Movie> implements MovieFac
         this.movieRepository = movieRepository;
     }
 
+    @Override
+    public void incrementCommentsTotal(Long id) {
+        Movie movie = movieRepository.get(id)
+                .orElseThrow(() -> new IllegalArgumentException("Movie not found"));
+        movie.setCommentsTotal(movie.getCommentsTotal() + 1);
+        movieRepository.update(id, movie);
+    }
+
+    @Override
+    public void decrementCommentsTotal(Long id) {
+        Movie movie = movieRepository.get(id).orElseThrow(() -> new IllegalArgumentException("Movie not found"));
+        int current = movie.getCommentsTotal();
+        movie.setCommentsTotal(Math.max(0, current - 1));
+        movieRepository.update(id, movie);
+    }
 }

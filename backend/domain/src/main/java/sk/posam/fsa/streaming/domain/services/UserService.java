@@ -18,8 +18,12 @@ public class UserService implements UserFacade {
 
     @Override
     public User createWithKeycloak(User user) {
-        String keycloakId = keycloakRegistration.register(user);
+        UUID keycloakId = keycloakRegistration.register(user);
         user.setKeycloakId(keycloakId);
+
+        List<String> roles = keycloakRegistration.getUserRoles(keycloakId);
+
+        user.setAuthorities(String.join(",", roles));
 
         if (user.getCreatedAt() == null) {
             user.setCreatedAt(LocalDateTime.now());
@@ -69,16 +73,11 @@ public class UserService implements UserFacade {
     }
 
     @Override
-    public void delete(Long id) {
-        Optional<User> user = userRepository.get(id);
-        if (user.isEmpty()) {
-            throw new NoSuchElementException("User not found by id: " + id);
-        }
-
+    public Optional<User> findByKeycloakId(UUID keycloakId) {
         try {
-            userRepository.delete(id);
+            return userRepository.findByKeycloakId(keycloakId);
         } catch (Exception e) {
-            throw new RuntimeException("Unable to delete user with id: " + id + ". " + e.getMessage(), e);
+            throw new RuntimeException("Error finding user by keycloakId: " + e.getMessage(), e);
         }
     }
 }

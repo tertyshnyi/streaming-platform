@@ -7,7 +7,7 @@ import java.util.UUID;
 
 public class User {
     private Long id;
-    private String keycloakId;
+    private UUID keycloakId;
     private String name;
     private String password;
     private String phoneNumber;
@@ -18,9 +18,10 @@ public class User {
 
     public User(){}
 
-    public User(Long id, String keycloakId, String name, String password, String phoneNumber, String email, String authorities,
+    public User(Long id, UUID keycloakId, String name, String password, String phoneNumber, String email, String authorities,
                 String profileImg, LocalDateTime createdAt) {
         this.id = id;
+        this.keycloakId = keycloakId;
         this.name = name;
         this.password = password;
         this.phoneNumber = phoneNumber;
@@ -38,11 +39,11 @@ public class User {
         this.id = id;
     }
 
-    public String getKeycloakId() {
+    public UUID getKeycloakId() {
         return keycloakId;
     }
 
-    public void setKeycloakId(String keycloakId) {
+    public void setKeycloakId(UUID keycloakId) {
         this.keycloakId = keycloakId;
     }
 

@@ -17,8 +17,11 @@ public class Series extends MediaContent {
                   LocalDateTime createdAt, LocalDateTime updatedAt, User createdBy, User updatedBy, String type,
                   Float globalRating, List<Comment> comments, Integer commentsTotal, String posterImg, String coverImg,
                   List<Episode> episodes, Integer episodeCount, Integer avgDuration) {
+
         super(id, title, slug, releaseDate, releaseYear, description, genres, actors, directors, trailerUrl,
-                countries, createdAt, updatedAt, globalRating, comments, commentsTotal, posterImg, coverImg, type);
+                countries, createdAt, updatedAt, createdBy, updatedBy, globalRating, comments, commentsTotal, posterImg,
+                coverImg, type);
+
         this.episodes = episodes;
         this.episodeCount = episodeCount;
         this.avgDuration = avgDuration;

@@ -15,4 +15,6 @@ public interface MediaContentFacade<T extends MediaContent> {
     List<T> findAll();
     List<T> filter(MediaContentFilter filter);
     List<T> searchByText(String text);
+    void incrementCommentsTotal(Long id);
+    void decrementCommentsTotal(Long id);
 }

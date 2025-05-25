@@ -1,16 +1,16 @@
 package sk.posam.fsa.streaming.jpa;
 
 import jakarta.persistence.criteria.*;
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Repository;
 import sk.posam.fsa.streaming.domain.models.entities.MediaContentFilter;
-import sk.posam.fsa.streaming.domain.models.entities.Movie;
 import sk.posam.fsa.streaming.domain.models.entities.Series;
 import sk.posam.fsa.streaming.domain.models.enums.Genre;
 import sk.posam.fsa.streaming.domain.repositories.SeriesRepository;
+import sk.posam.fsa.streaming.domain.models.entities.MediaContent;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
-import jakarta.persistence.criteria.*;
 
 import java.util.List;
 import java.util.Optional;
@@ -117,5 +117,4 @@ public class JpaSeriesRepositoryAdapter implements SeriesRepository {
 
         return entityManager.createQuery(query).getResultList();
     }
-
 }
