@@ -57,7 +57,7 @@
         <dependency>
             <groupId>org.keycloak</groupId>
             <artifactId>keycloak-admin-client</artifactId>
-            <version>22.0.1</version> <!-- Укажи актуальную версию для твоего Keycloak -->
+            <version>22.0.1</version>
         </dependency>
     </dependencies>
 

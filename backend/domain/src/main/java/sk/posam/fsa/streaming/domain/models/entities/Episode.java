@@ -6,11 +6,11 @@ import java.util.Optional;
 public class Episode {
     private Long id;
     private Series series;
-    private Optional<String> title;
+    private String title;
     private Integer duration;
     private List<Video> videos;
 
-    public Episode(Long id, Series series, Optional<String> title, Integer duration, List<Video> videos) {
+    public Episode(Long id, Series series, String title, Integer duration, List<Video> videos) {
         this.id = id;
         this.series = series;
         this.title = title;
@@ -37,11 +37,11 @@ public class Episode {
         this.series = series;
     }
 
-    public Optional<String> getTitle() {
+    public String getTitle() {
         return title;
     }
 
-    public void setTitle(Optional<String> title) {
+    public void setTitle(String title) {
         this.title = title;
     }
 

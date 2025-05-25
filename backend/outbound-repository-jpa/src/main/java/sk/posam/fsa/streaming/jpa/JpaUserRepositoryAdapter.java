@@ -17,9 +17,8 @@ public class JpaUserRepositoryAdapter implements UserRepository {
     }
 
     @Override
-    public Optional<User> get(UUID id) {
-        Optional<User> user = userSpringDataRepository.findById(id);
-        return user;
+    public Optional<User> get(Long id) {
+        return userSpringDataRepository.findById(id);
     }
 
     @Override
@@ -28,7 +27,12 @@ public class JpaUserRepositoryAdapter implements UserRepository {
     }
 
     @Override
-    public void delete(UUID id) {
-        userSpringDataRepository.deleteById(id);
+    public User update(User user) {
+        return userSpringDataRepository.save(user);
+    }
+
+    @Override
+    public Optional<User> findByKeycloakId(UUID keycloakId) {
+        return userSpringDataRepository.findByKeycloakId(keycloakId);
     }
 }

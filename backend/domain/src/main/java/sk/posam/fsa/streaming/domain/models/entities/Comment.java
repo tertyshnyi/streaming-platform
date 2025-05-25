@@ -25,6 +25,8 @@ public class Comment {
         this.childrenComments = childrenComments;
     }
 
+    public Comment(){}
+
     public Long getId() {
         return id;
     }

@@ -6,7 +6,10 @@ import java.util.Optional;
 import java.util.UUID;
 
 public interface UserFacade {
-    Optional<User> get(UUID id);
+    User createWithKeycloak(User user);
+    User updateWithKeycloak(User user);
+    Optional<User> get(Long id);
     User create(User user);
-    void delete(UUID id);
+    User update(User user);
+    Optional<User> findByKeycloakId(UUID keycloakId);
 }

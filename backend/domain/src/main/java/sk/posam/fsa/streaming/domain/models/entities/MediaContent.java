@@ -4,38 +4,39 @@ import sk.posam.fsa.streaming.domain.models.enums.Genre;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 public abstract class MediaContent {
     protected Long id;
     protected String title;
+    protected String slug;
     protected LocalDate releaseDate;
     protected Integer releaseYear;
     protected String description;
-    protected List<Genre> genres;
+    protected List<Genre> genres = new ArrayList<>();
     protected String actors;
     protected String directors;
     protected String trailerUrl;
-    protected List<String> countries;
+    protected List<String> countries = new ArrayList<>();
     protected LocalDateTime createdAt;
     protected LocalDateTime updatedAt;
     protected User createdBy;
     protected User updatedBy;
-    protected String type;
-
-    protected Double globalRating;
-    protected List<Comment> comments;
+    protected Float globalRating;
+    protected List<Comment> comments = new ArrayList<>();
     protected Integer commentsTotal;
     protected String posterImg;
     protected String coverImg;
+    protected String type;
 
-    public MediaContent(Long id, String title, LocalDate releaseDate, Integer releaseYear, String description,
+    public MediaContent(Long id, String title, String slug, LocalDate releaseDate, Integer releaseYear, String description,
                         List<Genre> genres, String actors, String directors, String trailerUrl, List<String> countries,
-                        LocalDateTime createdAt, LocalDateTime updatedAt, User createdBy, User updatedBy, String type,
-                        Double globalRating, List<Comment> comments, Integer commentsTotal, String posterImg,
-                        String coverImg) {
+                        LocalDateTime createdAt, LocalDateTime updatedAt, User createdBy, User updatedBy, Float globalRating,
+                        List<Comment> comments, Integer commentsTotal, String posterImg, String coverImg, String type) {
         this.id = id;
         this.title = title;
+        this.slug = slug;
         this.releaseDate = releaseDate;
         this.releaseYear = releaseYear;
         this.description = description;
@@ -48,12 +49,12 @@ public abstract class MediaContent {
         this.updatedAt = updatedAt;
         this.createdBy = createdBy;
         this.updatedBy = updatedBy;
-        this.type = type;
         this.globalRating = globalRating;
         this.comments = comments;
         this.commentsTotal = commentsTotal;
         this.posterImg = posterImg;
         this.coverImg = coverImg;
+        this.type = type;
     }
 
     public MediaContent() {}
@@ -72,6 +73,14 @@ public abstract class MediaContent {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public String getSlug() {
+        return slug;
+    }
+
+    public void setSlug(String slug) {
+        this.slug = slug;
     }
 
     public LocalDate getReleaseDate() {
@@ -170,19 +179,11 @@ public abstract class MediaContent {
         this.updatedBy = updatedBy;
     }
 
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
-
-    public Double getGlobalRating() {
+    public Float getGlobalRating() {
         return globalRating;
     }
 
-    public void setGlobalRating(Double globalRating) {
+    public void setGlobalRating(Float globalRating) {
         this.globalRating = globalRating;
     }
 
@@ -216,6 +217,29 @@ public abstract class MediaContent {
 
     public void setCoverImg(String coverImg) {
         this.coverImg = coverImg;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public void updateCommentsTotal() {
+        this.commentsTotal = comments == null ? 0 : comments.size();
+    }
+
+    public String generateBaseSlug() {
+        if (title == null) return null;
+        return title.toLowerCase()
+                .replaceAll("[^a-z0-9]+", "-")
+                .replaceAll("(^-|-$)", "");
+    }
+
+    public void incrementCommentsTotal() {
+        this.commentsTotal++;
     }
 }
 

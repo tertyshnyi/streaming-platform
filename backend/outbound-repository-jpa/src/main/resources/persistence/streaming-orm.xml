@@ -7,13 +7,15 @@
         https://jakarta.ee/xml/ns/persistence/orm/orm_3_0.xsd"
         version="3.0">
 
-    <!-- User Entity -->
     <entity class="sk.posam.fsa.streaming.domain.models.entities.User" access="FIELD">
         <table name="users"/>
         <attributes>
             <id name="id">
                 <generated-value strategy="IDENTITY"/>
             </id>
+            <basic name="keycloakId">
+                <column name="keycloakId" nullable="false"/>
+            </basic>
             <basic name="name">
                 <column name="name" nullable="false"/>
             </basic>
@@ -29,14 +31,153 @@
             <basic name="profileImg">
                 <column name="profileImg" nullable="true"/>
             </basic>
-            <basic name="createdAt">
-                <column name="createdAt"/>
-            </basic>
-
-            <basic name="authorities">
-                <column name="authorities"/>
-            </basic>
+            <basic name="createdAt"/>
+            <basic name="authorities"/>
         </attributes>
     </entity>
+
+    <entity class="sk.posam.fsa.streaming.domain.models.entities.MediaContent" access="FIELD">
+        <table name="media_content"/>
+        <inheritance strategy="JOINED"/>
+        <attributes>
+            <id name="id">
+                <generated-value strategy="IDENTITY"/>
+            </id>
+
+            <basic name="title"/>
+            <basic name="releaseDate"/>
+            <basic name="releaseYear"/>
+            <basic name="description"/>
+            <basic name="actors"/>
+            <basic name="directors"/>
+            <basic name="trailerUrl"/>
+            <basic name="createdAt"/>
+            <basic name="updatedAt"/>
+            <basic name="type"/>
+            <basic name="globalRating"/>
+            <basic name="commentsTotal"/>
+            <basic name="posterImg"/>
+            <basic name="coverImg"/>
+
+            <many-to-one name="updatedBy">
+                <join-column name="updated_by_id"/>
+            </many-to-one>
+            <many-to-one name="createdBy">
+                <join-column name="created_by_id" />
+            </many-to-one>
+
+            <one-to-many name="comments" mapped-by="mediaContent"/>
+
+            <element-collection name="genres">
+                <collection-table name="media_content_genres"/>
+            </element-collection>
+            <element-collection name="countries">
+                <collection-table name="media_content_countries"/>
+            </element-collection>
+        </attributes>
+    </entity>
+
+    <entity class="sk.posam.fsa.streaming.domain.models.entities.Movie" access="FIELD">
+        <table name="movies"/>
+        <attributes>
+            <basic name="duration"/>
+
+            <one-to-many name="videos" mapped-by="movie" orphan-removal="true">
+                <cascade>
+                    <cascade-all/>
+                </cascade>
+            </one-to-many>
+        </attributes>
+    </entity>
+
+    <entity class="sk.posam.fsa.streaming.domain.models.entities.Series" access="FIELD">
+        <table name="series"/>
+        <attributes>
+            <basic name="episodeCount"/>
+            <basic name="avgDuration"/>
+
+            <one-to-many name="episodes" mapped-by="series" orphan-removal="true">
+                <cascade>
+                    <cascade-all/>
+                </cascade>
+            </one-to-many>
+        </attributes>
+    </entity>
+
+    <entity class="sk.posam.fsa.streaming.domain.models.entities.Comment" access="FIELD">
+        <table name="comments"/>
+        <attributes>
+            <id name="id">
+                <generated-value strategy="IDENTITY"/>
+            </id>
+
+            <basic name="content"/>
+            <basic name="createdAt"/>
+
+            <many-to-one name="user">
+                <join-column name="user_id" />
+            </many-to-one>
+
+            <many-to-one name="mediaContent">
+                <join-column name="media_content_id" />
+            </many-to-one>
+
+            <many-to-one name="parentComment">
+                <join-column name="parent_comment_id" />
+            </many-to-one>
+
+            <one-to-many name="childrenComments" mapped-by="parentComment" orphan-removal="true">
+                <cascade>
+                    <cascade-all/>
+                </cascade>
+            </one-to-many>
+        </attributes>
+    </entity>
+
+    <entity class="sk.posam.fsa.streaming.domain.models.entities.Episode" access="FIELD">
+        <table name="episodes"/>
+        <attributes>
+            <id name="id">
+                <generated-value strategy="IDENTITY"/>
+            </id>
+
+            <basic name="title">
+                <column name="title"/>
+            </basic>
+
+            <basic name="duration"/>
+
+            <many-to-one name="series">
+                <join-column name="series_id"/>
+            </many-to-one>
+
+            <one-to-many name="videos" mapped-by="episode" orphan-removal="true">
+                <cascade>
+                    <cascade-all/>
+                </cascade>
+            </one-to-many>
+        </attributes>
+    </entity>
+
+    <entity class="sk.posam.fsa.streaming.domain.models.entities.Video" access="FIELD">
+        <table name="videos"/>
+        <attributes>
+            <id name="id">
+                <generated-value strategy="IDENTITY"/>
+            </id>
+
+            <basic name="resolution"/>
+            <basic name="url"/>
+
+            <many-to-one name="episode">
+                <join-column name="episode_id"/>
+            </many-to-one>
+
+            <many-to-one name="movie">
+                <join-column name="movie_id"/>
+            </many-to-one>
+        </attributes>
+    </entity>
+
 
 </entity-mappings>

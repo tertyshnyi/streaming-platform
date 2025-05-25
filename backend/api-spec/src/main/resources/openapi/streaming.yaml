@@ -26,13 +26,43 @@ paths:
               schema:
                 $ref: '#/components/schemas/User'
 
+  /users/{id}:
+    put:
+      summary: Update existing user
+      operationId: updateUser
+      tags:
+        - User
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID of the user to update
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        required: true
+        description: Updated user data
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateUser'
+      responses:
+        '200':
+          description: User updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '404':
+          description: User not found
+
   /users/me:
     get:
       summary: Get current user
       operationId: getCurrentUser
       tags:
         - User
-
       responses:
         '200':
           description: User found
@@ -43,24 +73,558 @@ paths:
         '404':
           description: User not found
 
-    delete:
-      summary: Delete user by ID
-      operationId: deleteUser
+  /series:
+    post:
+      summary: Create a new series
+      operationId: createSeries
+      tags: [ Series ]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateSeries'
+      responses:
+        '201':
+          description: Series created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Series'
+
+    get:
+      summary: Get list of series
+      operationId: getAllSeries
+      tags: [ Series ]
+      responses:
+        '200':
+          description: List of series
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Series'
+
+  /series/{id}:
+    put:
+      summary: Update an existing series
+      operationId: updateSeries
       tags:
-        - User
+        - Series
       parameters:
         - name: id
           in: path
           required: true
-          description: The ID of the user to delete
+          description: ID of the series to update
           schema:
-            type: string
-            format: uuid
+            type: integer
+            format: int64
+      requestBody:
+        description: Updated series object
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateSeries'
+      responses:
+        '200':
+          description: Successfully updated series
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Series'
+        '404':
+          description: Series not found
+
+    get:
+      summary: Get series by ID
+      operationId: getSeriesById
+      tags: [ Series ]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Found series
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Series'
+        '404':
+          description: Not found
+
+    delete:
+      summary: Delete series by ID
+      operationId: deleteSeries
+      tags: [ Series ]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
       responses:
         '204':
-          description: User deleted
+          description: Deleted
+
+  /movies:
+    post:
+      summary: Create a new movie
+      operationId: createMovie
+      tags: [ Movie ]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateMovie'
+      responses:
+        '201':
+          description: Movie created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Movie'
+
+    get:
+      summary: Get list of movies
+      operationId: getAllMovies
+      tags: [ Movie ]
+      responses:
+        '200':
+          description: List of movies
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Movie'
+
+  /movies/{id}:
+    put:
+      summary: Update an existing movie
+      operationId: updateMovie
+      tags:
+        - Movies
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID of the movie to update
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        description: Updated movie object
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateMovie'
+      responses:
+        '200':
+          description: Successfully updated movie
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Movie'
         '404':
-          description: User not found
+          description: Movie not found
+
+    get:
+      summary: Get movie by ID
+      operationId: getMovieById
+      tags: [ Movie ]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Found movie
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Movie'
+        '404':
+          description: Not found
+
+    delete:
+      summary: Delete movie by ID
+      operationId: deleteMovie
+      tags: [ Movie ]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '204':
+          description: Deleted
+
+  /series/{seriesId}/episodes:
+    post:
+      summary: Add a new episode to a series
+      operationId: addEpisodeToSeries
+      tags:
+        - Episode
+      parameters:
+        - name: seriesId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Episode'
+      responses:
+        '201':
+          description: Created episode
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Episode'
+
+    get:
+      summary: Get all episodes of a series
+      operationId: getAllEpisodesOfSeries
+      tags:
+        - Episode
+      parameters:
+        - name: seriesId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: List of episodes for the series
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Episode'
+
+  /series/{seriesId}/episodes/{episodeId}:
+    get:
+      summary: Get an episode by ID
+      operationId: getEpisodeById
+      tags:
+        - Episode
+      parameters:
+        - name: seriesId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: episodeId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Found episode
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Episode'
+        '404':
+          description: Episode not found
+
+    put:
+      summary: Update an episode by ID
+      operationId: updateEpisodeById
+      tags:
+        - Episode
+      parameters:
+        - name: seriesId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: episodeId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Episode'
+      responses:
+        '200':
+          description: Updated episode
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Episode'
+        '404':
+          description: Episode not found
+
+    delete:
+      summary: Delete an episode by ID
+      operationId: deleteEpisodeById
+      tags:
+        - Episode
+      parameters:
+        - name: seriesId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: episodeId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '204':
+          description: Episode deleted
+        '404':
+          description: Episode not found
+
+  /media/filter:
+    get:
+      summary: Filter media content (movies or series)
+      parameters:
+        - name: type
+          in: query
+          description: Type of content (MOVIE, SERIES, or omitted for all)
+          required: false
+          schema:
+            type: string
+            enum: [ MOVIE, SERIES ]
+
+        - name: genres
+          in: query
+          description: List of genres
+          required: false
+          style: form
+          explode: true
+          schema:
+            type: array
+            items:
+              $ref: '#/components/schemas/Genre'
+
+        - name: countries
+          in: query
+          description: List of countries
+          required: false
+          style: form
+          explode: true
+          schema:
+            type: array
+            items:
+              type: string
+
+        - name: releaseYears
+          in: query
+          description: List of release years
+          required: false
+          style: form
+          explode: true
+          schema:
+            type: array
+            items:
+              type: integer
+
+        - name: ratingFrom
+          in: query
+          required: false
+          schema:
+            type: number
+            format: float
+
+        - name: ratingTo
+          in: query
+          required: false
+          schema:
+            type: number
+            format: float
+
+      responses:
+        '200':
+          description: List of filtered media content
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/MediaContent'
+
+  /media/search:
+    get:
+      summary: Search media content by text
+      parameters:
+        - name: query
+          in: query
+          description: Text to search in title and description
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Search results
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/MediaContent'
+
+  /comments:
+    post:
+      summary: Create a new comment
+      operationId: createComment
+      tags: [ Comment ]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateComment'
+      responses:
+        '201':
+          description: Comment created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Comment'
+
+  /comments/{id}:
+    get:
+      summary: Get comment by ID
+      operationId: getCommentById
+      tags: [ Comment ]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Found comment
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Comment'
+        '404':
+          description: Comment not found
+
+    put:
+      summary: Update an existing comment
+      operationId: updateComment
+      tags: [ Comment ]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateComment'
+      responses:
+        '200':
+          description: Successfully updated comment
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Comment'
+        '404':
+          description: Comment not found
+
+    delete:
+      summary: Delete comment by ID
+      operationId: deleteComment
+      tags: [ Comment ]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '204':
+          description: Comment deleted
+
+  /comments/media/{mediaContentId}:
+    get:
+      summary: Get comments by media content ID
+      operationId: getCommentsByMediaContentId
+      tags: [ Comment ]
+      parameters:
+        - name: mediaContentId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: List of comments for media content
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Comment'
+
+  /comments/parent/{parentCommentId}/tree:
+    get:
+      summary: Get recursive comment tree starting from parent comment ID
+      operationId: getCommentTreeByParentCommentId
+      tags:
+        - Comment
+      parameters:
+        - name: parentCommentId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Recursive tree of comments starting from parent comment
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Comment'
 
 components:
   schemas:
@@ -72,6 +636,10 @@ components:
         - password
         - phoneNumber
       properties:
+        keycloakId:
+          type: string
+          format: uuid
+          description: User's keycloak id
         name:
           type: string
           description: User's name
@@ -93,20 +661,46 @@ components:
           description: User's profile image URL
           example: "https://example.com/profile.jpg"
 
+    UpdateUser:
+      type: object
+      properties:
+        name:
+          type: string
+          description: User's name
+          example: "John Doe"
+        email:
+          type: string
+          description: User's email
+          example: "johndoe@example.com"
+        password:
+          type: string
+          description: New password
+          example: "newpassword123"
+        phoneNumber:
+          type: string
+          description: User's phone number
+          example: "+1234567890"
+        profileImg:
+          type: string
+          description: Profile image URL
+          example: "https://example.com/profile.jpg"
+
     User:
       type: object
       required:
-        - id
+        - keycloakId
         - name
         - email
         - phoneNumber
-        - createdAt
       properties:
         id:
+          type: integer
+          format: int64
+          description: User ID (auto-generated by the server)
+        keycloakId:
           type: string
           format: uuid
-          description: User ID (auto-generated by the server)
-          example: 1
+          description: User's keycloak id
         name:
           type: string
           description: User's name
@@ -133,3 +727,307 @@ components:
           format: date-time
           description: Timestamp when the user was created
           example: "2025-04-08T12:00:00Z"
+
+    Genre:
+      type: string
+      description: Genre of the media content
+      enum:
+        - ACTION
+        - ADVENTURE
+        - ANIMATION
+        - BIOGRAPHY
+        - COMEDY
+        - CRIME
+        - DOCUMENTARY
+        - DRAMA
+        - FAMILY
+        - FANTASY
+        - HISTORY
+        - HORROR
+        - MUSIC
+        - MYSTERY
+        - ROMANCE
+        - SCIENCE_FICTION
+        - SPORT
+        - THRILLER
+        - WAR
+        - WESTERN
+        - MUSICAL
+        - SUPERHERO
+        - SHORT
+        - REALITY
+        - TALK_SHOW
+        - GAME_SHOW
+        - NEWS
+        - NOIR
+        - EXPERIMENTAL
+
+    Episode:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          description: Unique identifier for the episode
+        seriesId:
+          type: integer
+          description: The ID of the series this episode belongs to
+        title:
+          type: string
+          nullable: true
+          description: Title of the episode (optional)
+        duration:
+          type: integer
+          description: Duration of the episode in minutes
+        videos:
+          type: array
+          items:
+            $ref: '#/components/schemas/Video'
+          description: List of videos for this episode
+      required:
+        - id
+        - series
+        - duration
+        - videos
+
+    CreateSeries:
+      type: object
+      required: [ title, releaseDate ]
+      properties:
+        title:
+          type: string
+        description:
+          type: string
+        releaseDate:
+          type: string
+          format: date
+        releaseYear:
+          type: integer
+        genres:
+          type: array
+          items:
+            $ref: '#/components/schemas/Genre'
+        actors:
+          type: array
+          items:
+            type: string
+        directors:
+          type: array
+          items:
+            type: string
+        trailerUrl:
+          type: string
+        countries:
+          type: array
+          items:
+            type: string
+        globalRating:
+          type: number
+          format: float
+        posterImg:
+          type: string
+        coverImg:
+          type: string
+        type:
+          type: string
+        episodeCount:
+          type: integer
+        avgDuration:
+          type: integer
+        episodes:
+          type: array
+          items:
+            $ref: '#/components/schemas/Episode'
+
+    Series:
+      allOf:
+        - $ref: '#/components/schemas/CreateSeries'
+        - type: object
+          properties:
+            id:
+              type: integer
+              format: int64
+            createdAt:
+              type: string
+              format: date-time
+            updatedAt:
+              type: string
+              format: date-time
+            createdBy:
+              type: string
+              description: "Name of the user who created the series"
+            updatedBy:
+              type: string
+              description: "Name of the user who updated the series"
+            slug:
+              type: string
+            commentsTotal:
+              type: integer
+
+    CreateMovie:
+      type: object
+      required: [ title, releaseDate, duration ]
+      properties:
+        title:
+          type: string
+        description:
+          type: string
+        releaseDate:
+          type: string
+          format: date
+        releaseYear:
+          type: integer
+        duration:
+          type: integer
+        genres:
+          type: array
+          items:
+            $ref: '#/components/schemas/Genre'
+        actors:
+          type: array
+          items:
+            type: string
+        directors:
+          type: array
+          items:
+            type: string
+        trailerUrl:
+          type: string
+        countries:
+          type: array
+          items:
+            type: string
+        globalRating:
+          type: number
+          format: float
+        posterImg:
+          type: string
+        coverImg:
+          type: string
+        type:
+          type: string
+        videos:
+          type: array
+          items:
+            $ref: '#/components/schemas/Video'
+
+    Movie:
+      allOf:
+        - $ref: '#/components/schemas/CreateMovie'
+        - type: object
+          properties:
+            id:
+              type: integer
+              format: int64
+            videos:
+              type: array
+              items:
+                $ref: '#/components/schemas/Video'
+            createdAt:
+              type: string
+              format: date-time
+            updatedAt:
+              type: string
+              format: date-time
+            createdBy:
+              type: string
+              description: "Name of the user who created the movie"
+            updatedBy:
+              type: string
+              description: "Name of the user who updated the movie"
+            slug:
+              type: string
+            commentsTotal:
+              type: integer
+
+    Video:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        resolution:
+          type: string
+        url:
+          type: string
+      required:
+        - id
+        - resolution
+        - url
+
+    MediaContent:
+      type: object
+      discriminator:
+        propertyName: type
+      properties:
+        id:
+          type: integer
+          format: int64
+        title:
+          type: string
+        description:
+          type: string
+        type:
+          type: string
+        slug:
+          type: string
+        globalRating:
+          type: number
+          format: float
+        releaseDate:
+          type: string
+          format: date
+        countries:
+          type: array
+          items:
+            type: string
+        posterImg:
+          type: string
+        genres:
+          type: array
+          items:
+            $ref: '#/components/schemas/Genre'
+
+    Comment:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        mediaContentId:
+          type: integer
+          format: int64
+        parentCommentId:
+          type: integer
+          format: int64
+          nullable: true
+        text:
+          type: string
+        author:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        children:
+          type: array
+          items:
+            $ref: '#/components/schemas/Comment'
+          nullable: true
+
+    CreateComment:
+      type: object
+      required: [ mediaContentId, text ]
+      properties:
+        mediaContentId:
+          type: integer
+          format: int64
+        parentCommentId:
+          type: integer
+          format: int64
+          nullable: true
+        text:
+          type: string
+        author:
+          type: string
+
+
