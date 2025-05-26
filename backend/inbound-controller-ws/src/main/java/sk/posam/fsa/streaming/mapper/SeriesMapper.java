@@ -73,6 +73,7 @@ public class SeriesMapper {
         series.setEpisodeCount(dto.getEpisodeCount());
         series.setAvgDuration(dto.getAvgDuration());
         series.setCreatedBy(createdBy);
+        series.setGlobalRating(dto.getGlobalRating());
         series.setUpdatedBy(null);
 
         if (dto.getEpisodes() != null) {
@@ -105,6 +106,7 @@ public class SeriesMapper {
         existingSeries.setEpisodeCount(dto.getEpisodeCount());
         existingSeries.setAvgDuration(dto.getAvgDuration());
         existingSeries.setUpdatedBy(updatedBy);
+        existingSeries.setGlobalRating(dto.getGlobalRating());
 
         if (dto.getEpisodes() != null) {
             List<Episode> newEpisodes = dto.getEpisodes().stream()

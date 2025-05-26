@@ -1,4 +1,4 @@
-<div class="custom-media-container" *ngIf="media as m">
+<div class="custom-media-container" *ngIf="media() as m">
   <app-sparkles></app-sparkles>
 
   <div class="custom-media-poster-background">
@@ -22,23 +22,21 @@
           <h1 class="custom-title">{{ m.title }}</h1>
 
           <div class="custom-genres">
-            <span class="custom-badge" *ngFor="let genre of m.genres">{{ genre }}</span>
+            <span class="custom-badge" *ngFor="let genre of m.genres">{{ genre.toLowerCase() }}</span>
           </div>
 
-          <div
-            class="custom-description-wrapper"
-          >
+          <div class="custom-description-wrapper">
             <p class="custom-description">{{ m.description }}</p>
           </div>
 
           <div class="custom-expand-btn-wrapper">
             <button class="custom-expand-btn" (click)="toggleDescription()">
-              {{ isDescriptionExpanded ? 'Show less' : 'Show more' }}
+              {{ isDescriptionExpanded() ? 'Show less' : 'Show more' }}
             </button>
           </div>
 
           <div class="custom-meta-grid">
-            <div class="custom-meta-item" *ngIf="m.actors?.length">
+            <div class="custom-meta-item" *ngIf="m.directors?.length">
               <strong>Directors</strong>
               <span>{{ m.directors.join(', ') }}</span>
             </div>
@@ -68,14 +66,14 @@
     </div>
 
     <app-video-player
-      *ngIf="media"
-      [media]="media"
+      *ngIf="media()"
+      [media]="media()"
     ></app-video-player>
 
     <div class="custom-comment-section">
 
       <div class="unauthorized-area" *ngIf="!isAuthenticated()">
-      <h1>Account required</h1>
+        <h1>Account required</h1>
         <p>
           Please,
           <a routerLink="/auth">log in</a> or
@@ -90,15 +88,16 @@
       </div>
 
       <app-comments-section
+        [mediaId]="media()?.id ?? 0"
         [isAuthenticated]="isAuthenticated()"
         [currentUser]="userService.getUserSignal()() ?? null"
-        [comments]="comments"
+        [comments]="comments()"
       ></app-comments-section>
 
     </div>
   </div>
 
-  <div class="trailer-modal" *ngIf="isTrailerOpen" (click)="closeTrailer()">
+  <div class="trailer-modal" *ngIf="isTrailerOpen()" (click)="closeTrailer()">
     <div class="trailer-modal-content-wrapper">
       <button class="close-button" (click)="closeTrailer()">✕</button>
 

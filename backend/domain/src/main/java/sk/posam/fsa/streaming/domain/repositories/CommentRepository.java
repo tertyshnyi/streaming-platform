@@ -11,4 +11,5 @@ public interface CommentRepository {
     Comment update(Comment comment);
     void delete(Long id);
     List<Comment> findByMediaContentId(Long mediaContentId);
+    List<Comment> findByParentComment(Comment parentComment);
 }

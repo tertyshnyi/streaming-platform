@@ -86,6 +86,7 @@ public class MovieMapper {
         movie.setCountries(createDto.getCountries());
         movie.setPosterImg(createDto.getPosterImg());
         movie.setCoverImg(createDto.getCoverImg());
+        movie.setGlobalRating(createDto.getGlobalRating());
         movie.setCreatedBy(createdBy);
         movie.setUpdatedBy(null);
 
@@ -121,6 +122,7 @@ public class MovieMapper {
         existingMovie.setPosterImg(dto.getPosterImg());
         existingMovie.setCoverImg(dto.getCoverImg());
         existingMovie.setUpdatedBy(updatedBy);
+        existingMovie.setGlobalRating(dto.getGlobalRating());
 
         if (dto.getVideos() != null) {
             List<Video> newVideos = dto.getVideos().stream()

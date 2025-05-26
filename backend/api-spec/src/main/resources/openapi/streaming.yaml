@@ -498,6 +498,54 @@ paths:
                 items:
                   $ref: '#/components/schemas/MediaContent'
 
+  /media/genres:
+    get:
+      summary: Get all available media genres
+      operationId: getGenres
+      tags:
+        - MediaContent
+      responses:
+        '200':
+          description: List of genres
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+
+  /media/countries:
+    get:
+      summary: Get all available countries where media was produced
+      operationId: getCountries
+      tags:
+        - MediaContent
+      responses:
+        '200':
+          description: List of countries
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+
+  /media/releaseYears:
+    get:
+      summary: Get all available media release years
+      operationId: getReleaseYears
+      tags:
+        - MediaContent
+      responses:
+        '200':
+          description: List of release years
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: integer
+
   /comments:
     post:
       summary: Create a new comment
@@ -1004,6 +1052,11 @@ components:
         text:
           type: string
         author:
+          type: string
+        authorId:
+          type: integer
+          format: int64
+        profileImg:
           type: string
         createdAt:
           type: string

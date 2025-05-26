@@ -104,4 +104,24 @@ public class JpaMovieRepositoryAdapter implements MovieRepository {
     public void delete(Long id) {
         movieSpringDataRepository.deleteById(id);
     }
+
+    @Override
+    public List<String> findDistinctCountries() {
+        CriteriaBuilder cb = entityManager.getCriteriaBuilder();
+        CriteriaQuery<String> query = cb.createQuery(String.class);
+        Root<Movie> root = query.from(Movie.class);
+        Join<Movie, String> countriesJoin = root.join("countries");
+        query.select(countriesJoin).distinct(true);
+        return entityManager.createQuery(query).getResultList();
+    }
+
+    @Override
+    public List<Integer> findDistinctReleaseYears() {
+        CriteriaBuilder cb = entityManager.getCriteriaBuilder();
+        CriteriaQuery<Integer> query = cb.createQuery(Integer.class);
+        Root<Movie> root = query.from(Movie.class);
+        query.select(root.get("releaseYear")).distinct(true);
+        query.where(cb.isNotNull(root.get("releaseYear")));
+        return entityManager.createQuery(query).getResultList();
+    }
 }

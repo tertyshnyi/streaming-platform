@@ -1,7 +1,12 @@
 export interface SearchResultModel {
-  image: string;
+  id: number;
   title: string;
   description: string;
-  rating: number;
-  genre: string;
+  posterImg: string;
+  globalRating: number | null;
+  genres: string[];
+  type: string;
+  slug: string;
+  releaseDate: string;
+  countries: string[];
 }

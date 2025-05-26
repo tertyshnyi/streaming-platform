@@ -26,7 +26,6 @@ public abstract class MediaContentService<T extends MediaContent> implements Med
         return repository.searchByText(text);
     }
 
-
     @Override
     public Optional<T> get(Long id) {
         try {

@@ -142,4 +142,23 @@ public class CommentService implements CommentFacade {
     public List<Comment> findByMediaContent(Long mediaContentId) {
         return commentRepository.findByMediaContentId(mediaContentId);
     }
+
+    @Override
+    public int countAllWithChildren(Long commentId) {
+        Comment parent = commentRepository.get(commentId)
+                .orElseThrow(() -> new RuntimeException("Comment not found"));
+
+        return 1 + countChildrenRecursive(parent);
+    }
+
+    private int countChildrenRecursive(Comment comment) {
+        List<Comment> children = commentRepository.findByParentComment(comment);
+        int total = children.size();
+
+        for (Comment child : children) {
+            total += countChildrenRecursive(child);
+        }
+
+        return total;
+    }
 }

@@ -18,6 +18,6 @@ public interface CommentFacade {
     List<Comment> getCommentTreeByParentComment(Long parentCommentId);
     void incrementChildrenCount(Long parentCommentId);
     void decrementChildrenCount(Long parentCommentId);
-
+    int countAllWithChildren(Long commentId);
 }
 

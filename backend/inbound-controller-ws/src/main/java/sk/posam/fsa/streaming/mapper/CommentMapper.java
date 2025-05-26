@@ -39,7 +39,9 @@ public class CommentMapper {
         dto.setMediaContentId(comment.getMediaContent() != null ? comment.getMediaContent().getId() : null);
         dto.setParentCommentId(comment.getParentComment() != null ? comment.getParentComment().getId() : null);
         dto.setText(comment.getContent());
+        dto.setAuthorId(comment.getUser() != null ? comment.getUser().getId() : null);
         dto.setAuthor(comment.getUser() != null ? comment.getUser().getName() : null);
+        dto.setProfileImg(comment.getUser() != null ? comment.getUser().getProfileImg() : null);
         dto.setCreatedAt(comment.getCreatedAt() != null ? comment.getCreatedAt().atOffset(ZoneOffset.UTC) : null);
 
         if (comment.getParentComment() == null) {

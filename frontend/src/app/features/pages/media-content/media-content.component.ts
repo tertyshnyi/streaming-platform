@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, signal, effect } from '@angular/core';
+import { Component, OnInit, OnDestroy, signal } from '@angular/core';
 import { ActivatedRoute, RouterModule, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { DomSanitizer } from '@angular/platform-browser';
@@ -8,11 +8,14 @@ import { SparklesComponent } from '../../../shared/components/sparkles/sparkles.
 import { VideoPlayerComponent } from '../../components/video-player/video-player.component';
 import { CommentsSectionComponent } from '../../components/comments-section/comments-section.component';
 
-import { MediaService } from '../../../core/services/media-content.service';
+import { MediaContentService } from '../../../core/services/media-content.service';
 import { UserService } from '../../../core/services/user.service';
 
 import { MediaContentModel } from '../../../core/models/media-content.model';
 import { CommentModel } from '../../../core/models/comment.model';
+import { CommentsService } from '../../../core/services/comments.service';
+
+import { switchMap, filter, tap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-media-content',
@@ -30,46 +33,58 @@ import { CommentModel } from '../../../core/models/comment.model';
 })
 export class MediaContentComponent implements OnInit, OnDestroy {
 
-  media: MediaContentModel | null = null;
-  comments: CommentModel[] = [];
-  loading = true;
+  media = signal<MediaContentModel | null>(null);
+  comments = signal<CommentModel[]>([]);
+  loading = signal(true);
 
-  isTrailerOpen = false;
-  isDescriptionExpanded = false;
+  isTrailerOpen = signal(false);
+  isDescriptionExpanded = signal(false);
+
   isAuthenticated!: () => boolean;
 
   constructor(
     public userService: UserService,
     private route: ActivatedRoute,
-    private mediaService: MediaService,
+    private mediaService: MediaContentService,
     private router: Router,
-    private sanitizer: DomSanitizer
-
+    private sanitizer: DomSanitizer,
+    private commentsService: CommentsService,
   ) {}
 
   ngOnInit() {
     this.isAuthenticated = this.userService.isAuthenticatedSignal;
 
-    const slug = this.route.snapshot.paramMap.get('slug');
-    if (slug) {
-      this.mediaService.getBySlug(slug).subscribe(data => {
-        if (data) {
-          this.media = data;
-          this.loading = false;
+    const type = this.route.snapshot.paramMap.get('type');
+    const idStr = this.route.snapshot.paramMap.get('id');
+    const id = idStr ? +idStr : null;
 
-          this.mediaService.getCommentsByMediaId(data.id).subscribe(comments => {
-            this.comments = comments;
-          });
-
-        } else {
-          this.router.navigateByUrl('/404', { replaceUrl: true });
-          this.loading = false;
-        }
-      });
-    } else {
+    if (!id || !type || (type !== 'movie' && type !== 'series')) {
       this.router.navigateByUrl('/404', { replaceUrl: true });
-      this.loading = false;
+      this.loading.set(false);
+      return;
     }
+
+    this.mediaService.getById(id, type.toUpperCase() as 'MOVIE' | 'SERIES').pipe(
+      tap(mediaData => {
+        if (!mediaData) {
+          this.router.navigateByUrl('/404', { replaceUrl: true });
+          this.loading.set(false);
+        }
+      }),
+      filter(mediaData => !!mediaData),
+      switchMap(mediaData => {
+        this.media.set(mediaData!);
+        this.loading.set(false);
+        return this.commentsService.getCommentsByMediaId(mediaData!.id);
+      })
+    ).subscribe({
+      next: (comments) => {
+        this.comments.set(comments);
+      },
+      error: () => {
+        this.loading.set(false);
+      }
+    });
   }
 
   ngOnDestroy(): void {
@@ -77,17 +92,17 @@ export class MediaContentComponent implements OnInit, OnDestroy {
   }
 
   openTrailer() {
-    this.isTrailerOpen = true;
+    this.isTrailerOpen.set(true);
     document.body.style.overflow = 'hidden';
   }
 
   closeTrailer() {
-    this.isTrailerOpen = false;
+    this.isTrailerOpen.set(false);
     document.body.style.overflow = 'auto';
   }
 
   toggleDescription() {
-    this.isDescriptionExpanded = !this.isDescriptionExpanded;
+    this.isDescriptionExpanded.update(v => !v);
   }
 
   getYouTubeEmbedUrl(url: string | undefined): any {

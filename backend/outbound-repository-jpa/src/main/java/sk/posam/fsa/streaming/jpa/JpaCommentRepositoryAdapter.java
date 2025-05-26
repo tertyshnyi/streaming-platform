@@ -40,4 +40,8 @@ public class JpaCommentRepositoryAdapter implements CommentRepository {
     public List<Comment> findByMediaContentId(Long mediaContentId) {
         return springDataRepository.findByMediaContentId(mediaContentId);
     }
+    @Override
+    public List<Comment> findByParentComment(Comment parentComment) {
+        return springDataRepository.findByParentComment(parentComment);
+    }
 }

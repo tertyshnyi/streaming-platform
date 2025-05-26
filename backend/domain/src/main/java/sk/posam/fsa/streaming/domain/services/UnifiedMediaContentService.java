@@ -41,11 +41,11 @@ public class UnifiedMediaContentService implements UnifiedMediaContentFacade {
     }
 
     @Override
-    public void decrementCommentsTotal(Long id) {
+    public void decrementCommentsTotal(Long id, int decrementBy) {
         if (movieFacade.get(id).isPresent()) {
-            movieFacade.decrementCommentsTotal(id);
+            movieFacade.decrementCommentsTotal(id, decrementBy);
         } else if (seriesFacade.get(id).isPresent()) {
-            seriesFacade.decrementCommentsTotal(id);
+            seriesFacade.decrementCommentsTotal(id, decrementBy);
         }
     }
 }

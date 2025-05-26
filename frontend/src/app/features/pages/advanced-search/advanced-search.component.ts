@@ -3,7 +3,7 @@ import { FormsModule } from '@angular/forms';
 import { RouterModule, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 
-import { MediaService } from '../../../core/services/media-content.service';
+import { AdvancedFilterService } from '../../../core/services/advanced-filter.service';
 import { MediaCardModel } from '../../../core/models/media-card.model';
 
 import { MediaCardComponent } from '../../../shared/components/media-card/media-card.component';
@@ -27,14 +27,14 @@ import noUiSlider from 'nouislider';
   styleUrls: ['./advanced-search.component.scss'],
 })
 export class AdvancedSearchComponent implements OnInit {
-  shows: MediaCardModel[] = [];
   filteredShows: MediaCardModel[] = [];
 
   typeOptions = ['All', 'Movies', 'TV Shows'];
-  noveltyOptions = ['✨ By Novelty', '👀 Most Discussed', '⭐ Highest Rated', '🆕 Recently Added'];
-  genres = ['Anime', 'Sci-Fi', 'Comedy', 'Drama'];
-  years = ['2020', '2021', '2022', '2023', '2024'];
-  countries = ['Japan', 'USA', 'Korea'];
+  // noveltyOptions = ['✨ By Novelty', '👀 Most Discussed', '⭐ Highest Rated', '🆕 Recently Added'];
+
+  genres: string[] = [];
+  years: string[] = [];
+  countries: string[] = [];
 
   selectedTypeOption = '';
   selectedNoveltyOption = '';
@@ -52,14 +52,25 @@ export class AdvancedSearchComponent implements OnInit {
     novelty: false
   };
 
-  constructor(private mediaService: MediaService, private router: Router) {}
+  constructor(private advancedFilterService: AdvancedFilterService, private router: Router) {}
 
   ngOnInit(): void {
-    this.mediaService.getMedia().subscribe(data => {
-      console.log('Fetched media:', data);
-      this.shows = data;
-      this.filteredShows = [...this.shows];
+    this.advancedFilterService.getGenres().subscribe(genres => {
+      this.genres = genres;
+      this.selectedGenres = {};
     });
+
+    this.advancedFilterService.getCountries().subscribe(countries => {
+      this.countries = countries;
+      this.selectedCountries = {};
+    });
+
+    this.advancedFilterService.getReleaseYears().subscribe(years => {
+      this.years = years.map(String);
+      this.selectedYears = {};
+    });
+
+    this.applyFilters();
 
     const rangeSlider = document.getElementById('rangeSlider') as HTMLElement;
 
@@ -95,40 +106,6 @@ export class AdvancedSearchComponent implements OnInit {
       .map(([key]) => key);
   }
 
-  applyFilters(): void {
-    this.filteredShows = this.shows.filter(show =>
-      (this.selectedTypeOption === 'All' || !this.selectedTypeOption || show.title.includes(this.selectedTypeOption)) &&
-      (this.selectedGenresList.length === 0 || this.selectedGenresList.some(g => show.genres.includes(g))) &&
-      (this.selectedYearsList.length === 0 || this.selectedYearsList.includes(show.year?.toString() ?? '')) &&
-      (this.selectedCountriesList.length === 0 || this.selectedCountriesList.some(c => show.countries?.includes(c))) &&
-      show.globalRating >= this.minRating && show.globalRating <= this.maxRating
-    );
-
-    console.log('Filtered Shows:', this.filteredShows);
-  }
-
-  resetFilters(): void {
-    this.selectedGenres = {};
-    this.selectedYears = {};
-    this.selectedCountries = {};
-    this.selectedTypeOption = '';
-    this.selectedNoveltyOption = '';
-    this.minRating = 0;
-    this.maxRating = 10;
-    this.filteredShows = [...this.shows];
-
-    const slider = document.getElementById('rangeSlider') as any;
-    if (slider?.noUiSlider) {
-      slider.noUiSlider.set([this.minRating, this.maxRating]);
-    }
-
-    console.log('Filters reset!');
-  }
-
-  onGenreSelectionChanged(selected: string[]) {
-    this.selectedGenres = Object.fromEntries(selected.map(g => [g, true]));
-  }
-
   get selectedYearsList(): string[] {
     return Object.entries(this.selectedYears)
       .filter(([_, checked]) => checked)
@@ -139,6 +116,50 @@ export class AdvancedSearchComponent implements OnInit {
     return Object.entries(this.selectedCountries)
       .filter(([_, checked]) => checked)
       .map(([key]) => key);
+  }
+
+  applyFilters(): void {
+    let typeFilter: string | undefined;
+    if (this.selectedTypeOption === 'Movies') typeFilter = 'MOVIE';
+    else if (this.selectedTypeOption === 'TV Shows') typeFilter = 'SERIES';
+    else typeFilter = undefined;
+
+    const genresUpper = this.selectedGenresList.map(g => g.toUpperCase());
+
+    this.advancedFilterService.filterMedia(
+      typeFilter,
+      genresUpper,
+      this.selectedCountriesList,
+      this.selectedYearsList.map(y => +y),
+      this.minRating,
+      this.maxRating
+    ).subscribe(data => {
+      this.filteredShows = data;
+      console.log('Filtered Shows from backend:', this.filteredShows);
+    });
+  }
+
+  resetFilters(): void {
+    this.selectedGenres = {};
+    this.selectedYears = {};
+    this.selectedCountries = {};
+    this.selectedTypeOption = '';
+    this.selectedNoveltyOption = '';
+    this.minRating = 0;
+    this.maxRating = 10;
+
+    const slider = document.getElementById('rangeSlider') as any;
+    if (slider?.noUiSlider) {
+      slider.noUiSlider.set([this.minRating, this.maxRating]);
+    }
+
+    this.applyFilters();
+
+    console.log('Filters reset!');
+  }
+
+  onGenreSelectionChanged(selected: string[]) {
+    this.selectedGenres = Object.fromEntries(selected.map(g => [g, true]))
   }
 
   onYearSelectionChanged(selected: string[]) {

@@ -157,6 +157,7 @@
             gap: 10px;
             padding: 10px;
             border-bottom: 1px solid #444;
+            text-decoration: none;
 
             .search-result-image {
               position: relative;
@@ -186,14 +187,25 @@
               .title {
                 font-size: 16px;
                 font-weight: bold;
+                color: #f6f6f6;
               }
 
               .genre {
-                font-size: 14px;
+                font-size: 12px;
                 color: #bbb;
               }
 
               .description {
+                font-size: 12px;
+                color: #f6f6f6;
+              }
+
+              .release-date {
+                font-size: 12px;
+                color: #efefef;
+              }
+
+              .countries {
                 font-size: 12px;
                 color: #ccc;
               }

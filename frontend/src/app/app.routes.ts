@@ -6,14 +6,14 @@ import { WatchHistoriesComponent } from '../app/features/pages/watch-histories/w
 import { AdvancedSearchComponent } from './features/pages/advanced-search/advanced-search.component';
 import { MediaContentComponent } from './features/pages/media-content/media-content.component';
 import { RegistrationComponent } from './features/pages/registration/registration.component';
-import { HomeComponent } from './features/pages/home/home.component';
+// import { HomeComponent } from './features/pages/home/home.component';
 
 export const routes: Routes = [
-  {path: '', component: HomeComponent},
+  // {path: '', component: HomeComponent},
   {path: 'settings', component: UserSettings, canActivate: [AuthGuard]},
   {path: 'watchlist', component: WatchHistoriesComponent, canActivate: [AuthGuard]},
   {path: 'search', component: AdvancedSearchComponent},
-  {path: 'media/:slug', component: MediaContentComponent},
+  {path: 'media/:type/:id', component: MediaContentComponent},
   {path: 'register', component: RegistrationComponent},
 
   {path: '', redirectTo: '', pathMatch: 'full'},

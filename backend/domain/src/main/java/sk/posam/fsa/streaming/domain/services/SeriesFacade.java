@@ -16,4 +16,6 @@ public interface SeriesFacade extends MediaContentFacade<Series> {
     Optional<Episode> getEpisodeById(Long seriesId, Long episodeId);
 
     List<Episode> getAllEpisodes(Long seriesId);
+    List<String> getDistinctCountries();
+    List<Integer> getDistinctReleaseYears();
 }

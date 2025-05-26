@@ -59,6 +59,16 @@ public class SeriesService extends MediaContentService<Series> implements Series
         return getSeriesOrThrow(seriesId).getEpisodes();
     }
 
+    @Override
+    public List<String> getDistinctCountries() {
+        return seriesRepository.findDistinctCountries();
+    }
+
+    @Override
+    public List<Integer> getDistinctReleaseYears() {
+        return seriesRepository.findDistinctReleaseYears();
+    }
+
     private Series getSeriesOrThrow(Long id) {
         return seriesRepository.findById(id)
                 .orElseThrow(() -> new NoSuchElementException("Series not found with id: " + id));
@@ -80,10 +90,11 @@ public class SeriesService extends MediaContentService<Series> implements Series
     }
 
     @Override
-    public void decrementCommentsTotal(Long id) {
-        Series series = seriesRepository.get(id).orElseThrow(() -> new IllegalArgumentException("Movie not found"));
+    public void decrementCommentsTotal(Long id, int decrementBy) {
+        Series series = seriesRepository.get(id)
+                .orElseThrow(() -> new IllegalArgumentException("Series not found"));
         int current = series.getCommentsTotal();
-        series.setCommentsTotal(Math.max(0, current - 1));
+        series.setCommentsTotal(Math.max(0, current - decrementBy));
         seriesRepository.update(id, series);
     }
 }

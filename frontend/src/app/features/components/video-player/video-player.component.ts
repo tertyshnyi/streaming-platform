@@ -12,7 +12,7 @@ import { MediaContentModel } from '../../../core/models/media-content.model';
 })
 export class VideoPlayerComponent implements AfterViewInit, OnDestroy {
   @Input() media: MediaContentModel | null = null;
-  @Input() selectedQuality?: number;
+  @Input() selectedResolution?: string;
 
   @ViewChild('videoPlayer', { static: false }) videoPlayerRef!: ElementRef<HTMLVideoElement>;
 
@@ -38,12 +38,12 @@ export class VideoPlayerComponent implements AfterViewInit, OnDestroy {
       return;
     }
 
-    const qualities = this.getAvailableQualities();
-    if (!this.selectedQuality || !qualities.includes(this.selectedQuality)) {
-      this.selectedQuality = qualities[0];
+    const resolutions = this.getAvailableResolutions();
+    if (!this.selectedResolution || !resolutions.includes(this.selectedResolution)) {
+      this.selectedResolution = resolutions[0];
     }
 
-    const initialVideo = this.media.videos.find(v => v.quality === this.selectedQuality);
+    const initialVideo = this.media.videos.find(v => v.resolution === this.selectedResolution);
     if (!initialVideo) {
       this.noVideoAvailable = true;
       return;
@@ -71,10 +71,13 @@ export class VideoPlayerComponent implements AfterViewInit, OnDestroy {
       ],
       settings: ['quality'],
       quality: {
-        default: this.selectedQuality,
-        options: qualities,
+        default: this.parseResolutionToNumber(this.selectedResolution),
+        options: resolutions.map(r => this.parseResolutionToNumber(r)),
         forced: true,
-        onChange: (newQuality: number) => this.changeQuality(newQuality)
+        onChange: (newQuality: number) => {
+          const newRes = resolutions.find(r => this.parseResolutionToNumber(r) === newQuality);
+          if (newRes) this.changeResolution(newRes);
+        }
       }
     });
 
@@ -85,20 +88,20 @@ export class VideoPlayerComponent implements AfterViewInit, OnDestroy {
         {
           src: initialVideo.url,
           type: 'video/mp4',
-          size: this.selectedQuality
+          size: this.parseResolutionToNumber(this.selectedResolution)
         }
       ]
     };
   }
 
-  private async changeQuality(newQuality: number): Promise<void> {
-    if (!this.media || !this.player || this.changingQuality || this.selectedQuality === newQuality) return;
+  private async changeResolution(newResolution: string): Promise<void> {
+    if (!this.media || !this.player || this.changingQuality || this.selectedResolution === newResolution) return;
 
-    const video = this.media?.videos?.find(v => v.quality === newQuality);
+    const video = this.media?.videos?.find(v => v.resolution === newResolution);
     if (!video) return;
 
     this.changingQuality = true;
-    this.selectedQuality = newQuality;
+    this.selectedResolution = newResolution;
 
     try {
       await this.player.pause();
@@ -111,7 +114,7 @@ export class VideoPlayerComponent implements AfterViewInit, OnDestroy {
         {
           src: video.url,
           type: 'video/mp4',
-          size: newQuality
+          size: this.parseResolutionToNumber(newResolution)
         }
       ]
     };
@@ -123,8 +126,15 @@ export class VideoPlayerComponent implements AfterViewInit, OnDestroy {
     this.changingQuality = false;
   }
 
-  private getAvailableQualities(): number[] {
+  private getAvailableResolutions(): string[] {
     if (!this.media?.videos) return [];
-    return Array.from(new Set(this.media.videos.map(v => v.quality))).sort((a, b) => b - a);
+    return Array.from(new Set(this.media.videos.map(v => v.resolution)))
+      .sort((a, b) => this.parseResolutionToNumber(b) - this.parseResolutionToNumber(a));
+  }
+
+  private parseResolutionToNumber(resolution: string | undefined): number {
+    if (!resolution) return 0;
+    const numericPart = resolution.replace(/\D/g, '');
+    return numericPart ? parseInt(numericPart) : 0;
   }
 }

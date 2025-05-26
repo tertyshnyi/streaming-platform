@@ -1,6 +1,7 @@
 import { Component, inject, HostListener } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { UserService } from '../../../core/services/user.service';
+import { SearchService } from '../../../core/services/search.service';
 import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { SearchResultModel } from '../../../core/models/search-result.model';
@@ -19,7 +20,7 @@ import { SearchResultModel } from '../../../core/models/search-result.model';
 })
 export class NavbarComponent {
   private router = inject(Router);
-
+  private searchService = inject(SearchService);
   userService = inject(UserService);
   user = this.userService.getUserSignal();
 
@@ -54,42 +55,29 @@ export class NavbarComponent {
   noResultsFound: boolean = false;
 
   onSearchChange() {
-    if (this.searchQuery.length > 2) {
-      const allResults: SearchResultModel[] = [
-        {
-          image: '/images/settings-background.jpg',
-          title: 'Movie 1',
-          description: 'This is a description of Movie 1.',
-          rating: 8.5,
-          genre: 'Action'
+    const query = this.searchQuery.trim();
+
+    if (query.length > 2) {
+      this.searchService.search(query).subscribe({
+        next: (results) => {
+          this.searchResults = results;
+          this.noResultsFound = results.length === 0;
         },
-        {
-          image: '/images/settings-background.jpg',
-          title: 'Movie 2',
-          description: 'This is a description of Movie 2.',
-          rating: 7.0,
-          genre: 'Comedy'
-        },
-        {
-          image: '/images/settings-background.jpg',
-          title: 'Movie 3',
-          description: 'This is a description of Movie 3.',
-          rating: 6.5,
-          genre: 'Drama'
+        error: (error) => {
+          console.error('Search error:', error);
+          this.searchResults = [];
+          this.noResultsFound = false;
         }
-      ];
-
-      this.searchResults = allResults.filter(result =>
-        result.title.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
-        result.genre.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
-        result.description.toLowerCase().includes(this.searchQuery.toLowerCase())
-      );
-
-      this.noResultsFound = this.searchResults.length === 0;
+      });
     } else {
       this.searchResults = [];
       this.noResultsFound = false;
     }
+  }
+
+  onResultClick() {
+    this.clearSearch();
+    this.isSearchFocused = false;
   }
 
   onSearchBlur() {
@@ -105,8 +93,9 @@ export class NavbarComponent {
     }
   }
 
-
   clearSearch() {
     this.searchQuery = '';
+    this.searchResults = [];
+    this.noResultsFound = false;
   }
 }

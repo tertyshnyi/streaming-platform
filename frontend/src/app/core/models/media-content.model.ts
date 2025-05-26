@@ -1,24 +1,26 @@
+import { VideoSourceModel } from "./video-source.model";
+
 export interface MediaContentModel {
   id: number;
   title: string;
   slug: string;
   releaseDate: string;
+  releaseYear: number;
   description: string;
   genres: string[];
   actors: string[];
   directors: string[];
   trailerUrl?: string;
   countries: string[];
-  globalRating: number;
-  commentsTotal: number;
+  globalRating: number | null;
   posterImg: string;
   coverImg: string;
-  duration: string;
+  duration: number;
+  type: 'MOVIE' | 'SERIES';
   videos?: VideoSourceModel[];
-}
-
-export interface VideoSourceModel {
-  quality: number;
-  url: string;
-  type: 'mp4' | 'youtube';
+  commentsTotal: number;
+  createdAt?: string;
+  updatedAt?: string;
+  createdBy?: string;
+  updatedBy?: string | null;
 }

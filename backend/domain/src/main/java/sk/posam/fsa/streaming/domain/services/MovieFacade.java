@@ -7,5 +7,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface MovieFacade extends MediaContentFacade<Movie> {
+    List<String> getDistinctCountries();
+    List<Integer> getDistinctReleaseYears();
 }
 

@@ -1,11 +1,12 @@
-import { UserModel } from "./user.model";
-
 export interface CommentModel {
   id: number;
-  parentId: number | null;
-  mediaId: number;
-  user: UserModel;
+  mediaContentId: number;
+  parentCommentId: number | null;
+  text: string;
+  authorId: number;
+  author: string;
+  profileImg: string;
   createdAt: string;
-  content: string;
-  childrenComments: CommentModel[];
+  children: CommentModel[] | null;
+  childrenCount: number | null;
 }
