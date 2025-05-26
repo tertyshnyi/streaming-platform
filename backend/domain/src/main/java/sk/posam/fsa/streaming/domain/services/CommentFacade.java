@@ -16,5 +16,8 @@ public interface CommentFacade {
     void delete(Long id);
     List<Comment> findByMediaContent(Long mediaContentId);
     List<Comment> getCommentTreeByParentComment(Long parentCommentId);
+    void incrementChildrenCount(Long parentCommentId);
+    void decrementChildrenCount(Long parentCommentId);
+
 }
 

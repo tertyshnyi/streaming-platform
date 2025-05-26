@@ -84,6 +84,30 @@ public class CommentService implements CommentFacade {
         return List.of(root);
     }
 
+    @Override
+    public void incrementChildrenCount(Long parentCommentId) {
+        commentRepository.get(parentCommentId).ifPresent(parent -> {
+            parent.setChildrenCount(parent.getChildrenCount() + 1);
+            commentRepository.create(parent);
+
+            if (parent.getParentComment() != null) {
+                incrementChildrenCount(parent.getParentComment().getId());
+            }
+        });
+    }
+
+    @Override
+    public void decrementChildrenCount(Long parentCommentId) {
+        commentRepository.get(parentCommentId).ifPresent(parent -> {
+            parent.setChildrenCount(Math.max(0, parent.getChildrenCount() - 1));
+            commentRepository.create(parent);
+
+            if (parent.getParentComment() != null) {
+                decrementChildrenCount(parent.getParentComment().getId());
+            }
+        });
+    }
+
     private void buildChildrenTree(Comment parent, Map<Long, Comment> commentMap) {
         List<Comment> children = commentMap.values().stream()
                 .filter(c -> c.getParentComment() != null && c.getParentComment().getId().equals(parent.getId()))

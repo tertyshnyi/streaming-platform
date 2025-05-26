@@ -1013,6 +1013,16 @@ components:
           items:
             $ref: '#/components/schemas/Comment'
           nullable: true
+        childrenCount:
+          type: integer
+          nullable: true
+      required:
+        - id
+        - mediaContentId
+        - text
+        - author
+        - createdAt
+        - children
 
     CreateComment:
       type: object

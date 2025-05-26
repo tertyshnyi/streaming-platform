@@ -56,6 +56,8 @@ public class CommentRestController implements CommentsApi {
             }
 
             comment = commentFacade.createReply(user, dto.getParentCommentId(), dto.getText());
+
+            commentFacade.incrementChildrenCount(dto.getParentCommentId());
         } else {
             comment = commentMapper.toEntity(dto, user, mediaContent, null);
             comment = commentFacade.createComment(comment);
@@ -87,8 +89,11 @@ public class CommentRestController implements CommentsApi {
         Comment comment = commentFacade.get(id)
                 .orElseThrow(() -> new RuntimeException("Comment not found"));
 
-        commentFacade.delete(id);
+        if (comment.getParentComment() != null) {
+            commentFacade.decrementChildrenCount(comment.getParentComment().getId());
+        }
 
+        commentFacade.delete(id);
         mediaContentFacade.decrementCommentsTotal(comment.getMediaContent().getId());
         return ResponseEntity.noContent().build();
     }

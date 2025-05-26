@@ -10,12 +10,12 @@ public class Comment {
     private MediaContent mediaContent;
     private String content;
     private LocalDateTime createdAt;
-
     private Comment parentComment;
     private List<Comment> childrenComments = new ArrayList<>();
+    private Integer childrenCount = 0;
 
     public Comment(Long id, User user, MediaContent mediaContent, String content,
-                   LocalDateTime createdAt, Comment parentComment, List<Comment> childrenComments) {
+                   LocalDateTime createdAt, Comment parentComment, List<Comment> childrenComments, int childrenCount) {
         this.id = id;
         this.user = user;
         this.mediaContent = mediaContent;
@@ -23,6 +23,7 @@ public class Comment {
         this.createdAt = createdAt;
         this.parentComment = parentComment;
         this.childrenComments = childrenComments;
+        this.childrenCount = childrenCount;
     }
 
     public Comment(){}
@@ -83,16 +84,11 @@ public class Comment {
         this.childrenComments = childrenComments;
     }
 
-    public void addChildComment(Comment reply) {
-        if (reply == null) {
-            throw new IllegalArgumentException("reply cannot be null");
-        }
-        if (reply == this) {
-            throw new IllegalArgumentException("Comment cannot be parent himself");
-        }
-        if (!childrenComments.contains(reply)) {
-            childrenComments.add(reply);
-            reply.setParentComment(this);
-        }
+    public int getChildrenCount() {
+        return childrenCount;
+    }
+
+    public void setChildrenCount(int childrenCount) {
+        this.childrenCount = childrenCount;
     }
 }

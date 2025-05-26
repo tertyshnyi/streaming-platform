@@ -24,7 +24,8 @@ public class CommentMapper {
                 dto.getText(),
                 null,
                 parentComment,
-                new ArrayList<>()
+                new ArrayList<>(),
+                0
         );
 
         return comment;
@@ -40,6 +41,12 @@ public class CommentMapper {
         dto.setText(comment.getContent());
         dto.setAuthor(comment.getUser() != null ? comment.getUser().getName() : null);
         dto.setCreatedAt(comment.getCreatedAt() != null ? comment.getCreatedAt().atOffset(ZoneOffset.UTC) : null);
+
+        if (comment.getParentComment() == null) {
+            dto.setChildrenCount(comment.getChildrenCount());
+        } else {
+            dto.setChildrenCount(null);
+        }
 
         return dto;
     }
