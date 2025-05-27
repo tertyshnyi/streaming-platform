@@ -25,6 +25,16 @@ export class UserService {
     this.tryLogin();
   }
 
+  hasRole(...roles: string[]): boolean {
+    const user = this.user();
+    const authorities = user?.authorities ?? [];
+    return roles.some(role => authorities.includes(role));
+  }
+  
+  public hasAdminOrReleaserRole = computed(() => {
+    return this.hasRole('ADMIN', 'RELEASER');
+  });
+
   register(userData: any): Observable<UserModel> {
     return this.http.post<UserModel>(this.apiUrl, userData);
   }

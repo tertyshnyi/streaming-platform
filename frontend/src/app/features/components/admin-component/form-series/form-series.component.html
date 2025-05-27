@@ -1,0 +1,140 @@
+<h2 style="text-align: center; margin-top: 20px">Create Series</h2>
+<form [formGroup]="form" (ngSubmit)="submit()" class="form">
+
+  <div class="form-row">
+    <label>
+      Title
+      <input type="text" formControlName="title" placeholder="Enter title" />
+    </label>
+
+    <label>
+      Release Date
+      <input type="date" formControlName="releaseDate" />
+    </label>
+
+    <div
+      class="dropdown-wrapper"
+      tabindex="0"
+      #dropdownRef
+    >
+      <p>Genres</p>
+      <div
+        class="dropdown-display"
+        [class.open]="genreDropdownOpen"
+        (click)="toggleGenreDropdown()"
+      >
+        {{ selectedGenreValues.length ? formattedSelectedGenres.join(', ') : 'Choose genres' }}
+        <span class="arrow">&#9662;</span>
+      </div>
+
+      <div class="dropdown-list" *ngIf="genreDropdownOpen">
+        <label *ngFor="let genre of formattedGenres">
+          <input
+            type="checkbox"
+            [value]="genre.raw"
+            (change)="onGenreChange($event)"
+            [checked]="selectedGenreValues.includes(genre.raw)"
+          />
+          {{ genre.label | titlecase }}
+        </label>
+      </div>
+    </div>
+  </div>
+  <div class="form-row">
+    <label for="description">
+      Description
+      <textarea id="description" formControlName="description"></textarea>
+    </label>
+  </div>
+
+  <div class="dynamic-list">
+    <div>
+      <label>Actors</label>
+      <button type="button" (click)="addActor()" class="add-btn">+ Add Actor</button>
+      <div class="input-row" *ngFor="let actor of actors.controls; let i = index">
+        <div class="input-with-remove">
+          <input type="text" [formControl]="getControl(actors,i)" placeholder="Actor name" />
+          <button type="button" (click)="removeActor(i)" class="remove-btn">×</button>
+        </div>
+      </div>
+    </div>
+    <div>
+      <label>Directors</label>
+      <button type="button" (click)="addDirector()" class="add-btn">+ Add Director</button>
+      <div class="input-row" *ngFor="let director of directors.controls; let i = index">
+        <div class="input-with-remove">
+          <input type="text" [formControl]="getControl(directors, i)" placeholder="Director name" />
+          <button type="button" (click)="removeDirector(i)" class="remove-btn">×</button>
+        </div>
+      </div>
+    </div>
+    <div>
+      <label>Countries</label>
+      <button type="button" (click)="addCountry()" class="add-btn">+ Add Country</button>
+      <div class="input-row" *ngFor="let country of countries.controls; let i = index">
+        <div class="input-with-remove">
+          <input type="text" [formControl]="getControl(countries, i)" placeholder="Country" />
+          <button type="button" (click)="removeCountry(i)" class="remove-btn">×</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="form-row">
+    <label>
+      Trailer URL
+      <input type="url" formControlName="trailerUrl" placeholder="https://..." />
+    </label>
+
+    <label>
+      Poster URL
+      <input type="url" formControlName="posterImg" placeholder="https://..." />
+    </label>
+
+    <label>
+      Cover URL
+      <input type="url" formControlName="coverImg" placeholder="https://..." />
+    </label>
+  </div>
+
+  <section class="episodes-section">
+    <div class="head">
+      <h3>Episodes</h3>
+      <button type="button" (click)="addEpisode()" class="add-btn">+ Add Episode</button>
+    </div>
+    <div formArrayName="episodes">
+      <div *ngFor="let ep of episodes.controls; let i = index" [formGroupName]="i" class="episode-card">
+        <div class="head">
+          <h3>Episode {{ i + 1 }}</h3>
+          <button type="button" (click)="removeEpisode(i)" class="remove-btn">×</button>
+        </div>
+        <label>
+          Title
+          <input formControlName="title" placeholder="Episode title" />
+        </label>
+
+        <label>
+          Duration (min)
+          <input type="number" formControlName="duration" />
+        </label>
+
+        <div formArrayName="videos" class="videos-list">
+          <div class="head-add">
+            <h4>Videos</h4>
+            <button type="button" (click)="addVideo(i)" class="add-btn">+ Add Video</button>
+          </div>
+          <div *ngFor="let videoCtrl of getVideosControls(ep).controls; let j = index" [formGroupName]="j" class="video-item">
+            <div class="head">
+              <h4>Video {{ j + 1 }}</h4>
+              <button type="button" (click)="removeVideo(i, j)" class="remove-btn">×</button>
+            </div>
+            <label>Resolution: <input type="text" formControlName="resolution"></label>
+            <label>URL: <input type="text" formControlName="url"></label>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <button type="submit" class="submit-btn">Create</button>
+</form>

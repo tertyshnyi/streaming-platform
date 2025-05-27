@@ -7,6 +7,7 @@ import { registerLocaleData } from '@angular/common';
 import { DefaultOAuthInterceptor, OAuthModule } from 'angular-oauth2-oidc';
 import { routes } from './app.routes';
 import { provideAnimations } from '@angular/platform-browser/animations';
+import { provideToastr } from 'ngx-toastr';
 
 registerLocaleData(localeSk, 'sk');
 
@@ -18,6 +19,11 @@ export const appConfig: ApplicationConfig = {
     provideHttpClient(
       withInterceptorsFromDi()
     ),
+    provideToastr({
+      positionClass: 'toast-top-right',
+      timeOut: 4000,
+      preventDuplicates: true,
+    }),
     importProvidersFrom(
       OAuthModule.forRoot({
         resourceServer: {

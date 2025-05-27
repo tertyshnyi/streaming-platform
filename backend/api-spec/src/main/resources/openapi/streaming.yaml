@@ -762,10 +762,13 @@ components:
           description: User's phone number
           example: "+1234567890"
         authorities:
-          type: string
-          description: User roles
+          type: array
+          items:
+            type: string
+          description: List of user roles
           example:
-            - "USER, RELEASER"
+            - "USER"
+            - "RELEASER"
         profileImg:
           type: string
           description: User's profile image URL

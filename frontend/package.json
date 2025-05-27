@@ -24,6 +24,7 @@
     "bootstrap": "^5.3.3",
     "keycloak-angular": "^19.0.2",
     "keycloak-js": "^26.1.5",
+    "ngx-toastr": "^19.0.0",
     "nouislider": "^15.8.1",
     "plyr": "^3.7.8",
     "rxjs": "~7.8.0",

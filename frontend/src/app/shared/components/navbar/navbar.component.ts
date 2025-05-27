@@ -21,8 +21,10 @@ import { SearchResultModel } from '../../../core/models/search-result.model';
 export class NavbarComponent {
   private router = inject(Router);
   private searchService = inject(SearchService);
-  userService = inject(UserService);
+  private userService = inject(UserService);
   user = this.userService.getUserSignal();
+
+  readonly showAdminPanelButton = this.userService.hasAdminOrReleaserRole;
 
   logout() {
     this.userService.logout();

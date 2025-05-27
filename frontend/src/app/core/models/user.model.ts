@@ -5,4 +5,5 @@ export interface UserModel {
   phoneNumber: string;
   profileImg?: string;
   createdAt: string;
+  authorities: string[];
 }

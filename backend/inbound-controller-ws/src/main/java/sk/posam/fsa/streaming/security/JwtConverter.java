@@ -67,7 +67,7 @@ public class JwtConverter extends AbstractAuthenticationToken {
         }
 
         List<String> roles = extractAuthorities();
-        userDto.setAuthorities(String.join(",", roles));
+        userDto.setAuthorities(roles);
 
         if (userDto.getPhoneNumber() == null || userDto.getEmail() == null || userDto.getName() == null
                 || userDto.getKeycloakId() == null) {
