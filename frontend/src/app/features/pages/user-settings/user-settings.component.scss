@@ -133,6 +133,7 @@
   }
 
   .parent-container {
+    grid-column: 1 / -1;
     margin-top: 40px;
     display: flex;
     justify-content: space-between;

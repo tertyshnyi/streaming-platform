@@ -32,6 +32,10 @@ export class NavbarComponent {
     this.userService.login();
   }
 
+  goToRegister(): void {
+    this.router.navigate(['/register']);
+  }
+
   previousScrollTop = 0;
   showBottomBar = true;
 

@@ -218,7 +218,6 @@
     .user-section {
       display: flex;
       align-items: center;
-      gap: 15px;
 
       .user-dropdown {
         position: relative;
@@ -281,16 +280,15 @@
       }
 
       .login-btn {
-        padding: 6px 16px;
         font-size: 14px;
-        background-color: #ffffff;
-        color: #000000;
+        background: none;
         border: none;
+        color: #ffffff;
         border-radius: 4px;
         cursor: pointer;
 
         &:hover {
-          background-color: #e0e0e0;
+          color: #8f8f8f;
         }
       }
     }

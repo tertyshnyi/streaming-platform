@@ -1,5 +1,3 @@
-import { VideoSourceModel } from "./video-source.model";
-
 export interface MediaContentModel {
   id: number;
   title: string;
@@ -15,9 +13,7 @@ export interface MediaContentModel {
   globalRating: number | null;
   posterImg: string;
   coverImg: string;
-  duration: number;
   type: 'MOVIE' | 'SERIES';
-  videos?: VideoSourceModel[];
   commentsTotal: number;
   createdAt?: string;
   updatedAt?: string;

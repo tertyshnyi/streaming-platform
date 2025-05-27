@@ -13,11 +13,17 @@ import {
 import { CommentsService } from '../../../core/services/comments.service';
 import { CommentModel } from '../../../core/models/comment.model';
 import { UserModel } from '../../../core/models/user.model';
+import { RelativeTimePipe } from '../../../core/pipes/relative-time.pipe';
 
 @Component({
   selector: 'app-comments-section',
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterModule],
+  imports: [
+    CommonModule,
+    FormsModule,
+    RouterModule,
+    RelativeTimePipe
+  ],
   templateUrl: './comments-section.component.html',
   styleUrls: ['./comments-section.component.scss'],
   animations: [
@@ -213,56 +219,6 @@ export class CommentsSectionComponent implements OnInit, OnChanges {
     this.replyInputs[commentId] = '';
     delete this.replyVisibility[commentId];
     delete this.replyRecipients[commentId];
-  }
-
-  parseDateSafe(dateString: string): Date {
-    const safeDateString = dateString.replace(/\.(\d{3})\d*Z$/, '.$1Z');
-    const time = Date.parse(safeDateString);
-    if (isNaN(time)) {
-      console.warn('Invalid date:', dateString);
-      return new Date();
-    }
-    return new Date(time);
-  }
-
-  getRelativeTime(dateString: string): string {
-    let utcDate = this.parseDateSafe(dateString);
-
-    utcDate = new Date(utcDate.getTime() - 2 * 60 * 60 * 1000);
-
-    const now = new Date();
-    const diffInSeconds = Math.floor((now.getTime() - utcDate.getTime()) / 1000);
-
-    if (diffInSeconds < 0) {
-      return 'just now';
-    }
-
-    if (diffInSeconds < 60) {
-      return 'just now';
-    }
-
-    const diffInMinutes = Math.floor(diffInSeconds / 60);
-    if (diffInMinutes < 60) {
-      return `${diffInMinutes} minute${diffInMinutes === 1 ? '' : 's'} ago`;
-    }
-
-    const diffInHours = Math.floor(diffInMinutes / 60);
-    if (diffInHours < 24) {
-      return `${diffInHours} hour${diffInHours === 1 ? '' : 's'} ago`;
-    }
-
-    const diffInDays = Math.floor(diffInHours / 24);
-    if (diffInDays < 30) {
-      return `${diffInDays} day${diffInDays === 1 ? '' : 's'} ago`;
-    }
-
-    const diffInMonths = Math.floor(diffInDays / 30);
-    if (diffInMonths < 12) {
-      return `${diffInMonths} month${diffInMonths === 1 ? '' : 's'} ago`;
-    }
-
-    const diffInYears = Math.floor(diffInMonths / 12);
-    return `${diffInYears} year${diffInYears === 1 ? '' : 's'} ago`;
   }
 
   pluralize(count: number, word: string): string {

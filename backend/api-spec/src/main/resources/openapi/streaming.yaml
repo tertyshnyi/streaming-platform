@@ -878,10 +878,6 @@ components:
           type: string
         type:
           type: string
-        episodeCount:
-          type: integer
-        avgDuration:
-          type: integer
         episodes:
           type: array
           items:
@@ -911,6 +907,12 @@ components:
               type: string
             commentsTotal:
               type: integer
+            episodesCount:
+              type: integer
+              description: "Total number of episodes"
+            avgDuration:
+              type: integer
+              description: "Average duration of episodes in minutes"
 
     CreateMovie:
       type: object

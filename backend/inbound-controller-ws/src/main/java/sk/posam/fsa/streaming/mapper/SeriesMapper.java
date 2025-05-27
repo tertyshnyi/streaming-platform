@@ -16,9 +16,11 @@ import java.util.stream.Collectors;
 public class SeriesMapper {
 
     private final EpisodeMapper episodeMapper;
+    private final VideoMapper videoMapper;
 
-    public SeriesMapper(EpisodeMapper episodeMapper) {
+    public SeriesMapper(EpisodeMapper episodeMapper, VideoMapper videoMapper) {
         this.episodeMapper = episodeMapper;
+        this.videoMapper = videoMapper;
     }
 
     public SeriesDto toDto(Series series) {
@@ -39,8 +41,6 @@ public class SeriesMapper {
         dto.setCountries(series.getCountries());
         dto.setPosterImg(series.getPosterImg());
         dto.setCoverImg(series.getCoverImg());
-        dto.setEpisodeCount(series.getEpisodeCount());
-        dto.setAvgDuration(series.getAvgDuration());
         dto.setEpisodes(toMinimalEpisodeDtoList(series.getEpisodes()));
         dto.setCreatedAt(series.getCreatedAt() != null ? series.getCreatedAt().atOffset(ZoneOffset.UTC) : null);
         dto.setUpdatedAt(series.getUpdatedAt() != null ? series.getUpdatedAt().atOffset(ZoneOffset.UTC) : null);
@@ -48,6 +48,8 @@ public class SeriesMapper {
         dto.setUpdatedBy(series.getUpdatedBy() != null ? series.getUpdatedBy().getId().toString() : null);
         dto.setCommentsTotal(series.getCommentsTotal());
         dto.setGlobalRating(series.getGlobalRating());
+        dto.setEpisodesCount(series.getEpisodeCount());
+        dto.setAvgDuration(series.getAvgDuration());
 
         return dto;
     }
@@ -70,8 +72,6 @@ public class SeriesMapper {
         series.setCountries(dto.getCountries());
         series.setPosterImg(dto.getPosterImg());
         series.setCoverImg(dto.getCoverImg());
-        series.setEpisodeCount(dto.getEpisodeCount());
-        series.setAvgDuration(dto.getAvgDuration());
         series.setCreatedBy(createdBy);
         series.setGlobalRating(dto.getGlobalRating());
         series.setUpdatedBy(null);
@@ -103,8 +103,7 @@ public class SeriesMapper {
         existingSeries.setCountries(dto.getCountries());
         existingSeries.setPosterImg(dto.getPosterImg());
         existingSeries.setCoverImg(dto.getCoverImg());
-        existingSeries.setEpisodeCount(dto.getEpisodeCount());
-        existingSeries.setAvgDuration(dto.getAvgDuration());
+
         existingSeries.setUpdatedBy(updatedBy);
         existingSeries.setGlobalRating(dto.getGlobalRating());
 
@@ -171,8 +170,12 @@ public class SeriesMapper {
             dto.setId(episode.getId());
             dto.setTitle(episode.getTitle());
             dto.setDuration(episode.getDuration());
-            dto.setVideos(null);
             dto.setSeriesId(episode.getSeries() != null ? episode.getSeries().getId().intValue() : null);
+
+            dto.setVideos(episode.getVideos() == null ? null : episode.getVideos().stream()
+                    .map(videoMapper::toDto)
+                    .collect(Collectors.toList()));
+
             return dto;
         }).collect(Collectors.toList());
     }

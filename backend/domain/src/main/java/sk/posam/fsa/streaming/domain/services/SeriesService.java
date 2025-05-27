@@ -18,9 +18,27 @@ public class SeriesService extends MediaContentService<Series> implements Series
     }
 
     @Override
+    public void recalculateEpisodeStats(Series series) {
+        if (series.getEpisodes() == null || series.getEpisodes().isEmpty()) {
+            series.setEpisodeCount(0);
+            series.setAvgDuration(0);
+        } else {
+            int count = series.getEpisodes().size();
+            int totalDuration = series.getEpisodes().stream()
+                    .filter(e -> e.getDuration() != null)
+                    .mapToInt(Episode::getDuration)
+                    .sum();
+            series.setEpisodeCount(count);
+            series.setAvgDuration(totalDuration / count);
+        }
+        update(series.getId(), series);
+    }
+
+    @Override
     public Series addEpisode(Long seriesId, Episode episode) {
         Series series = getSeriesOrThrow(seriesId);
         series.getEpisodes().add(episode);
+        recalculateEpisodeStats(series);
         return seriesRepository.save(series);
     }
 
@@ -33,6 +51,8 @@ public class SeriesService extends MediaContentService<Series> implements Series
         episode.setDuration(updatedEpisode.getDuration());
         episode.setVideos(updatedEpisode.getVideos());
 
+        recalculateEpisodeStats(series);
+
         return seriesRepository.save(series);
     }
 
@@ -43,6 +63,9 @@ public class SeriesService extends MediaContentService<Series> implements Series
         if (!removed) {
             throw new NoSuchElementException("Episode not found with id: " + episodeId);
         }
+
+        recalculateEpisodeStats(series);
+
         seriesRepository.save(series);
     }
 

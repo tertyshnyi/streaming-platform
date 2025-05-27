@@ -75,7 +75,7 @@
     </div>
 
     <div class="user-section">
-      <ng-container *ngIf="user() as user; else loginButton">
+      <ng-container *ngIf="user() as user; else authButtons">
         <div class="user-dropdown">
           <button class="user-btn">
             <img *ngIf="user.profileImg" [src]="user.profileImg" alt="Profile Image" class="user-profile-img" />
@@ -90,8 +90,10 @@
           </div>
         </div>
       </ng-container>
-      <ng-template #loginButton>
+      <ng-template #authButtons>
         <button class="login-btn" (click)="login()">Login</button>
+        <span class="separator">|</span>
+        <button class="login-btn" (click)="goToRegister()">Register</button>
       </ng-template>
     </div>
   </div>

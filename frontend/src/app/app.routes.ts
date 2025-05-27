@@ -6,6 +6,7 @@ import { WatchHistoriesComponent } from '../app/features/pages/watch-histories/w
 import { AdvancedSearchComponent } from './features/pages/advanced-search/advanced-search.component';
 import { MediaContentComponent } from './features/pages/media-content/media-content.component';
 import { RegistrationComponent } from './features/pages/registration/registration.component';
+import { NoAuthGuard } from './core/guards/no-auth.guard';
 // import { HomeComponent } from './features/pages/home/home.component';
 
 export const routes: Routes = [
@@ -14,7 +15,7 @@ export const routes: Routes = [
   {path: 'watchlist', component: WatchHistoriesComponent, canActivate: [AuthGuard]},
   {path: 'search', component: AdvancedSearchComponent},
   {path: 'media/:type/:id', component: MediaContentComponent},
-  {path: 'register', component: RegistrationComponent},
+  {path: 'register', component: RegistrationComponent, canActivate: [NoAuthGuard]},
 
   {path: '', redirectTo: '', pathMatch: 'full'},
   {path: '**', component: NotFoundComponent}

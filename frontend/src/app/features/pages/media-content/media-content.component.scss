@@ -397,3 +397,90 @@ button[disabled] {
   opacity: 0.6;
   cursor: not-allowed;
 }
+
+.episodes-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 16px;
+}
+
+.episode-card {
+  background-color: transparent;
+  color: #fff;
+  border-radius: 8px;
+  overflow: hidden;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  height: 160px;
+  position: relative;
+  transition: box-shadow 0.3s ease;
+}
+
+.episode-card:hover {
+  box-shadow: 0 0 10px 2px white;
+}
+
+.episode-thumbnail {
+  width: 100%;
+  height: 120px;
+  background-color: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.thumbnail-placeholder {
+  background-color: #1a1a1a;
+  width: 100%;
+  height: 100%;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.play-icon {
+  font-size: 32px;
+  color: #fff;
+  opacity: 0.8;
+}
+
+.progress-bar {
+  height: 4px;
+  background-color: #333;
+  width: 100%;
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.progress {
+  height: 100%;
+  background-color: #fff;
+  width: 0%;
+  transition: width 0.3s ease;
+}
+
+.episode-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px;
+  font-size: 14px;
+}
+
+.episode-title {
+  font-weight: 500;
+}
+
+.episode-time {
+  position: absolute;
+  bottom: 4px;
+  right: 4px;
+  font-size: 13px;
+  color: #ccc;
+  background-color: rgba(0, 0, 0, 0.6);
+  padding: 2px 6px;
+  border-radius: 4px;
+}

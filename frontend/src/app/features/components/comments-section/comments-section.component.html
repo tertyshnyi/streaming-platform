@@ -33,7 +33,7 @@
     <div class="comment-body">
       <div class="comment-header">
         <strong>{{ rootComment.author }}</strong>
-        <span class="comment-time">{{ getRelativeTime(rootComment.createdAt) }}</span>
+        <span class="comment-time">{{ rootComment.createdAt | relativeTime:2 }}</span>
       </div>
 
       <div class="comment-text">
@@ -100,7 +100,7 @@
             <div class="comment-body">
               <div class="comment-header">
                 <strong>{{ childComment.author }}</strong>
-                <span class="comment-time">{{ getRelativeTime(childComment.createdAt) }}</span>
+                <span class="comment-time">{{ childComment.createdAt | relativeTime:2 }}</span>
               </div>
 
               <div class="comment-text">
