@@ -1,7 +1,7 @@
 <div class="authorized-area" *ngIf="isAuthenticated">
   <div class="reply-form" [class.active]="isNewCommentActive">
     <div class="top-form">
-      <img [src]="currentUser?.profileImg || '/images/404-vdova.png'" alt="your avatar" class="avatar" />
+      <img [src]="currentUser?.profileImg || '/images/404-vdova.png'" alt="avatar" class="avatar" />
       <input
         type="text"
         placeholder="Write a comment..."
@@ -29,30 +29,40 @@
 
 <div class="comments-list">
   <div *ngFor="let rootComment of comments" class="comment">
-    <img [src]="rootComment.user.profileImg || '/images/404-vdova.png'" alt="avatar" class="avatar" />
+    <img [src]="getUserAvatar(rootComment)" alt="avatar" class="avatar" />
     <div class="comment-body">
       <div class="comment-header">
-        <strong>{{ rootComment.user.name }}</strong>
-        <span class="comment-time">{{ getRelativeTime(rootComment.createdAt) }}</span>
+        <strong>{{ rootComment.author }}</strong>
+        <span class="comment-time">{{ rootComment.createdAt | relativeTime:2 }}</span>
       </div>
 
       <div class="comment-text">
-        {{ rootComment.content }}
+        {{ rootComment.text }}
       </div>
 
-      <button class="answer-button" (click)="onAnswerClick(rootComment.id, rootComment.user.name)">
-        <svg class="reply-icon" width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
-          <path d="M10 8V5L3 12L10 19V16C17 16 20 20 21 21C20 15 17 10 10 8Z" />
-        </svg>
-        Answer
-      </button>
+      <div class="comment-actions">
+        <button class="answer-button" (click)="onAnswerClick(rootComment.id, rootComment.author)">
+          <svg class="reply-icon" width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M10 8V5L3 12L10 19V16C17 16 20 20 21 21C20 15 17 10 10 8Z" />
+          </svg>
+          Answer
+        </button>
+        <button
+          *ngIf="currentUser?.id === rootComment.authorId"
+          class="delete-button"
+          (click)="deleteComment(rootComment.id)"
+          aria-label="Delete comment"
+        >
+          Delete
+        </button>
+      </div>
 
       <div
         [@expandCollapse]="isReplyFieldVisible(rootComment.id) ? 'expanded' : 'collapsed'"
         class="reply-form"
       >
         <div class="top-form">
-          <img [src]="currentUser?.profileImg || '/images/404-vdova.png'" alt="your avatar" class="avatar" />
+          <img [src]="getUserAvatar(currentUser)" alt="avatar" class="avatar" />
           <input
             type="text"
             [placeholder]="'Reply to ' + (replyRecipients[rootComment.id] || '')"
@@ -86,30 +96,40 @@
           class="comments-list"
         >
           <div *ngFor="let childComment of getAllDescendants(rootComment)" class="comment child-comment">
-            <img [src]="childComment.user.profileImg || '/images/404-vdova.png'" alt="avatar" class="avatar" />
+            <img [src]="getUserAvatar(childComment)" alt="avatar" class="avatar" />
             <div class="comment-body">
               <div class="comment-header">
-                <strong>{{ childComment.user.name }}</strong>
-                <span class="comment-time">{{ getRelativeTime(childComment.createdAt) }}</span>
+                <strong>{{ childComment.author }}</strong>
+                <span class="comment-time">{{ childComment.createdAt | relativeTime:2 }}</span>
               </div>
 
               <div class="comment-text">
-                <span class="reply-to">{{ findParentName(childComment.parentId) }}</span> , {{ childComment.content }}
+                <span class="reply-to">{{ findParentName(childComment.parentCommentId) }}</span> , {{ childComment.text }}
               </div>
 
-              <button class="answer-button" (click)="onAnswerClick(childComment.id, childComment.user.name)">
-                <svg class="reply-icon" width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
-                  <path d="M10 8V5L3 12L10 19V16C17 16 20 20 21 21C20 15 17 10 10 8Z" />
-                </svg>
-                Answer
-              </button>
+              <div class="comment-actions">
+                <button class="answer-button" (click)="onAnswerClick(childComment.id, childComment.author)">
+                  <svg class="reply-icon" width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M10 8V5L3 12L10 19V16C17 16 20 20 21 21C20 15 17 10 10 8Z" />
+                  </svg>
+                  Answer
+                </button>
+                <button
+                  *ngIf="currentUser?.id === childComment.authorId"
+                  class="delete-button"
+                  (click)="deleteComment(childComment.id)"
+                  aria-label="Delete comment"
+                >
+                  Delete
+                </button>
+              </div>
 
               <div
                 [@expandCollapse]="isReplyFieldVisible(childComment.id) ? 'expanded' : 'collapsed'"
                 class="reply-form"
               >
                 <div class="top-form">
-                  <img [src]="currentUser?.profileImg || '/images/404-vdova.png'" alt="your avatar" class="avatar" />
+                  <img [src]="getUserAvatar(currentUser)" alt="your avatar" class="avatar" />
                   <input
                     type="text"
                     [placeholder]="'Reply to ' + (replyRecipients[childComment.id] || '')"

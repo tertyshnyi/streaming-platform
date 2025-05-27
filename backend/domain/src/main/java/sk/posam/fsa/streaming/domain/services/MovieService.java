@@ -23,10 +23,20 @@ public class MovieService extends MediaContentService<Movie> implements MovieFac
     }
 
     @Override
-    public void decrementCommentsTotal(Long id) {
+    public void decrementCommentsTotal(Long id, int decrementBy) {
         Movie movie = movieRepository.get(id).orElseThrow(() -> new IllegalArgumentException("Movie not found"));
         int current = movie.getCommentsTotal();
-        movie.setCommentsTotal(Math.max(0, current - 1));
+        movie.setCommentsTotal(Math.max(0, current - decrementBy));
         movieRepository.update(id, movie);
+    }
+
+    @Override
+    public List<String> getDistinctCountries() {
+        return movieRepository.findDistinctCountries();
+    }
+
+    @Override
+    public List<Integer> getDistinctReleaseYears() {
+        return movieRepository.findDistinctReleaseYears();
     }
 }

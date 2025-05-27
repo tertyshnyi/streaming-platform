@@ -157,6 +157,7 @@
             gap: 10px;
             padding: 10px;
             border-bottom: 1px solid #444;
+            text-decoration: none;
 
             .search-result-image {
               position: relative;
@@ -186,14 +187,25 @@
               .title {
                 font-size: 16px;
                 font-weight: bold;
+                color: #f6f6f6;
               }
 
               .genre {
-                font-size: 14px;
+                font-size: 12px;
                 color: #bbb;
               }
 
               .description {
+                font-size: 12px;
+                color: #f6f6f6;
+              }
+
+              .release-date {
+                font-size: 12px;
+                color: #efefef;
+              }
+
+              .countries {
                 font-size: 12px;
                 color: #ccc;
               }
@@ -206,7 +218,6 @@
     .user-section {
       display: flex;
       align-items: center;
-      gap: 15px;
 
       .user-dropdown {
         position: relative;
@@ -269,16 +280,15 @@
       }
 
       .login-btn {
-        padding: 6px 16px;
         font-size: 14px;
-        background-color: #ffffff;
-        color: #000000;
+        background: none;
         border: none;
+        color: #ffffff;
         border-radius: 4px;
         cursor: pointer;
 
         &:hover {
-          background-color: #e0e0e0;
+          color: #8f8f8f;
         }
       }
     }

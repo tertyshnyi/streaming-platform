@@ -13,7 +13,7 @@
   <h3>{{ m.title }}</h3>
 
   <div class="meta">
-    <span class="year">{{ m.year }}</span> •
+    <span class="year">{{ m.releaseDate | date }}</span> •
     <span class="genres">{{ m.genres.join(', ') || 'Unspecified' }}</span> •
     <span class="countries">{{ m.countries?.join(', ') || 'Unspecified' }}</span>
   </div>

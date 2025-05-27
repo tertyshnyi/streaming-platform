@@ -9,8 +9,8 @@ import java.util.List;
 
 public class Series extends MediaContent {
     private List<Episode> episodes = new ArrayList<>();
-    private Integer episodeCount;
-    private Integer avgDuration;
+    private Integer episodeCount = 0;
+    private Integer avgDuration = 0;
 
     public Series(Long id, String title, String slug, LocalDate releaseDate, Integer releaseYear, String description,
                   List<Genre> genres, String actors, String directors, String trailerUrl, List<String> countries,

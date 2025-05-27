@@ -1,7 +1,4 @@
-import {
-  Component,
-  Input
-} from '@angular/core';
+import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
@@ -10,39 +7,53 @@ import {
   state,
   style,
   transition,
-  animate
+  animate,
 } from '@angular/animations';
 
+import { CommentsService } from '../../../core/services/comments.service';
 import { CommentModel } from '../../../core/models/comment.model';
 import { UserModel } from '../../../core/models/user.model';
+import { RelativeTimePipe } from '../../../core/pipes/relative-time.pipe';
 
 @Component({
   selector: 'app-comments-section',
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterModule],
+  imports: [
+    CommonModule,
+    FormsModule,
+    RouterModule,
+    RelativeTimePipe
+  ],
   templateUrl: './comments-section.component.html',
   styleUrls: ['./comments-section.component.scss'],
   animations: [
     trigger('expandCollapse', [
-      state('expanded', style({
-        height: '*',
-        opacity: 1,
-        overflow: 'visible',
-      })),
-      state('collapsed', style({
-        height: '0px',
-        opacity: 0,
-        overflow: 'hidden',
-        padding: '0px',
-        margin: '0px',
-      })),
+      state(
+        'expanded',
+        style({
+          height: '*',
+          opacity: 1,
+          overflow: 'visible',
+        })
+      ),
+      state(
+        'collapsed',
+        style({
+          height: '0px',
+          opacity: 0,
+          overflow: 'hidden',
+          padding: '0px',
+          margin: '0px',
+        })
+      ),
       transition('expanded <=> collapsed', animate('300ms ease')),
-    ])
-  ]
+    ]),
+  ],
 })
-export class CommentsSectionComponent {
-  @Input() isAuthenticated: boolean = false;
+export class CommentsSectionComponent implements OnInit, OnChanges {
+  @Input() isAuthenticated = false;
   @Input() currentUser: UserModel | null = null;
+  @Input() mediaId?: number;
   @Input() comments: CommentModel[] = [];
 
   newCommentInput = '';
@@ -53,44 +64,112 @@ export class CommentsSectionComponent {
   replyVisibility: { [key: number]: boolean } = {};
   repliesVisibility: { [key: number]: boolean } = {};
 
+  constructor(private commentsService: CommentsService) {}
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['mediaId']?.currentValue != null) {
+      this.loadComments(changes['mediaId'].currentValue);
+    }
+  }
+
+  ngOnInit(): void {
+    if (this.mediaId != null) {
+      this.loadComments(this.mediaId);
+    }
+  }
+
+  loadComments(mediaId: number): void {
+    this.commentsService.getCommentsByMediaId(mediaId).subscribe({
+      next: (comments) => (this.comments = comments),
+      error: (err) => console.error('Error loading comments:', err),
+    });
+  }
+
   sendNewComment(): void {
     const content = this.newCommentInput.trim();
-    if (!this.isAuthenticated || !this.currentUser || content.length < 2 || content.length > 300) return;
 
-    const newComment: CommentModel = {
-      id: Date.now(),
-      parentId: null,
-      mediaId: 0,
-      user: this.currentUser,
-      createdAt: new Date().toISOString(),
-      content,
-      childrenComments: []
+    if (
+      !this.isAuthenticated ||
+      !this.currentUser ||
+      content.length < 2 ||
+      content.length > 300 ||
+      this.mediaId === undefined
+    ) return;
+
+    const newCommentPayload = {
+      mediaContentId: this.mediaId,
+      text: content,
+      parentCommentId: null,
     };
 
-    this.comments.unshift(newComment);
-    this.newCommentInput = '';
-    this.isNewCommentActive = false;
+    this.commentsService.addComment(newCommentPayload).subscribe({
+      next: (savedComment) => {
+        this.comments = [savedComment, ...this.comments];
+        this.newCommentInput = '';
+        this.isNewCommentActive = false;
+      },
+      error: (err) => {
+        console.error('ОError to add comment:', err);
+      }
+    });
   }
 
   sendReply(parentComment: CommentModel): void {
     const replyTextRaw = this.replyInputs[parentComment.id]?.trim();
-    if (!this.isAuthenticated || !this.currentUser || !replyTextRaw || replyTextRaw.length < 2 || replyTextRaw.length > 300) return;
 
-    const newReply: CommentModel = {
-      id: Date.now(),
-      parentId: parentComment.id,
-      mediaId: parentComment.mediaId,
-      user: this.currentUser,
-      createdAt: new Date().toISOString(),
-      content: replyTextRaw,
-      childrenComments: []
+    if (
+      !this.isAuthenticated ||
+      !this.currentUser ||
+      !replyTextRaw ||
+      replyTextRaw.length < 2 ||
+      replyTextRaw.length > 300 ||
+      this.mediaId === undefined
+    ) return;
+
+    const newReplyPayload = {
+      mediaContentId: this.mediaId,
+      text: replyTextRaw,
+      parentCommentId: parentComment.id,
     };
 
-    parentComment.childrenComments = parentComment.childrenComments || [];
-    parentComment.childrenComments.push(newReply);
+    this.commentsService.addComment(newReplyPayload).subscribe({
+      next: (savedReply) => {
+        if (!parentComment.children) {
+          parentComment.children = [];
+        }
+        parentComment.children.push(savedReply);
+        parentComment.childrenCount = (parentComment.childrenCount || 0) + 1;
+        this.replyInputs[parentComment.id] = '';
+        this.cancelReply(parentComment.id);
+      },
+      error: (err) => {
+        console.error('Error to add answer:', err);
+      }
+    });
+  }
 
-    this.replyInputs[parentComment.id] = '';
-    this.cancelReply(parentComment.id);
+  private removeCommentById(commentId: number): void {
+    const recursiveRemove = (comments: CommentModel[]): CommentModel[] => {
+      return comments
+        .filter(comment => comment.id !== commentId)
+        .map(comment => ({
+          ...comment,
+          children: comment.children ? recursiveRemove(comment.children) : null,
+        }));
+    };
+
+    this.comments = recursiveRemove(this.comments);
+  }
+
+  deleteComment(commentId: number): void {
+    this.commentsService.deleteComment(commentId).subscribe({
+      next: () => {
+        this.removeCommentById(commentId);
+      },
+      error: (err) => {
+        console.error('Error to remove comment:', err);
+      }
+    });
   }
 
   cancelNewComment(): void {
@@ -142,53 +221,40 @@ export class CommentsSectionComponent {
     delete this.replyRecipients[commentId];
   }
 
+  pluralize(count: number, word: string): string {
+    return count === 1 ? word : word + 's';
+  }
+
   getAllDescendants(comment: CommentModel): CommentModel[] {
-    let descendants: CommentModel[] = [];
-    if (comment.childrenComments && comment.childrenComments.length > 0) {
-      comment.childrenComments.forEach(child => {
-        descendants.push(child);
-        descendants.push(...this.getAllDescendants(child));
+    const descendants: CommentModel[] = [];
+    const collectChildren = (comments: CommentModel[] | null) => {
+      if (!comments) return;
+      comments.forEach(c => {
+        descendants.push(c);
+        collectChildren(c.children);
       });
-    }
+    };
+    collectChildren(comment.children);
     return descendants;
   }
 
   findParentName(parentId: number | null): string {
-    if (!parentId) return '';
-    let found = this.findCommentById(parentId, this.comments);
-    return found ? found.user.name : '';
+    if (parentId === null) return '';
+    const findInComments = (comments: CommentModel[]): CommentModel | null => {
+      for (const c of comments) {
+        if (c.id === parentId) return c;
+        if (c.children) {
+          const found = findInComments(c.children);
+          if (found) return found;
+        }
+      }
+      return null;
+    };
+    const parentComment = findInComments(this.comments);
+    return parentComment ? parentComment.author : 'Unknown';
   }
 
-  findCommentById(id: number, commentsList: CommentModel[]): CommentModel | null {
-    for (let comment of commentsList) {
-      if (comment.id === id) return comment;
-      let foundInChildren = this.findCommentById(id, comment.childrenComments || []);
-      if (foundInChildren) return foundInChildren;
-    }
-    return null;
-  }
-
-  getRelativeTime(dateStr: string): string {
-    const now = new Date();
-    const date = new Date(dateStr);
-    const diff = (now.getTime() - date.getTime()) / 1000;
-
-    if (diff < 60) return 'just now';
-
-    const minutes = Math.floor(diff / 60);
-    if (minutes < 60) return `${minutes} ${this.pluralize(minutes, 'minute')} ago`;
-
-    const hours = Math.floor(diff / 3600);
-    if (hours < 24) return `${hours} ${this.pluralize(hours, 'hour')} ago`;
-
-    const days = Math.floor(diff / 86400);
-    if (days < 7) return `${days} ${this.pluralize(days, 'day')} ago`;
-
-    const weeks = Math.floor(days / 7);
-    return `${weeks} ${this.pluralize(weeks, 'week')} ago`;
-  }
-
-  pluralize(count: number, word: string): string {
-    return count === 1 ? word : word + 's';
+  getUserAvatar(comment: { profileImg?: string } | UserModel | null): string {
+    return comment?.profileImg || '/images/404-vdova.png';
   }
 }

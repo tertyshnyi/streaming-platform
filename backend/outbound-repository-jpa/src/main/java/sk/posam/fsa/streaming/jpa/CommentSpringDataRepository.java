@@ -7,5 +7,6 @@ import java.util.List;
 
 public interface CommentSpringDataRepository extends JpaRepository<Comment, Long> {
     List<Comment> findByMediaContentId(Long mediaContentId);
-    List<Comment> findByParentCommentId(Long parentCommentId);
+    List<Comment> findByParentComment(Comment parentComment);
+
 }

@@ -2,9 +2,14 @@ package sk.posam.fsa.streaming.domain.services;
 
 import sk.posam.fsa.streaming.domain.models.entities.MediaContent;
 import sk.posam.fsa.streaming.domain.models.entities.MediaContentFilter;
+import sk.posam.fsa.streaming.domain.models.enums.Genre;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class MediaSearchService {
 
@@ -37,6 +42,25 @@ public class MediaSearchService {
         return result;
     }
 
+    public List<String> getAllCountries() {
+        List<String> movieCountries = movieFacade.getDistinctCountries();
+        List<String> seriesCountries = seriesFacade.getDistinctCountries();
+
+        return Stream.concat(movieCountries.stream(), seriesCountries.stream())
+                .distinct()
+                .sorted()
+                .collect(Collectors.toList());
+    }
+
+    public List<Integer> getAllReleaseYears() {
+        List<Integer> movieYears = movieFacade.getDistinctReleaseYears();
+        List<Integer> seriesYears = seriesFacade.getDistinctReleaseYears();
+
+        return Stream.concat(movieYears.stream(), seriesYears.stream())
+                .distinct()
+                .sorted(Comparator.reverseOrder())
+                .collect(Collectors.toList());
+    }
 }
 
 

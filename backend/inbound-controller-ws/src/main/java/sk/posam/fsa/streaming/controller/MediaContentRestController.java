@@ -11,6 +11,7 @@ import sk.posam.fsa.streaming.rest.api.MediaApi;
 import sk.posam.fsa.streaming.rest.dto.GenreDto;
 import sk.posam.fsa.streaming.rest.dto.MediaContentDto;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -66,5 +67,24 @@ public class MediaContentRestController implements MediaApi {
         return ResponseEntity.ok(dtos);
     }
 
+    @Override
+    public ResponseEntity<List<String>> getGenres() {
+        List<String> genres = Arrays.stream(Genre.values())
+                .map(Genre::toString)
+                .collect(Collectors.toList());
+        return ResponseEntity.ok(genres);
+    }
+
+    @Override
+    public ResponseEntity<List<String>> getCountries() {
+        List<String> countries = mediaSearchService.getAllCountries();
+        return ResponseEntity.ok(countries);
+    }
+
+    @Override
+    public ResponseEntity<List<Integer>> getReleaseYears() {
+        List<Integer> years = mediaSearchService.getAllReleaseYears();
+        return ResponseEntity.ok(years);
+    }
 }
 

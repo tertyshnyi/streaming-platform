@@ -1,4 +1,4 @@
-<div class="custom-media-container" *ngIf="media as m">
+<div class="custom-media-container" *ngIf="media() as m">
   <app-sparkles></app-sparkles>
 
   <div class="custom-media-poster-background">
@@ -22,23 +22,21 @@
           <h1 class="custom-title">{{ m.title }}</h1>
 
           <div class="custom-genres">
-            <span class="custom-badge" *ngFor="let genre of m.genres">{{ genre }}</span>
+            <span class="custom-badge" *ngFor="let genre of m.genres">{{ genre.toLowerCase() }}</span>
           </div>
 
-          <div
-            class="custom-description-wrapper"
-          >
-            <p class="custom-description">{{ m.description }}</p>
+          <div class="custom-description-wrapper">
+            <p class="custom-description" [class.expanded]="isDescriptionExpanded()">{{ m.description }}</p>
           </div>
 
           <div class="custom-expand-btn-wrapper">
             <button class="custom-expand-btn" (click)="toggleDescription()">
-              {{ isDescriptionExpanded ? 'Show less' : 'Show more' }}
+              {{ isDescriptionExpanded() ? 'Show less' : 'Show more' }}
             </button>
           </div>
 
           <div class="custom-meta-grid">
-            <div class="custom-meta-item" *ngIf="m.actors?.length">
+            <div class="custom-meta-item" *ngIf="m.directors?.length">
               <strong>Directors</strong>
               <span>{{ m.directors.join(', ') }}</span>
             </div>
@@ -50,10 +48,20 @@
               <strong>Actors</strong>
               <span>{{ m.actors.join(', ') }}</span>
             </div>
-            <div class="custom-meta-item">
-              <strong>Duration</strong>
-              <span>{{ m.duration }}</span>
-            </div>
+            <ng-container *ngIf="isMovie(m)">
+              <div class="custom-meta-item">
+                <strong>Duration</strong>
+                <span>{{ m.duration }}</span>
+              </div>
+            </ng-container>
+
+            <ng-container *ngIf="isSeries(m)">
+              <div class="custom-meta-item">
+                <strong>Episodes</strong>
+                <span>{{ getEpisodesInfo(m) }}</span>
+              </div>
+            </ng-container>
+
             <div class="custom-meta-item" *ngIf="m.countries?.length">
               <strong>Countries</strong>
               <span>{{ m.countries.join(', ') }}</span>
@@ -68,14 +76,48 @@
     </div>
 
     <app-video-player
-      *ngIf="media"
-      [media]="media"
+      [media]="media()"
+      [selectedResolution]="'720p'"
+      [selectedEpisodeIndex]="selectedEpisodeIndex()"
     ></app-video-player>
+
+    <div *ngIf="showEpisodesSection" class="episodes-list">
+      <div class="episodes-grid">
+        <div
+          *ngFor="let episode of series?.episodes; let i = index"
+          class="episode-card"
+          (click)="selectEpisode(i)"
+          [class.active]="selectedEpisodeIndex() === i"
+        >
+          <div class="episode-thumbnail">
+            <div class="thumbnail-placeholder">
+              <span class="play-icon">▶</span>
+              <span class="episode-time">{{ episode.duration }} min</span>
+            </div>
+          </div>
+
+          <div class="progress-bar">
+            <div class="progress"></div>
+<!--            [style.width.%]="episode?.progress ?? 0"></div>-->
+          </div>
+
+          <div class="episode-info">
+            <div class="episode-title">
+              {{ i + 1 }}. {{ episode.title || ('Episode' + (i + 1)) }}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div *ngIf="showNoEpisodesMessage">
+      <p>No episodes available.</p>
+    </div>
 
     <div class="custom-comment-section">
 
       <div class="unauthorized-area" *ngIf="!isAuthenticated()">
-      <h1>Account required</h1>
+        <h1>Account required</h1>
         <p>
           Please,
           <a routerLink="/auth">log in</a> or
@@ -90,22 +132,23 @@
       </div>
 
       <app-comments-section
+        [mediaId]="m.id"
         [isAuthenticated]="isAuthenticated()"
         [currentUser]="userService.getUserSignal()() ?? null"
-        [comments]="comments"
+        [comments]="comments()"
       ></app-comments-section>
 
     </div>
   </div>
 
-  <div class="trailer-modal" *ngIf="isTrailerOpen" (click)="closeTrailer()">
-    <div class="trailer-modal-content-wrapper">
+  <div class="trailer-modal" *ngIf="isTrailerOpen()" (click)="closeTrailer()">
+    <div class="trailer-modal-content-wrapper" (click)="$event.stopPropagation()">
       <button class="close-button" (click)="closeTrailer()">✕</button>
 
-      <div class="trailer-modal-content" (click)="$event.stopPropagation()">
+      <div class="trailer-modal-content">
         <iframe
-          *ngIf="m?.trailerUrl"
-          [src]="getYouTubeEmbedUrl(m?.trailerUrl)"
+          *ngIf="m.trailerUrl"
+          [src]="getYouTubeEmbedUrl(m.trailerUrl)"
           frameborder="0"
           allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
           allowfullscreen

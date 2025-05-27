@@ -87,9 +87,12 @@ public class CommentRestController implements CommentsApi {
         Comment comment = commentFacade.get(id)
                 .orElseThrow(() -> new RuntimeException("Comment not found"));
 
+        int totalToDecrement = commentFacade.countAllWithChildren(id);
+
         commentFacade.delete(id);
 
-        mediaContentFacade.decrementCommentsTotal(comment.getMediaContent().getId());
+        mediaContentFacade.decrementCommentsTotal(comment.getMediaContent().getId(), totalToDecrement);
+
         return ResponseEntity.noContent().build();
     }
 

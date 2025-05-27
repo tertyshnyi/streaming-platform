@@ -99,6 +99,35 @@
         font-weight: normal;
       }
 
+      .comment-actions {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: 8px;
+      }
+
+      .answer-button {
+        display: flex;
+        align-items: center;
+        gap: 4px;
+        border: none;
+        background: transparent;
+        cursor: pointer;
+        color: inherit;
+      }
+
+      .delete-button {
+        border: none;
+        background: none;
+        color: gray;
+        cursor: pointer;
+        transition: color 0.3s ease;
+      }
+
+      .delete-button:hover {
+        color: white;
+      }
+
       .comment-text {
         font-size: 16px;
         line-height: 1.4;

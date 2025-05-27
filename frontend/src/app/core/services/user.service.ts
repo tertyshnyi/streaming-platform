@@ -29,6 +29,10 @@ export class UserService {
     return this.http.post<UserModel>(this.apiUrl, userData);
   }
 
+  updateUser(user: UserModel): Observable<UserModel> {
+    return this.http.put<UserModel>(`${this.apiUrl}/${user.id}`, user);
+  }
+
   getUserSignal() {
     return this.user.asReadonly();
   }

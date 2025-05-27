@@ -42,17 +42,30 @@
           (click)="$event.stopPropagation()"
         >
           <div *ngIf="searchResults.length > 0">
-            <div *ngFor="let result of searchResults" class="search-result-item">
+            <div *ngFor="let result of searchResults">
+              <a
+                class="search-result-item"
+                [routerLink]="['/media', result.type.toLowerCase(), result.id]"
+                (click)="onResultClick()"
+              >
               <div class="search-result-image">
-                <img [src]="result.image" alt="Image for {{ result.title }}" />
-                <span class="rating">{{ result.rating }} ⭐</span>
-              </div>
-              <div class="search-result-info">
-                <h3 class="title">{{ result.title }}</h3>
-                <p class="genre">{{ result.genre }}</p>
-                <p class="description">{{ result.description }}</p>
-              </div>
+                  <img [src]="result.posterImg" alt="Image for {{ result.title }}" />
+                  <span class="rating">
+                    {{ result.globalRating !== null ? (result.globalRating | number: '1.1-1') : 'N/A' }} ⭐
+                  </span>
+                </div>
+
+                <div class="search-result-info">
+                  <h3 class="title">{{ result.title }}</h3>
+                  <p class="genre">{{ result.genres.join(', ') }}</p>
+                  <p class="description">{{ result.description }}</p>
+                  <p class="countries">{{ result.countries.join(', ') }}</p>
+                  <p class="release-date">{{ result.releaseDate | date: 'longDate' }}</p>
+                </div>
+              </a>
             </div>
+
+
           </div>
           <div *ngIf="noResultsFound && searchQuery && searchQuery.length > 2">
             No results found
@@ -62,7 +75,7 @@
     </div>
 
     <div class="user-section">
-      <ng-container *ngIf="user() as user; else loginButton">
+      <ng-container *ngIf="user() as user; else authButtons">
         <div class="user-dropdown">
           <button class="user-btn">
             <img *ngIf="user.profileImg" [src]="user.profileImg" alt="Profile Image" class="user-profile-img" />
@@ -77,8 +90,10 @@
           </div>
         </div>
       </ng-container>
-      <ng-template #loginButton>
+      <ng-template #authButtons>
         <button class="login-btn" (click)="login()">Login</button>
+        <span class="separator">|</span>
+        <button class="login-btn" (click)="goToRegister()">Register</button>
       </ng-template>
     </div>
   </div>

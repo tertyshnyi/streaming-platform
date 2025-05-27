@@ -4,4 +4,5 @@ export interface UserModel {
   email: string;
   phoneNumber: string;
   profileImg?: string;
+  createdAt: string;
 }

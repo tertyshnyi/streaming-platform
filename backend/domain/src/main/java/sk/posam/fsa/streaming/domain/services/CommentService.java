@@ -84,6 +84,30 @@ public class CommentService implements CommentFacade {
         return List.of(root);
     }
 
+    @Override
+    public void incrementChildrenCount(Long parentCommentId) {
+        commentRepository.get(parentCommentId).ifPresent(parent -> {
+            parent.setChildrenCount(parent.getChildrenCount() + 1);
+            commentRepository.create(parent);
+
+            if (parent.getParentComment() != null) {
+                incrementChildrenCount(parent.getParentComment().getId());
+            }
+        });
+    }
+
+    @Override
+    public void decrementChildrenCount(Long parentCommentId) {
+        commentRepository.get(parentCommentId).ifPresent(parent -> {
+            parent.setChildrenCount(Math.max(0, parent.getChildrenCount() - 1));
+            commentRepository.create(parent);
+
+            if (parent.getParentComment() != null) {
+                decrementChildrenCount(parent.getParentComment().getId());
+            }
+        });
+    }
+
     private void buildChildrenTree(Comment parent, Map<Long, Comment> commentMap) {
         List<Comment> children = commentMap.values().stream()
                 .filter(c -> c.getParentComment() != null && c.getParentComment().getId().equals(parent.getId()))
@@ -117,5 +141,24 @@ public class CommentService implements CommentFacade {
     @Override
     public List<Comment> findByMediaContent(Long mediaContentId) {
         return commentRepository.findByMediaContentId(mediaContentId);
+    }
+
+    @Override
+    public int countAllWithChildren(Long commentId) {
+        Comment parent = commentRepository.get(commentId)
+                .orElseThrow(() -> new RuntimeException("Comment not found"));
+
+        return 1 + countChildrenRecursive(parent);
+    }
+
+    private int countChildrenRecursive(Comment comment) {
+        List<Comment> children = commentRepository.findByParentComment(comment);
+        int total = children.size();
+
+        for (Comment child : children) {
+            total += countChildrenRecursive(child);
+        }
+
+        return total;
     }
 }

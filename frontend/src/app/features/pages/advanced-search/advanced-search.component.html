@@ -16,15 +16,15 @@
           (selectionChanged)="onTypeSelectionChanged($event)"
         ></app-dropdown>
 
-        <app-dropdown
-          label="✨ By Novelty"
-          [items]="noveltyOptions"
-          [selectedItems]="selectedNoveltyOption ? [selectedNoveltyOption] : []"
-          [isOpen]="dropdownState['novelty']"
-          [isMultiple]="false"
-          (toggleDropdown)="toggleDropdown('novelty')"
-          (selectionChanged)="onNoveltySelectionChanged($event)"
-        ></app-dropdown>
+<!--        <app-dropdown-->
+<!--          label="✨ By Novelty"-->
+<!--          [items]="noveltyOptions"-->
+<!--          [selectedItems]="selectedNoveltyOption ? [selectedNoveltyOption] : []"-->
+<!--          [isOpen]="dropdownState['novelty']"-->
+<!--          [isMultiple]="false"-->
+<!--          (toggleDropdown)="toggleDropdown('novelty')"-->
+<!--          (selectionChanged)="onNoveltySelectionChanged($event)"-->
+<!--        ></app-dropdown>-->
       </div>
 
       <div class="center-controls">
@@ -82,10 +82,16 @@
 
     <hr class="divider" />
 
-    <div class="cards">
-      <a class="card-link" [routerLink]="['/media', show.slug]" *ngFor="let show of shows">
+    <div class="cards" *ngIf="filteredShows.length > 0; else noResults">
+      <a class="card-link" [routerLink]="['/media', show.type.toLowerCase(), show.id]" *ngFor="let show of filteredShows">
         <app-media-card [media]="show"></app-media-card>
       </a>
     </div>
+
+    <ng-template #noResults>
+      <div class="no-results">
+        Nothing was found 😔
+      </div>
+    </ng-template>
   </div>
 </div>

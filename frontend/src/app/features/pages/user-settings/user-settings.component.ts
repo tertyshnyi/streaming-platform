@@ -11,10 +11,24 @@ import { UserService } from '../../../core/services/user.service';
   styleUrls: ['./user-settings.component.scss']
 })
 export class UserSettings {
-  user = inject(UserService).getUserSignal();
+  private userService = inject(UserService);
+  user = this.userService.getUserSignal();
 
+  selectedAvatar: string | ArrayBuffer | null = null;
   saveSettings(): void {
-    console.log('Saved settings:', this.user());
+    const currentUser = this.user();
+    if (currentUser) {
+      this.userService.updateUser(currentUser).subscribe({
+        next: updated => {
+          console.log('User updated:', updated);
+          alert('User settings saved successfully!');
+        },
+        error: err => {
+          console.error('Update failed:', err);
+          alert('Failed to save settings.');
+        }
+      });
+    }
   }
 
   onAvatarChange(event: Event): void {
@@ -24,13 +38,7 @@ export class UserSettings {
       const reader = new FileReader();
 
       reader.onload = () => {
-        const currentUser = this.user();
-        if (currentUser) {
-          // this.user.update((u: any) => ({
-          //   ...u,
-          //   profileImg: reader.result as string
-          // }));
-        }
+        this.selectedAvatar = reader.result;
       };
 
       reader.readAsDataURL(file);

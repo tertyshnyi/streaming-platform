@@ -113,6 +113,9 @@
 
             <basic name="content"/>
             <basic name="createdAt"/>
+            <basic name="childrenCount">
+                <column name="children_count" nullable="false"/>
+            </basic>
 
             <many-to-one name="user">
                 <join-column name="user_id" />

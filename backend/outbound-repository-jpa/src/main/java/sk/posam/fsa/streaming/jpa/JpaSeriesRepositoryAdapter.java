@@ -117,4 +117,24 @@ public class JpaSeriesRepositoryAdapter implements SeriesRepository {
 
         return entityManager.createQuery(query).getResultList();
     }
+
+    @Override
+    public List<String> findDistinctCountries() {
+        CriteriaBuilder cb = entityManager.getCriteriaBuilder();
+        CriteriaQuery<String> query = cb.createQuery(String.class);
+        Root<Series> root = query.from(Series.class);
+        Join<Series, String> countriesJoin = root.join("countries");
+        query.select(countriesJoin).distinct(true);
+        return entityManager.createQuery(query).getResultList();
+    }
+
+    @Override
+    public List<Integer> findDistinctReleaseYears() {
+        CriteriaBuilder cb = entityManager.getCriteriaBuilder();
+        CriteriaQuery<Integer> query = cb.createQuery(Integer.class);
+        Root<Series> root = query.from(Series.class);
+        query.select(root.get("releaseYear")).distinct(true);
+        query.where(cb.isNotNull(root.get("releaseYear")));
+        return entityManager.createQuery(query).getResultList();
+    }
 }

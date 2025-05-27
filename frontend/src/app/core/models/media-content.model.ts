@@ -3,22 +3,20 @@ export interface MediaContentModel {
   title: string;
   slug: string;
   releaseDate: string;
+  releaseYear: number;
   description: string;
   genres: string[];
   actors: string[];
   directors: string[];
   trailerUrl?: string;
   countries: string[];
-  globalRating: number;
-  commentsTotal: number;
+  globalRating: number | null;
   posterImg: string;
   coverImg: string;
-  duration: string;
-  videos?: VideoSourceModel[];
-}
-
-export interface VideoSourceModel {
-  quality: number;
-  url: string;
-  type: 'mp4' | 'youtube';
+  type: 'MOVIE' | 'SERIES';
+  commentsTotal: number;
+  createdAt?: string;
+  updatedAt?: string;
+  createdBy?: string;
+  updatedBy?: string | null;
 }
