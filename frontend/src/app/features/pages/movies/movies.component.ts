@@ -5,6 +5,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { MovieModel } from '../../../core/models/movie.model';
 import { MediaService } from '../../../core/services/media.service';
 import { MediaCardComponent } from '../../../shared/components/media-card/media-card.component';
+import { SparklesComponent } from "../../../shared/components/sparkles/sparkles.component";
 
 @Component({
   selector: 'app-movies',
@@ -13,7 +14,8 @@ import { MediaCardComponent } from '../../../shared/components/media-card/media-
     CommonModule,
     RouterModule,
     HttpClientModule,
-    MediaCardComponent
+    MediaCardComponent,
+    SparklesComponent
   ],
   templateUrl: './movies.component.html',
   styleUrls: ['./movies.component.scss']
