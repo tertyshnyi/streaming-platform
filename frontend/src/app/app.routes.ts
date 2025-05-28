@@ -13,28 +13,28 @@ import { CreateSeriesComponent } from './features/pages/create-series/create-ser
 import { EditMovieComponent } from './features/pages/edit-movie/edit-movie.component';
 import { EditSeriesComponent } from './features/pages/edit-series/edit-series.component';
 import { RoleGuard } from '../app/core/guards/role.guard';
-// import { HomeComponent } from './features/pages/home/home.component';
+import { HomeComponent } from './features/pages/home/home.component';
+import { MoviesComponent } from './features/pages/movies/movies.component';
+import { SeriesComponent } from './features/pages/series/series.component';
 
 export const routes: Routes = [
-  // {path: '', component: HomeComponent},
-  {
-    path: 'admin',
-    component: AdminPanelComponent,
-    canActivate: [RoleGuard],
-    children: [
-      { path: '', component: AdminPanelComponent },
-      { path: 'create-movie', component: CreateMovieComponent },
-      { path: 'create-series', component: CreateSeriesComponent },
-      { path: 'edit-movie/:id', component: EditMovieComponent },
-      { path: 'edit-series/:id', component: EditSeriesComponent },
-    ]
-  },
+  {path: '', component: HomeComponent},
+  {path: 'admin', component: AdminPanelComponent, canActivate: [RoleGuard]},
+  {path: 'admin/create-movie', component: CreateMovieComponent, canActivate: [RoleGuard]},
+  {path: 'admin/create-series', component: CreateSeriesComponent, canActivate: [RoleGuard]},
+  {path: 'admin/edit-movie/:id', component: EditMovieComponent, canActivate: [RoleGuard]},
+  {path: 'admin/edit-series/:id', component: EditSeriesComponent, canActivate: [RoleGuard]},
+
   {path: 'settings', component: UserSettings, canActivate: [AuthGuard]},
   {path: 'watchlist', component: WatchHistoriesComponent, canActivate: [AuthGuard]},
+
   {path: 'search', component: AdvancedSearchComponent},
+  {path: 'media/movies', component: MoviesComponent},
+  {path: 'media/series', component: SeriesComponent},
   {path: 'media/:type/:id', component: MediaContentComponent},
+
   {path: 'register', component: RegistrationComponent, canActivate: [NoAuthGuard]},
 
-  {path: '', redirectTo: 'home', pathMatch: 'full'},
+  {path: '', redirectTo: 'search', pathMatch: 'full'},
   {path: '**', component: NotFoundComponent}
 ];

@@ -101,6 +101,20 @@ public class JpaMovieRepositoryAdapter implements MovieRepository {
     }
 
     @Override
+    public List<Movie> findLatest(int count) {
+        CriteriaBuilder cb = entityManager.getCriteriaBuilder();
+        CriteriaQuery<Movie> query = cb.createQuery(Movie.class);
+        Root<Movie> root = query.from(Movie.class);
+
+        query.select(root);
+        query.orderBy(cb.desc(root.get("createdAt")));
+
+        return entityManager.createQuery(query)
+                .setMaxResults(count)
+                .getResultList();
+    }
+
+    @Override
     public void delete(Long id) {
         movieSpringDataRepository.deleteById(id);
     }

@@ -1,113 +1,86 @@
 import { Injectable } from '@angular/core';
-import {Observable, of} from 'rxjs';
+import { HttpClient } from '@angular/common/http';
+import { Observable, of, tap } from 'rxjs';
+import { MediaCardModel } from '../models/media-card.model';
+import { MovieModel } from '../models/movie.model';
+import { SeriesModel } from '../models/series.model';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class MediaService {
-  private mediaList = [
-    {
-      id: 1,
-      title: 'Movie 1',
-      type: 'Movie',
-      releaseDate: '2022-01-01',
-      genres: ['ACTION', 'DRAMA'],
-      description: 'An action-packed drama.',
-      trailerUrl: 'https://example.com/trailer1',
-      posterImg: 'https://i.pinimg.com/736x/67/74/3a/67743a994e1549a411a1e1098d60c3a4.jpg',
-      coverImg: 'https://example.com/cover1.jpg',
-      actors: ['John Doe', 'Jane Smith'],
-      directors: ['Michael Bay'],
-      countries: ['USA'],
-      videos: [
-        { resolution: '1080p', url: 'https://video.example.com/1080p.mp4' },
-        { resolution: '720p', url: 'https://video.example.com/720p.mp4' }
-      ]
-    },
-    {
-      id: 2,
-      title: 'Series 1',
-      type: 'Series',
-      releaseDate: '2022-01-01',
-      genres: ['ACTION', 'DRAMA'],
-      description: 'An action-packed drama.',
-      trailerUrl: 'https://example.com/trailer1',
-      posterImg: 'https://i.pinimg.com/736x/67/74/3a/67743a994e1549a411a1e1098d60c3a4.jpg',
-      coverImg: 'https://example.com/cover1.jpg',
-      actors: ['John Doe', 'Jane Smith'],
-      directors: ['Michael Bay'],
-      countries: ['USA'],
-      episodes: [
-        {
-          title: 'Pilot',
-          duration: 42,
-          videos: [
-            {
-              resolution: '1080p',
-              url: 'https://cdn.example.com/series/s01e01-1080p.mp4'
-            },
-            {
-              resolution: '720p',
-              url: 'https://cdn.example.com/series/s01e01-720p.mp4'
-            }
-          ]
-        },
-        {
-          title: 'Second Episode',
-          duration: 45,
-          videos: [
-            {
-              resolution: '1080p',
-              url: 'https://cdn.example.com/series/s01e02-1080p.mp4'
-            }
-          ]
-        }
-      ]
-    }
-  ];
+  private baseUrl = environment.beUrl;
+  private filterUrl = `${this.baseUrl}/media/filter`;
+  private movieUrl = `${this.baseUrl}/movies`;
+  private seriesUrl = `${this.baseUrl}/series`;
 
-  constructor(
-    // private http: HttpClient
-  ) {}
+  private mediaList: MediaCardModel[] = [];
 
-  getAllMedia(): Observable<any[]> {
-    // return this.http.get('/api/media');
-    return of(this.mediaList);
+  constructor(private http: HttpClient) {}
+
+  getAllMedia(): Observable<MediaCardModel[]> {
+    return this.http.get<MediaCardModel[]>(this.filterUrl).pipe(
+      tap(media => this.mediaList = media)
+    );
   }
 
-  getMediaById(id: number): Observable<any> {
-    const media = this.mediaList.find(item => item.id === id);
-    return of(media);
+  getAllMovies(): Observable<MovieModel[]> {
+    return this.http.get<MovieModel[]>(this.movieUrl);
   }
 
-  updateMedia(id: number, updatedData: any): Observable<any> {
-    const index = this.mediaList.findIndex(item => item.id === id);
-    if (index !== -1) {
-      this.mediaList[index] = { ...this.mediaList[index], ...updatedData };
-    }
-    return of(this.mediaList[index]);
+  getAllSeries(): Observable<SeriesModel[]> {
+    return this.http.get<SeriesModel[]>(this.seriesUrl);
   }
 
-  deleteMedia(id: number): Observable<void> {
-    this.mediaList = this.mediaList.filter(item => item.id !== id);
-    return of(void 0);
+  searchMedia(query: string): Observable<MediaCardModel[]> {
+    if (query.length <= 3) return of([]);
+    const url = `${this.baseUrl}/media/search?query=${encodeURIComponent(query)}`;
+    return this.http.get<MediaCardModel[]>(url).pipe(
+      tap(media => this.mediaList = media)
+    );
   }
 
-  createMedia(media: any): Observable<any> {
-    const newId = this.mediaList.length ? Math.max(...this.mediaList.map(m => m.id)) + 1 : 1;
-    const newMedia = { id: newId, ...media };
-    this.mediaList.push(newMedia);
-    return of(newMedia);
-  }
-
-  filteredMediaList(query: string): any[] {
+  filteredMediaList(query: string): MediaCardModel[] {
     if (!query.trim()) return this.mediaList;
-
     const lower = query.toLowerCase();
     return this.mediaList.filter(
       item =>
         item.title.toLowerCase().includes(lower) ||
-        item.type?.toLowerCase().includes(lower)
+        item.type.toLowerCase().includes(lower)
+    );
+  }
+
+  getMovieById(id: number): Observable<MovieModel> {
+    return this.http.get<MovieModel>(`${this.movieUrl}/${id}`);
+  }
+
+  getSeriesById(id: number): Observable<SeriesModel> {
+    return this.http.get<SeriesModel>(`${this.seriesUrl}/${id}`);
+  }
+
+  createMovie(payload: MovieModel): Observable<MovieModel> {
+    return this.http.post<MovieModel>(this.movieUrl, payload);
+  }
+
+  createSeries(payload: SeriesModel): Observable<SeriesModel> {
+    return this.http.post<SeriesModel>(this.seriesUrl, payload);
+  }
+
+  updateMovie(id: number, payload: MovieModel): Observable<MovieModel> {
+    return this.http.put<MovieModel>(`${this.movieUrl}/${id}`, payload);
+  }
+
+  updateSeries(id: number, payload: SeriesModel): Observable<SeriesModel> {
+    return this.http.put<SeriesModel>(`${this.seriesUrl}/${id}`, payload);
+  }
+
+  deleteMedia(id: number, type: 'MOVIE' | 'SERIES'): Observable<void> {
+    const url = type === 'MOVIE' ? `${this.movieUrl}/${id}` : `${this.seriesUrl}/${id}`;
+    return this.http.delete<void>(url).pipe(
+      tap(() => {
+        this.mediaList = this.mediaList.filter(item => item.id !== id);
+      })
     );
   }
 }

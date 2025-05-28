@@ -72,7 +72,6 @@ public class MovieMapper {
         movie.setType(createDto.getType());
         movie.setDescription(createDto.getDescription());
         movie.setReleaseDate(createDto.getReleaseDate());
-        movie.setReleaseYear(createDto.getReleaseYear());
         movie.setDuration(createDto.getDuration());
         movie.setGenres(
                 createDto.getGenres()
@@ -107,7 +106,6 @@ public class MovieMapper {
         existingMovie.setType(dto.getType());
         existingMovie.setDescription(dto.getDescription());
         existingMovie.setReleaseDate(dto.getReleaseDate());
-        existingMovie.setReleaseYear(dto.getReleaseYear());
         existingMovie.setDuration(dto.getDuration());
         existingMovie.setGenres(
                 dto.getGenres()

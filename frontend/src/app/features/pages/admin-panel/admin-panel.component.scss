@@ -100,6 +100,7 @@ $shadow-strong: rgba(0, 0, 0, 0.2);
     display: flex;
     flex-wrap: wrap;
     gap: 24px;
+    margin-bottom: 60px;
   }
 
   .media-card {
@@ -221,6 +222,23 @@ $shadow-strong: rgba(0, 0, 0, 0.2);
       opacity: 1;
       visibility: visible;
     }
+  }
+
+  .media-card_info {
+    text-align: center;
+  }
+
+  .media-card_title {
+    margin-bottom: 0.5rem;
+  }
+
+  .media-card_subinfo {
+    display: flex;
+    justify-content: space-between;
+    color: gray;
+    font-size: 0.9rem;
+    margin-top: 0.25rem;
+    padding: 0 0.5rem;
   }
 
   .custom-alert {

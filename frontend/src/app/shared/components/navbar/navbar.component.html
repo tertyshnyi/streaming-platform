@@ -57,7 +57,9 @@
 
                 <div class="search-result-info">
                   <h3 class="title">{{ result.title }}</h3>
-                  <p class="genre">{{ result.genres.join(', ') }}</p>
+                  <div *ngFor="let result of searchResults">
+                    <p class="genre">{{ formatGenres(result.genres) }}</p>
+                  </div>
                   <p class="description">{{ result.description }}</p>
                   <p class="countries">{{ result.countries.join(', ') }}</p>
                   <p class="release-date">{{ result.releaseDate | date: 'longDate' }}</p>
@@ -101,12 +103,9 @@
 
   <div class="bottom-bar" [ngClass]="{ hidden: !showBottomBar }">
     <div class="navbar-links">
-      <a class="nav-link" routerLink="/movies" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Movies</a>
-      <a class="nav-link" routerLink="/series" routerLinkActive="active">Series</a>
-      <a class="nav-link" routerLink="/cartoons" routerLinkActive="active">Cartoons</a>
-      <a class="nav-link" routerLink="/multseries" routerLinkActive="active">Animated Series</a>
-      <a class="nav-link" routerLink="/anime" routerLinkActive="active">Anime</a>
-      <a class="nav-link" routerLink="/collections" routerLinkActive="active">Collections</a>
+      <a class="nav-link" routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Home</a>
+      <a class="nav-link" routerLink="/media/series" routerLinkActive="active">Series</a>
+      <a class="nav-link" routerLink="/media/movies" routerLinkActive="active">Movies</a>
       <a class="nav-link" routerLink="/search" routerLinkActive="active">Advanced search</a>
     </div>
   </div>

@@ -1,27 +1,36 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
-import {CommonModule} from '@angular/common';
-import {FormsModule} from '@angular/forms';
-import {Router} from '@angular/router';
-import {ToastComponent} from '../../components/admin-component/toast/toast.component';
-import {MediaService} from '../../../core/services/media.service';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
+import { ToastComponent } from '../../components/admin-component/toast/toast.component';
+import { MediaService } from '../../../core/services/media.service';
+import { MediaCardModel } from '../../../core/models/media-card.model';
+import { SelectionService } from '../../../core/services/selection.service';
+import { Subject, of } from 'rxjs';
+import { debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-admin-panel',
   standalone: true,
   imports: [CommonModule, FormsModule, ToastComponent],
   templateUrl: './admin-panel.component.html',
-  styleUrl: './admin-panel.component.scss'
+  styleUrls: ['./admin-panel.component.scss']
 })
 export class AdminPanelComponent implements OnInit {
   @ViewChild('toast') toast!: ToastComponent;
 
   searchQuery: string = '';
   confirmDeleteVisible = false;
-  mediaToDelete: any = null;
+  mediaToDelete: MediaCardModel | null = null;
+
+  filteredMediaList: MediaCardModel[] = [];
+
+  private searchSubject = new Subject<string>();
 
   constructor(
     private router: Router,
-    public mediaService: MediaService
+    public mediaService: MediaService,
+    public selectionService: SelectionService
   ) {}
 
   ngOnInit() {
@@ -50,11 +59,33 @@ export class AdminPanelComponent implements OnInit {
       history.replaceState({}, '');
     }
 
+    this.searchSubject.pipe(
+      debounceTime(300),
+      distinctUntilChanged(),
+      switchMap(query => {
+        if (query.length > 3) {
+          return this.mediaService.searchMedia(query);
+        } else if (query.length === 0) {
+          return this.mediaService.getAllMedia();
+        } else {
+          return of([]);
+        }
+      })
+    ).subscribe(results => {
+      this.filteredMediaList = results;
+    });
+
     this.loadMedia();
   }
 
   loadMedia() {
-    this.mediaService.getAllMedia().subscribe();
+    this.mediaService.getAllMedia().subscribe(media => {
+      this.filteredMediaList = media;
+    });
+  }
+
+  onSearchChange(query: string) {
+    this.searchSubject.next(query);
   }
 
   createMovie() {
@@ -65,35 +96,38 @@ export class AdminPanelComponent implements OnInit {
     this.router.navigate(['admin/create-series']);
   }
 
-  editMedia(media: any) {
-    const route = media.type === 'Series'
-      ? ['/admin/edit-series', media.id]
-      : ['/admin/edit-movie', media.id];
-
-    this.router.navigate(route, { state: { media } });
+  editMedia(media: MediaCardModel) {
+    const url = media.type === 'SERIES'
+      ? `/admin/edit-series/${media.id}`
+      : `/admin/edit-movie/${media.id}`;
+    console.log('Navigating to edit:', media);
+    this.router.navigateByUrl(url, { state: { media } });
   }
 
-  showDeleteConfirmation(media: any) {
+  showDeleteConfirmation(media: MediaCardModel) {
     this.mediaToDelete = media;
     this.confirmDeleteVisible = true;
   }
 
   confirmDelete(confirmed: boolean) {
-    if (!confirmed) {
+    if (!confirmed || !this.mediaToDelete) {
       this.toast.showWarning('Deletion cancelled');
       this.confirmDeleteVisible = false;
       this.mediaToDelete = null;
       return;
     }
 
-    this.mediaService.deleteMedia(this.mediaToDelete.id).subscribe(() => {
+    const type = this.mediaToDelete.type.toUpperCase() as 'MOVIE' | 'SERIES';
+
+    this.mediaService.deleteMedia(this.mediaToDelete.id, type).subscribe(() => {
       this.toast.showSuccess('Media deleted successfully!');
       this.confirmDeleteVisible = false;
       this.mediaToDelete = null;
+      this.loadMedia();
     });
   }
 
-  get filteredMediaList() {
-    return this.mediaService.filteredMediaList(this.searchQuery);
+  toggleSelected(media: MediaCardModel) {
+    this.selectionService.toggleSelection(media.id);
   }
 }

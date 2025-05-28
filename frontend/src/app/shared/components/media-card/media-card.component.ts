@@ -23,5 +23,13 @@ export class MediaCardComponent {
     if (r < 8) return 'rating-yellow';
     return 'rating-green';
   }
+
+  formatGenres(genres: string[]): string {
+    if (!genres || genres.length === 0) return 'Unspecified';
+
+    return genres
+      .map(g => g.charAt(0).toUpperCase() + g.slice(1).toLowerCase())
+      .join(', ');
+  }
 }
 export type { MediaCardModel };

@@ -104,4 +104,11 @@ export class NavbarComponent {
     this.searchResults = [];
     this.noResultsFound = false;
   }
+
+  formatGenres(genres: string[] | undefined): string {
+    if (!genres) return '';
+    return genres
+      .map(g => g.charAt(0).toUpperCase() + g.slice(1).toLowerCase())
+      .join(', ');
+  }
 }

@@ -32,12 +32,6 @@ public interface UserMapperMapstruct {
     @Mapping(source = "authorities", target = "authorities")
     UserDto toUserDto(User user);
 
-    default UserDto toUserDtoWithLog(User user) {
-        UserDto dto = toUserDto(user);
-        System.out.println("Mapping User to UserDto, id = " + user.getId() + ", dto id = " + dto.getId());
-        return dto;
-    }
-
     @Mapping(source = "authorities", target = "authorities")
     User toUserEntity(UserDto dto);
 

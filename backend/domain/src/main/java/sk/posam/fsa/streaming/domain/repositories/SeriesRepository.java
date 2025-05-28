@@ -11,6 +11,8 @@ public interface SeriesRepository extends MediaContentRepository<Series>, SlugRe
     Optional<Series> findById(Long id);
     List<Integer> findDistinctReleaseYears();
     List<String> findDistinctCountries();
+    Series create(Series series);
+    Series update(Long id, Series series);
     @Override
     Optional<Series> findBySlug(String slug);
 }

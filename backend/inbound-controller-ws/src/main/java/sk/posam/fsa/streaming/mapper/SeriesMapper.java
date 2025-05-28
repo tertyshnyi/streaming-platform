@@ -62,7 +62,6 @@ public class SeriesMapper {
         series.setType(dto.getType());
         series.setDescription(dto.getDescription());
         series.setReleaseDate(dto.getReleaseDate());
-        series.setReleaseYear(dto.getReleaseYear());
         series.setGenres(dto.getGenres().stream()
                 .map(g -> Genre.valueOf(g.name()))
                 .collect(Collectors.toList()));
@@ -93,7 +92,6 @@ public class SeriesMapper {
         existingSeries.setType(dto.getType());
         existingSeries.setDescription(dto.getDescription());
         existingSeries.setReleaseDate(dto.getReleaseDate());
-        existingSeries.setReleaseYear(dto.getReleaseYear());
         existingSeries.setGenres(dto.getGenres().stream()
                 .map(g -> Genre.valueOf(g.name()))
                 .collect(Collectors.toList()));

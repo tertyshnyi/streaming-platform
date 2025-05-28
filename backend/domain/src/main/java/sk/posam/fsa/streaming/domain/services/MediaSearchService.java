@@ -61,6 +61,16 @@ public class MediaSearchService {
                 .sorted(Comparator.reverseOrder())
                 .collect(Collectors.toList());
     }
+
+    public List<MediaContent> findLatestMedia(int count) {
+        List<MediaContent> movies = new ArrayList<>(movieFacade.findLatestMedia(count / 2 + 1));
+        List<MediaContent> series = new ArrayList<>(seriesFacade.findLatestMedia(count / 2 + 1));
+
+        return Stream.concat(movies.stream(), series.stream())
+                .sorted(Comparator.comparing(MediaContent::getCreatedAt).reversed())
+                .limit(count)
+                .toList();
+    }
 }
 
 

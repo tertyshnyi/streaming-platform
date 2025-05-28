@@ -6,7 +6,6 @@ import java.util.Optional;
 
 public interface UnifiedMediaContentFacade {
     Optional<MediaContent> get(Long id);
-
     void incrementCommentsTotal(Long id);
     void decrementCommentsTotal(Long id, int decrementBy);
 }

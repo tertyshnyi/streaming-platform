@@ -121,6 +121,11 @@ export class MediaContentComponent implements OnInit, OnDestroy {
   closeTrailer(): void {
     this.isTrailerOpen.set(false);
     document.body.style.overflow = 'auto';
+
+    const iframe = document.querySelector('iframe');
+    if (iframe) {
+      iframe.remove();
+    }
   }
 
   toggleDescription(): void {
@@ -136,9 +141,46 @@ export class MediaContentComponent implements OnInit, OnDestroy {
     return this.sanitizer.bypassSecurityTrustResourceUrl(embedUrl);
   }
 
+  getMovieDuration(m: any): string {
+    if (!m.duration) return '';
+
+    const hours = Math.floor(m.duration / 60);
+    const minutes = m.duration % 60;
+
+    let durationText = '';
+    if (hours > 0) {
+      durationText += `${hours} hours`;
+      if (minutes > 0) {
+        durationText += ` ${minutes} min`;
+      }
+    } else {
+      durationText = `${minutes} min`;
+    }
+
+    return durationText;
+  }
+
   getEpisodesInfo(m: any): string {
     if (!m.episodesCount) return '';
-    return m.avgDuration ? `${m.episodesCount} (${m.avgDuration} min)` : `${m.episodesCount}`;
+
+    if (!m.avgDuration) {
+      return `${m.episodesCount}`;
+    }
+
+    const hours = Math.floor(m.avgDuration / 60);
+    const minutes = m.avgDuration % 60;
+
+    let durationText = '';
+    if (hours > 0) {
+      durationText += `${hours} ч`;
+      if (minutes > 0) {
+        durationText += ` ${minutes} мин`;
+      }
+    } else {
+      durationText = `${minutes} мин`;
+    }
+
+    return `${m.episodesCount} (${durationText})`;
   }
 
   get series(): SeriesModel | null {

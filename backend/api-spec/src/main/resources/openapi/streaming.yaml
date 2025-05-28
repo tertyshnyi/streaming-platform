@@ -498,6 +498,22 @@ paths:
                 items:
                   $ref: '#/components/schemas/MediaContent'
 
+  /media/latest:
+    get:
+      summary: Get latest 5 media contents
+      operationId: getLatestMedia
+      tags:
+        - MediaContent
+      responses:
+        '200':
+          description: Latest 5 media contents
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/MediaContentTop'
+
   /media/genres:
     get:
       summary: Get all available media genres
@@ -852,8 +868,6 @@ components:
         releaseDate:
           type: string
           format: date
-        releaseYear:
-          type: integer
         genres:
           type: array
           items:
@@ -906,6 +920,8 @@ components:
             updatedBy:
               type: string
               description: "Name of the user who updated the series"
+            releaseYear:
+              type: integer
             slug:
               type: string
             commentsTotal:
@@ -928,8 +944,6 @@ components:
         releaseDate:
           type: string
           format: date
-        releaseYear:
-          type: integer
         duration:
           type: integer
         genres:
@@ -988,6 +1002,8 @@ components:
             updatedBy:
               type: string
               description: "Name of the user who updated the movie"
+            releaseYear:
+              type: integer
             slug:
               type: string
             commentsTotal:
@@ -1040,6 +1056,23 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Genre'
+
+    MediaContentTop:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        slug:
+          type: string
+        type:
+          type: string
+        title:
+          type: string
+        description:
+          type: string
+        coverImg:
+          type: string
 
     Comment:
       type: object

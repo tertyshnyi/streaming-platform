@@ -14,4 +14,5 @@ public interface MediaContentRepository<T extends MediaContent> {
     List<T> findAll();
     List<T> filter(MediaContentFilter filter);
     List<T> searchByText(String text);
+    List<T> findLatest(int count);
 }

@@ -1,4 +1,4 @@
-import {Component, ElementRef, HostListener, Input, OnInit, ViewChild} from '@angular/core';
+import { Component, ElementRef, HostListener, Input, OnInit, ViewChild } from '@angular/core';
 import {
   FormArray,
   FormBuilder,
@@ -7,21 +7,22 @@ import {
   ReactiveFormsModule,
   Validators
 } from "@angular/forms";
-import {CommonModule} from "@angular/common";
-import {ActivatedRoute, Router} from '@angular/router';
+import { CommonModule } from "@angular/common";
+import { ActivatedRoute, Router } from '@angular/router';
 import { MediaService } from '../../../../core/services/media.service';
+import { MovieModel } from '../../../../core/models/movie.model';
 
 @Component({
   selector: 'app-form-movie',
   standalone: true,
-    imports: [
-      CommonModule,
-      ReactiveFormsModule,
-    ],
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+  ],
   templateUrl: './form-movie.component.html',
-  styleUrl: '../form-style.scss'
+  styleUrls: ['../form-style.scss']
 })
-export class FormMovieComponent implements OnInit{
+export class FormMovieComponent implements OnInit {
   @Input() mode: 'create' | 'edit' = 'create';
   @Input() movieData: any = null;
 
@@ -52,8 +53,12 @@ export class FormMovieComponent implements OnInit{
 
     if (this.id) {
       this.isEditMode = true;
-      this.mediaService.getMediaById(this.id).subscribe(media => {
-        this.populateForm(media);
+      this.mediaService.getMovieById(this.id).subscribe((media: MovieModel) => {
+        if (media) {
+          this.populateForm(media);
+        } else {
+          console.warn('Movie not found by id:', this.id);
+        }
       });
     } else {
       this.addVideo();
@@ -73,26 +78,28 @@ export class FormMovieComponent implements OnInit{
       posterImg: [''],
       coverImg: [''],
       globalRating: [null],
-      videos: this.fb.array([])
+      videos: this.fb.array([]),
+      duration: [null]
     });
   }
 
-  populateForm(media: any) {
+  populateForm(media: MovieModel) {
     this.form.patchValue({
       title: media.title,
       description: media.description,
-      releaseDate: media.releaseDate,
+      releaseDate: media.releaseDate ? new Date(media.releaseDate).toISOString().substring(0, 10) : '',
       genres: media.genres || [],
       trailerUrl: media.trailerUrl,
       posterImg: media.posterImg,
       coverImg: media.coverImg,
-      globalRating: media.globalRating
+      globalRating: media.globalRating,
+      duration: media.duration
     });
 
-    media.actors?.forEach((actor: string) => this.actors.push(new FormControl(actor)));
-    media.directors?.forEach((director: string) => this.directors.push(new FormControl(director)));
-    media.countries?.forEach((country: string) => this.countries.push(new FormControl(country)));
-    media.videos?.forEach((video: any) => {
+    media.actors?.forEach(actor => this.actors.push(new FormControl(actor)));
+    media.directors?.forEach(director => this.directors.push(new FormControl(director)));
+    media.countries?.forEach(country => this.countries.push(new FormControl(country)));
+    media.videos?.forEach(video => {
       this.videos.push(this.fb.group({
         resolution: video.resolution,
         url: video.url
@@ -200,17 +207,17 @@ export class FormMovieComponent implements OnInit{
     const payload = {
       ...this.form.value,
       genres: this.selectedGenreValues,
-      type: 'Movie',
+      type: 'MOVIE',
     };
 
     if (this.isEditMode) {
-      this.mediaService.updateMedia(this.id, payload).subscribe(() => {
+      this.mediaService.updateMovie(this.id, payload).subscribe(() => {
         this.router.navigate(['/admin'], {
           state: { showEditMovieToast: true }
         });
       });
     } else {
-      this.mediaService.createMedia(payload).subscribe(() => {
+      this.mediaService.createMovie(payload).subscribe(() => {
         this.router.navigate(['/admin'], {
           state: { showMovieToast: true }
         });

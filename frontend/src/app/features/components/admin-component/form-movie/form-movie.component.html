@@ -98,6 +98,18 @@
     </label>
   </div>
 
+  <div class="form-row">
+    <label>
+      Duration
+      <input type="number" formControlName="duration" placeholder="Duration in minutes" />
+    </label>
+
+    <label>
+      Global Rating
+      <input type="number" step="0.1" min="0" max="10" formControlName="globalRating" placeholder="0-10" />
+    </label>
+  </div>
+
   <section class="videos-section">
     <div class="head">
       <h3>Videos</h3>
