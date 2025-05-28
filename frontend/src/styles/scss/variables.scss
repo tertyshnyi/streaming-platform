@@ -1,0 +1,90 @@
+// Colors
+$black: #505154;
+$violet: #5e4676;
+$blue: #45719d;
+$blue-dark: #30537a;
+$red: #9d455b;
+
+// Variables
+$body-bg: #EDF0f2;
+$body-color: $black;
+$font-size-root: 10px;
+$font-size-base: 1.4rem;
+$font-family-sans-serif: 'IBM Plex Sans', sans-serif;
+$navbar-brand-margin-end: 0;
+$navbarLgWidth: 96px;
+$h2-font-size: 2rem;
+$card-bg: #fff;
+$small-font-size: 1.2rem;
+
+// Badges
+$badge-padding-y: 0.4rem;
+$badge-padding-x: 1.2rem;
+$badge-font-size: 1.4rem;
+$badge-font-weight: regular;
+
+// Pagination
+$pagination-bg: #fff;
+$pagination-font-size: 1.6rem;
+$pagination-padding-x: 1.5rem;
+$pagination-padding-y: 0.7rem;
+$pagination-color: $black;
+$pagination-border-color: transparent;
+$pagination-hover-border-color: transparent;
+$pagination-disabled-border-color: transparent;
+
+// Forms
+$input-padding-y: 1.15rem;
+$input-padding-x: 1.6rem;
+$input-border-color: #7d93ab;
+$input-bg: #edf0f2;
+$input-font-size: 1.6rem;
+$input-font-weight: bold;
+$input-color: $blue;
+
+// Buttons
+$btn-padding-y: 0.7rem;
+$btn-padding-x: 2rem;
+$btn-font-weight: bold;
+$btn-font-size: 1.6rem;
+
+// Navbar
+$navbar-light-color: $black;
+$navbar-light-active-color: $red;
+
+// Dropdowns
+$dropdown-bg: #fff;
+$dropdown-item-padding-y: 0.4rem;
+$dropdown-item-padding-x: 1.6rem;
+
+// Modals
+$modal-content-bg: #fff;
+$modal-header-padding: 1.2rem 2.4rem;
+$modal-inner-padding: 2.4rem;
+
+$theme-colors: (
+  "primary": $blue-dark,
+  "blue": $blue,
+  "violet": $violet,
+  "red": $red,
+  "black": $black,
+  "white": #fff
+) !default;
+
+$spacer: 4px !default;
+$spacers: (
+  0: 0,
+  1: $spacer * 1,
+  2: $spacer * 2,
+  3: $spacer * 3,
+  4: $spacer * 4,
+  5: $spacer * 5,
+  6: $spacer * 6,
+  7: $spacer * 7,
+  8: $spacer * 8
+) !default;
+
+// Fonts
+$font-sizes: (
+  16: 1.6rem,
+) !default;
