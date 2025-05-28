@@ -1,7 +1,9 @@
+#  https://20.166.32.72.nip.io/auth
+
 server:
   port: 8080
-#  servlet:
-#    context-path: /streaming-platform
+  servlet:
+    context-path: /streaming-platform
 
 spring:
   datasource:
