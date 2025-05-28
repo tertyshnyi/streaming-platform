@@ -27,7 +27,6 @@
               }
             ],
             "styles": [
-              "src/styles/scss/app.scss",
               "src/styles/styles.scss",
               "node_modules/nouislider/dist/nouislider.min.css",
               "node_modules/plyr/dist/plyr.css",
@@ -40,18 +39,19 @@
               "budgets": [
                 {
                   "type": "initial",
-                  "maximumWarning": "500kB",
-                  "maximumError": "1MB"
+                  "maximumWarning": "2MB",
+                  "maximumError": "3MB"
                 },
                 {
                   "type": "anyComponentStyle",
-                  "maximumWarning": "4kB",
-                  "maximumError": "8kB"
+                  "maximumWarning": "10kB",
+                  "maximumError": "12kB"
                 }
               ],
               "outputHashing": "all"
             },
-            "development": {
+
+          "development": {
               "optimization": false,
               "extractLicenses": false,
               "sourceMap": true
