@@ -89,6 +89,7 @@ public abstract class MediaContent {
 
     public void setReleaseDate(LocalDate releaseDate) {
         this.releaseDate = releaseDate;
+        this.releaseYear = (releaseDate != null) ? releaseDate.getYear() : null;
     }
 
     public Integer getReleaseYear() {
@@ -236,10 +237,6 @@ public abstract class MediaContent {
         return title.toLowerCase()
                 .replaceAll("[^a-z0-9]+", "-")
                 .replaceAll("(^-|-$)", "");
-    }
-
-    public void incrementCommentsTotal() {
-        this.commentsTotal++;
     }
 }
 

@@ -30,7 +30,8 @@
               "src/styles/scss/app.scss",
               "src/styles/styles.scss",
               "node_modules/nouislider/dist/nouislider.min.css",
-              "node_modules/plyr/dist/plyr.css"
+              "node_modules/plyr/dist/plyr.css",
+              "node_modules/ngx-toastr/toastr.css"
             ],
             "scripts": []
           },

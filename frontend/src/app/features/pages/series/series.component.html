@@ -1,0 +1,15 @@
+<div class="main-container">
+  <div *ngIf="!filteredShows.length && !errorLoading" class="spinner-wrapper">
+    <div class="spinner"></div>
+  </div>
+
+  <div class="cards" *ngIf="filteredShows.length > 0; else noResults">
+    <a class="card-link" [routerLink]="['/media', 'series', series.id]" *ngFor="let series of filteredShows">
+      <app-media-card [media]="series"></app-media-card>
+    </a>
+  </div>
+
+  <ng-template #noResults>
+    <p *ngIf="errorLoading">Failed to load series.</p>
+  </ng-template>
+</div>

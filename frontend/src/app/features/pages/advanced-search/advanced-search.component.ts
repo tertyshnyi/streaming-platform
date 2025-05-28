@@ -49,7 +49,7 @@ export class AdvancedSearchComponent implements OnInit {
     year: false,
     country: false,
     type: false,
-    novelty: false
+    // novelty: false
   };
 
   constructor(private advancedFilterService: AdvancedFilterService, private router: Router) {}

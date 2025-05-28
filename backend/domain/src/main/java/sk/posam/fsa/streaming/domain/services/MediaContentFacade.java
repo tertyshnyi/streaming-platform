@@ -17,4 +17,5 @@ public interface MediaContentFacade<T extends MediaContent> {
     List<T> searchByText(String text);
     void incrementCommentsTotal(Long id);
     void decrementCommentsTotal(Long id, int decrementBy);
+    List<T> findLatestMedia(int count);
 }

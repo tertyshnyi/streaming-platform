@@ -18,6 +18,20 @@ public class SeriesService extends MediaContentService<Series> implements Series
     }
 
     @Override
+    public Series create(Series entity) {
+        recalculateEpisodeStats(entity);
+        Series created = super.create(entity);
+        return seriesRepository.update(created.getId(), created);
+    }
+
+    @Override
+    public Series update(Long id, Series entity) {
+        recalculateEpisodeStats(entity);
+        Series updated = super.update(id, entity);
+        return seriesRepository.update(id, updated);
+    }
+
+    @Override
     public void recalculateEpisodeStats(Series series) {
         if (series.getEpisodes() == null || series.getEpisodes().isEmpty()) {
             series.setEpisodeCount(0);
@@ -31,7 +45,6 @@ public class SeriesService extends MediaContentService<Series> implements Series
             series.setEpisodeCount(count);
             series.setAvgDuration(totalDuration / count);
         }
-        update(series.getId(), series);
     }
 
     @Override

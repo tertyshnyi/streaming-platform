@@ -119,6 +119,20 @@ public class JpaSeriesRepositoryAdapter implements SeriesRepository {
     }
 
     @Override
+    public List<Series> findLatest(int count) {
+        CriteriaBuilder cb = entityManager.getCriteriaBuilder();
+        CriteriaQuery<Series> query = cb.createQuery(Series.class);
+        Root<Series> root = query.from(Series.class);
+
+        query.select(root);
+        query.orderBy(cb.desc(root.get("createdAt")));
+
+        return entityManager.createQuery(query)
+                .setMaxResults(count)
+                .getResultList();
+    }
+
+    @Override
     public List<String> findDistinctCountries() {
         CriteriaBuilder cb = entityManager.getCriteriaBuilder();
         CriteriaQuery<String> query = cb.createQuery(String.class);

@@ -2,7 +2,7 @@ export interface MediaCardModel {
   id: number;
   title: string;
   description: string;
-  type: string;
+  type: 'MOVIE' | 'SERIES';
   slug: string;
   globalRating: number | null;
   releaseDate: string;

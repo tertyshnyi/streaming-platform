@@ -10,6 +10,7 @@ import sk.posam.fsa.streaming.mapper.MediaContentMapper;
 import sk.posam.fsa.streaming.rest.api.MediaApi;
 import sk.posam.fsa.streaming.rest.dto.GenreDto;
 import sk.posam.fsa.streaming.rest.dto.MediaContentDto;
+import sk.posam.fsa.streaming.rest.dto.MediaContentTopDto;
 
 import java.util.Arrays;
 import java.util.List;
@@ -73,6 +74,15 @@ public class MediaContentRestController implements MediaApi {
                 .map(Genre::toString)
                 .collect(Collectors.toList());
         return ResponseEntity.ok(genres);
+    }
+
+    @Override
+    public ResponseEntity<List<MediaContentTopDto>> getLatestMedia() {
+        List<MediaContent> latest = mediaSearchService.findLatestMedia(5);
+        List<MediaContentTopDto> result = latest.stream()
+                .map(mediaContentMapper::toShortDto)
+                .collect(Collectors.toList());
+        return ResponseEntity.ok(result);
     }
 
     @Override

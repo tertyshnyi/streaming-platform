@@ -1,0 +1,70 @@
+<app-toast #toast></app-toast>
+
+<div class="admin-panel">
+  <aside class="sidebar">
+    <h2 class="sidebar_title">Menu</h2>
+    <button class="sidebar_button" (click)="createMovie()">Create Movie</button>
+    <button class="sidebar_button" (click)="createSeries()">Create Series</button>
+  </aside>
+
+  <main class="main-content">
+    <h1 class="main-content_title">Admin Panel</h1>
+
+    <input
+      type="text"
+      placeholder="Search..."
+      [(ngModel)]="searchQuery"
+      (ngModelChange)="onSearchChange($event)"
+      class="main-content_search"
+    />
+
+    <div class="media-list">
+      <div
+        class="media-card"
+        *ngFor="let media of filteredMediaList"
+        [class.selected]="selectionService.isSelected(media.id)"
+        (click)="toggleSelected(media)"
+      >
+        <img
+          [src]="media.posterImg"
+          alt="{{ media.title }}"
+          class="media-card_image"
+        />
+
+        <div class="media-card_info">
+          <h3 class="media-card_title">{{ media.title }}</h3>
+          <div class="media-card_subinfo">
+            <p class="release-date"><strong>Release Date:</strong> {{ media.releaseDate | date }}</p>
+            <p class="media-type">{{ media.type.toLowerCase() }}</p>
+          </div>
+        </div>
+
+        <div class="media-card_actions">
+          <button
+            class="media-card_button media-card_button-edit"
+            (click)="editMedia(media); $event.stopPropagation()"
+          >
+            Edit
+          </button>
+          <button
+            class="media-card_button media-card_button-delete"
+            (click)="showDeleteConfirmation(media); $event.stopPropagation()"
+          >
+            Delete
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="custom-alert-backdrop" [class.visible]="confirmDeleteVisible">
+      <div class="custom-alert" [class.visible]="confirmDeleteVisible">
+        <h3>Confirm deletion</h3>
+        <p>Are you sure you want to delete <strong>{{ mediaToDelete?.title }}</strong>?</p>
+        <div class="actions">
+          <button (click)="confirmDelete(true)">Delete</button>
+          <button (click)="confirmDelete(false)">Cancel</button>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>

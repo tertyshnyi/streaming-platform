@@ -1,19 +1,20 @@
-<!--<div-->
-<!--  class="slider"-->
-<!--  [ngStyle]="{-->
-<!--    'background-image': 'url(' + activeSlide.posterImg + ')'-->
-<!--  }"-->
-<!--&gt;-->
-<!--  <div *ngIf="activeSlide">-->
-<!--    <h2>{{ activeSlide.title }}</h2>-->
-<!--    <p class="genres">{{ activeSlide.genres.join(', ') }}</p>-->
-<!--    <p class="description">{{ activeSlide.year }} · {{ activeSlide.countries.join(', ') }}</p>-->
-<!--    <button-->
-<!--      class="watch-btn"-->
-<!--      *ngIf="activeSlide.slug"-->
-<!--      (click)="navigateTo(activeSlide.slug)">-->
-<!--      ▶ ПЕРЕГЛЯНУТИ-->
-<!--    </button>-->
-<!--  </div>-->
+<div class="slider-container">
+  <div
+    class="slide"
+    *ngFor="let media of mediaList; let i = index"
+    [class.active]="i === currentSlide"
+    [class.inactive]="i !== currentSlide"
+    [style.backgroundImage]="'url(' + media.coverImg + ')'">
 
-<!--</div>-->
+    <div class="overlay"></div>
+
+    <div class="content">
+      <h1>{{ media.title }}</h1>
+      <p>{{ media.description }}</p>
+      <button class="watch-btn" (click)="navigateTo(media.slug, media.type, media.id)">Watch</button>
+    </div>
+  </div>
+
+  <button class="nav prev" (click)="onArrowClick('left')">❮</button>
+  <button class="nav next" (click)="onArrowClick('right')">❯</button>
+</div>

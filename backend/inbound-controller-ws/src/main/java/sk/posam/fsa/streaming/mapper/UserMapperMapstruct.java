@@ -10,6 +10,8 @@ import sk.posam.fsa.streaming.rest.dto.UserDto;
 import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Component
 @Mapper(componentModel = "spring")
@@ -27,15 +29,10 @@ public interface UserMapperMapstruct {
     @Mapping(target = "createdAt", ignore = true)
     void updateUserFromDto(UpdateUserDto dto, @MappingTarget User user);
 
+    @Mapping(source = "authorities", target = "authorities")
     UserDto toUserDto(User user);
 
-    default UserDto toUserDtoWithLog(User user) {
-        UserDto dto = toUserDto(user);
-        System.out.println("Mapping User to UserDto, id = " + user.getId() + ", dto id = " + dto.getId());
-        return dto;
-    }
-
-
+    @Mapping(source = "authorities", target = "authorities")
     User toUserEntity(UserDto dto);
 
     default OffsetDateTime map(LocalDateTime value) {
@@ -52,8 +49,14 @@ public interface UserMapperMapstruct {
         return value.toLocalDateTime();
     }
 
-    default String mapUserToName(User user) {
-        return user != null ? user.getName() : null;
+    default List<String> mapAuthorities(String rolesString) {
+        if (rolesString == null || rolesString.isBlank()) return List.of();
+        return List.of(rolesString.split(","));
+    }
+
+    default String mapAuthorities(List<String> rolesList) {
+        if (rolesList == null || rolesList.isEmpty()) return "";
+        return String.join(",", rolesList);
     }
 }
 

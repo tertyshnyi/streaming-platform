@@ -7,6 +7,7 @@ import sk.posam.fsa.streaming.domain.repositories.MediaContentRepository;
 import sk.posam.fsa.streaming.domain.repositories.SlugRepository;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
@@ -79,6 +80,11 @@ public abstract class MediaContentService<T extends MediaContent> implements Med
     @Override
     public List<T> filter(MediaContentFilter filter) {
         return repository.filter(filter);
+    }
+
+    @Override
+    public List<T> findLatestMedia(int count) {
+        return repository.findLatest(count);
     }
 
     @Override

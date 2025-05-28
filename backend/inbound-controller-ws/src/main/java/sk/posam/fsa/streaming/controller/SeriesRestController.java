@@ -5,7 +5,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.RestController;
 import sk.posam.fsa.streaming.domain.models.entities.*;
-import sk.posam.fsa.streaming.domain.models.enums.Genre;
 import sk.posam.fsa.streaming.domain.services.SeriesFacade;
 import sk.posam.fsa.streaming.domain.services.UserFacade;
 import sk.posam.fsa.streaming.mapper.EpisodeMapper;

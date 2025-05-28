@@ -21,8 +21,10 @@ import { SearchResultModel } from '../../../core/models/search-result.model';
 export class NavbarComponent {
   private router = inject(Router);
   private searchService = inject(SearchService);
-  userService = inject(UserService);
+  private userService = inject(UserService);
   user = this.userService.getUserSignal();
+
+  readonly showAdminPanelButton = this.userService.hasAdminOrReleaserRole;
 
   logout() {
     this.userService.logout();
@@ -101,5 +103,12 @@ export class NavbarComponent {
     this.searchQuery = '';
     this.searchResults = [];
     this.noResultsFound = false;
+  }
+
+  formatGenres(genres: string[] | undefined): string {
+    if (!genres) return '';
+    return genres
+      .map(g => g.charAt(0).toUpperCase() + g.slice(1).toLowerCase())
+      .join(', ');
   }
 }
