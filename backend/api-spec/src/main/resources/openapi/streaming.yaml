@@ -4,6 +4,10 @@ info:
   description: API for streaming platform
   version: 1.0.0
 
+servers:
+  - url: https://20.166.32.72.nip.io/streaming-platform
+    description: Production server
+
 paths:
   /users:
     post:
