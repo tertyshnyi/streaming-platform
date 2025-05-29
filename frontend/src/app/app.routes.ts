@@ -18,12 +18,13 @@ import { MoviesComponent } from './features/pages/movies/movies.component';
 import { SeriesComponent } from './features/pages/series/series.component';
 
 export const routes: Routes = [
+  // , canActivate: [RoleGuard]
   {path: '', component: HomeComponent},
-  {path: 'admin', component: AdminPanelComponent, canActivate: [RoleGuard]},
-  {path: 'admin/create-movie', component: CreateMovieComponent, canActivate: [RoleGuard]},
-  {path: 'admin/create-series', component: CreateSeriesComponent, canActivate: [RoleGuard]},
-  {path: 'admin/edit-movie/:id', component: EditMovieComponent, canActivate: [RoleGuard]},
-  {path: 'admin/edit-series/:id', component: EditSeriesComponent, canActivate: [RoleGuard]},
+  {path: 'admin', component: AdminPanelComponent},
+  {path: 'admin/create-movie', component: CreateMovieComponent},
+  {path: 'admin/create-series', component: CreateSeriesComponent},
+  {path: 'admin/edit-movie/:id', component: EditMovieComponent},
+  {path: 'admin/edit-series/:id', component: EditSeriesComponent},
 
   {path: 'settings', component: UserSettings, canActivate: [AuthGuard]},
   {path: 'watchlist', component: WatchHistoriesComponent, canActivate: [AuthGuard]},

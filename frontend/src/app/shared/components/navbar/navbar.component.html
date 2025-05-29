@@ -86,7 +86,8 @@
           </button>
           <div class="dropdown-menu">
             <button class="dropdown-item disabled">{{ user.name }}</button>
-            <button class="dropdown-item" routerLink="/admin" *ngIf="showAdminPanelButton()">Admin Panel</button>
+<!--            *ngIf="showAdminPanelButton()"-->
+            <button class="dropdown-item" routerLink="/admin">Admin Panel</button>
             <button class="dropdown-item" routerLink="/watchlist">History</button>
             <button class="dropdown-item" routerLink="/settings">Settings</button>
             <button class="dropdown-item" (click)="logout()">Logout</button>
