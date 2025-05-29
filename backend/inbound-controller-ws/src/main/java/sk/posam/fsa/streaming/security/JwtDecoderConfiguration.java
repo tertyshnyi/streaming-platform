@@ -1,34 +1,60 @@
 package sk.posam.fsa.streaming.security;
 
-import com.nimbusds.jwt.JWT;
-import com.nimbusds.jwt.JWTParser;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Profile;
-import org.springframework.security.oauth2.core.OAuth2TokenValidator;
-import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.security.oauth2.jwt.JwtDecoder;
-import org.springframework.security.oauth2.jwt.JwtValidators;
 import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
+import com.nimbusds.jose.JWSAlgorithm;
+import com.nimbusds.jose.jwk.source.RemoteJWKSet;
+import com.nimbusds.jose.proc.JWSVerificationKeySelector;
+import com.nimbusds.jose.proc.SecurityContext;
+import com.nimbusds.jose.util.DefaultResourceRetriever;
+import com.nimbusds.jwt.proc.ConfigurableJWTProcessor;
+import com.nimbusds.jwt.proc.DefaultJWTProcessor;
 
-import java.text.ParseException;
-import java.util.Map;
+import javax.net.ssl.*;
+import java.net.URL;
+import java.security.SecureRandom;
+import java.security.cert.X509Certificate;
 
 @Configuration
-class JwtDecoderConfiguration {
+public class JwtDecoderConfiguration {
+
+    @Value("${spring.security.oauth2.resourceserver.jwt.issuer-uri}")
+    private String issuerUri;
+
     @Bean
-    JwtDecoder jwtDecoder() {
-        return token -> {
-            try {
-                JWT nimbusJwt = JWTParser.parse(token);
-                String tokenValue = nimbusJwt.serialize();
-                Map<String, Object> headers = nimbusJwt.getHeader().toJSONObject();
-                Map<String, Object> claims = nimbusJwt.getJWTClaimsSet().getClaims();
-                return new Jwt(tokenValue, nimbusJwt.getJWTClaimsSet().getIssueTime().toInstant(), nimbusJwt.getJWTClaimsSet().getExpirationTime().toInstant(), headers, claims);
-            } catch (ParseException e) {
-                throw new RuntimeException(e);
-            }
+    public JwtDecoder jwtDecoder() throws Exception {
+        TrustManager[] trustAllCerts = new TrustManager[] {
+                new X509TrustManager() {
+                    public X509Certificate[] getAcceptedIssuers() { return new X509Certificate[0]; }
+                    public void checkClientTrusted(X509Certificate[] certs, String authType) { }
+                    public void checkServerTrusted(X509Certificate[] certs, String authType) { }
+                }
         };
+
+        SSLContext sslContext = SSLContext.getInstance("TLS");
+        sslContext.init(null, trustAllCerts, new SecureRandom());
+
+        HostnameVerifier allHostsValid = (hostname, session) -> true;
+
+        DefaultResourceRetriever resourceRetriever = new DefaultResourceRetriever(
+                3000, // connect timeout ms
+                3000, // read timeout ms
+                1024 * 1024, // size limit (1 MB)
+                true, // disconnectAfterUse
+                sslContext.getSocketFactory()
+        );
+
+        URL jwkSetUrl = new URL(issuerUri + "/protocol/openid-connect/certs");
+
+        RemoteJWKSet<SecurityContext> jwkSet = new RemoteJWKSet<>(jwkSetUrl, resourceRetriever);
+
+        ConfigurableJWTProcessor<SecurityContext> jwtProcessor = new DefaultJWTProcessor<>();
+        jwtProcessor.setJWSKeySelector(new JWSVerificationKeySelector<>(JWSAlgorithm.RS256, jwkSet));
+
+        return new NimbusJwtDecoder(jwtProcessor);
     }
 }
+
