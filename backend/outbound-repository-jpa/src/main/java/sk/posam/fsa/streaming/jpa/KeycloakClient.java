@@ -112,7 +112,6 @@ public class KeycloakClient {
             payload.put("credentials", credentials);
         }
 
-        // attributes
         Map<String, List<String>> attributes = new LinkedHashMap<>();
 
         if (user.getPhoneNumber() != null) {
