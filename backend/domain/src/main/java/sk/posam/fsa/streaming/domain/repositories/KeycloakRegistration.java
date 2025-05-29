@@ -9,6 +9,5 @@ public interface KeycloakRegistration {
     UUID register(User user);
     User update(User user);
     List<String> getUserRoles(UUID keycloakId);
-
 }
 

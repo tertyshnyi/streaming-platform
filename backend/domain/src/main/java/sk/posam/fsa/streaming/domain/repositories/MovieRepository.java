@@ -8,7 +8,6 @@ import java.util.Optional;
 public interface MovieRepository extends MediaContentRepository<Movie>, SlugRepository<Movie> {
     @Override
     Optional<Movie> findBySlug(String slug);
-
     List<Integer> findDistinctReleaseYears();
     List<String> findDistinctCountries();
 }

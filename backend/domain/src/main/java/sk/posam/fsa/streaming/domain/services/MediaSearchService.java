@@ -4,10 +4,7 @@ import sk.posam.fsa.streaming.domain.models.entities.MediaContent;
 import sk.posam.fsa.streaming.domain.models.entities.MediaContentFilter;
 import sk.posam.fsa.streaming.domain.models.enums.Genre;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -63,6 +60,10 @@ public class MediaSearchService {
     }
 
     public List<MediaContent> findLatestMedia(int count) {
+        if (count <= 0) {
+            return Collections.emptyList();
+        }
+
         List<MediaContent> movies = new ArrayList<>(movieFacade.findLatestMedia(count / 2 + 1));
         List<MediaContent> series = new ArrayList<>(seriesFacade.findLatestMedia(count / 2 + 1));
 
