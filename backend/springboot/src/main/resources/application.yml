@@ -31,7 +31,7 @@ spring:
     oauth2:
       resourceserver:
         jwt:
-          issuer-uri: https://20.166.32.72.nip.io/auth/realms/FSA
+          issuer-uri: http://20.166.32.72.nip.io/auth/realms/FSA
 
 management:
   endpoint:
@@ -49,7 +49,7 @@ logging:
     org.springframework.security: debug
 
 keycloak:
-  url: https://20.166.32.72.nip.io/auth
+  url: http://20.166.32.72.nip.io/auth
   realm: FSA
   client-id: fsa-client
   client-secret: "**********"
