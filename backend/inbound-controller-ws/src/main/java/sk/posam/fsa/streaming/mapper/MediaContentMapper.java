@@ -9,6 +9,7 @@ import sk.posam.fsa.streaming.rest.dto.MediaContentDto;
 import sk.posam.fsa.streaming.rest.dto.MediaContentTopDto;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Component
@@ -28,7 +29,8 @@ public class MediaContentMapper {
 
         if (content.getGenres() != null) {
             List<GenreDto> genreDtos = content.getGenres().stream()
-                    .map(genre -> GenreDto.valueOf(genre.toString()))
+                    .map(genre -> safeGenreDtoFromString(genre.name()))
+                    .filter(Objects::nonNull)
                     .collect(Collectors.toList());
             dto.setGenres(genreDtos);
         }
@@ -62,5 +64,13 @@ public class MediaContentMapper {
         }
 
         return dto;
+    }
+
+    private GenreDto safeGenreDtoFromString(String name) {
+        try {
+            return GenreDto.valueOf(name.toUpperCase());
+        } catch (IllegalArgumentException e) {
+            return null;
+        }
     }
 }
