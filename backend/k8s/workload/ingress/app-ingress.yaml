@@ -13,10 +13,10 @@ metadata:
     nginx.ingress.kubernetes.io/proxy-buffer-size: "128k"
 spec:
   ingressClassName: nginx
-  tls:
-    - hosts:
-        - 20.166.32.72.nip.io
-      secretName: app-tls-cert
+  # tls:
+  #   - hosts:
+  #       - 20.166.32.72.nip.io
+  #     secretName: app-tls-cert
   rules:
     - host: 20.166.32.72.nip.io
       http:
