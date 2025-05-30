@@ -4,19 +4,17 @@ Streamingová platforma
 ## Stručný popis témy
 Táto služba poskytuje používateľom možnosť vyhľadávať filmy a televízne seriály podľa rôznych parametrov, prezerať ich v rôznej kvalite v závislosti od predplatného a zanechávať komentáre. Zavedený je systém rolí: administrátori môžu pridávať a spravovať obsah a používatelia môžu s platformou komunikovať. K dispozícii je registrácia, autorizácia, vyhľadávanie, história prehliadania a pohodlný systém kategórií. Platforma podporuje rôzne formáty videí, čím zabezpečuje pohodlné sledovanie pre každého používateľa.
 
-## Zoznam požiadaviek
-- **RQ01**  Systém umožní registráciu používateľa. (The system allows user registration.)
-- **RQ02**  Systém umožní autentifikáciu používateľa. (The system allows user authentication.)
-- **RQ03**  Systém umožní prehrávanie filmu. (The system allows watching a film.)
-- **RQ04**  Systém umožní úpravu používateľského profilu. (The system allows editing the user profile.)
-- **RQ05**  Systém umožní pridanie komentára k filmu. (The system allows commenting on a film.)
-- **RQ06**  Systém umožní zobrazenie histórie sledovania. (The system allows viewing watch history.)
-- **RQ07**  Systém umožní správu používateľov. (The system allows managing users.)
-- **RQ08**  Systém umožní nahranie filmu. (The system allows uploading a film.)
-- **RQ09**  Systém umožní úpravu informácií o filme. (The system allows editing film information.)
-- **RQ10**  Systém umožní vymazanie komentárov. (The system allows deleting comments.)
-- **RQ11**  Systém umožní zablokovanie používateľov. (The system allows banning users.)
-- **RQ12**  Systém umožní nahlásenie komentára. (The system allows reporting a comment.)
+## Zoznam požiadaviek (Use Cases)
+
+- **RQ01**  Systém umožní registráciu používateľa. (The system allows user registration.)  
+- **RQ02**  Systém umožní autentifikáciu používateľa a získanie informácií o aktuálnom používateľovi. (The system allows user authentication and retrieving current user info.)  
+- **RQ03**  Systém umožní vytváranie, úpravu, získanie a vymazanie seriálov. (The system allows creating, updating, retrieving, and deleting series.)  
+- **RQ04**  Systém umožní pridávanie, získavanie, úpravu a vymazanie epizód seriálu. (The system allows adding, retrieving, updating, and deleting series episodes.)  
+- **RQ05**  Systém umožní vytváranie, získavanie, úpravu a vymazanie filmov. (The system allows creating, retrieving, updating, and deleting movies.)  
+- **RQ06**  Systém umožní filtrovať a vyhľadávať mediálny obsah podľa rôznych kritérií (filmy, seriály, žánre, krajiny, rok vydania, hodnotenia). (The system allows filtering and searching media content by various criteria.)
+- **RQ07**  Systém umožní získavanie najnovšieho mediálneho obsahu, zoznam žánrov, krajín a rokov vydania. (The system allows retrieving latest media, genres, countries, and release years.)  
+- **RQ08**  Systém umožní pridávanie, získavanie, úpravu a vymazanie komentárov k mediálnemu obsahu. (The system allows creating, retrieving, updating, and deleting comments on media content.)  
+- **RQ09**  Systém umožní získavanie komentárov pre konkrétny mediálny obsah a rekurzívny strom komentárov. (The system allows retrieving comments by media content and recursive comment trees.)
 
 Pre lepšie pochopenie prípadov použitia si môžete pozrieť súbor [Use-cases.pdf](./Use-cases.pdf). (Verzia v angličtine.)
 
