@@ -37,7 +37,7 @@ Pre lepšie pochopenie prípadov použitia si môžete pozrieť súbor [Use-case
 | **Video**              | **Video**          | Všeobecný pojem pre audiovizuálny obsah, ktorý zahŕňa filmy aj seriály.                                               |
 
 ## Doménový Model - Diagram Tried
-![ClassDiagram.png](ClassDiagram.png)
+![ClassDiagram.png](Class-Diagram.png)
 
 Diagram zobrazuje triedy, ich atribúty, metódy a vzťahy medzi nimi. Takto poskytuje jasnú predstavu o tom, ako sú rôzne časti systému vzájomne prepojené a ako spolu interagujú.
 
