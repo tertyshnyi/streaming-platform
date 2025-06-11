@@ -147,11 +147,3 @@ Hexagonálna architektúra pracuje s dvoma základnými pojmami: **porty** a **a
 
 - **Outbound adaptér**  
   Starajú sa o komunikáciu smerom von z aplikácie (napr. volanie databázy, externých API). V tomto prípade doména definuje, čo od sveta potrebuje, a technická vrstva to zabezpečuje. Ide o implementácie sekundárnych portov.
-
-## Odporúčané Triedy na Preskúmanie
-
-## Zabezpečenie
-
-## Implementované Užívateľské Prípady (UC)
-
-## Inštalácia a Spustenie
